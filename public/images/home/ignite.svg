@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 520">
+      <rect width="800" height="520" fill="#71351F"/>
+      <g fill="none" stroke="#d6bf91" opacity=".12">
+        <circle cx="400" cy="190" r="175"/>
+        <circle cx="400" cy="190" r="205"/>
+        <circle cx="400" cy="190" r="235"/>
+      </g>
+      <g fill="none" stroke="#e2cca1" stroke-width="3.5"
+         stroke-linecap="round" stroke-linejoin="round">
+
+          <path d="M400 68Q444 132 429 166Q479 153 483 209Q484 300 401 310Q311 305 318 223Q325 185 350 159Q347 212 376 203Q399 183 382 152Q372 113 400 68Z"/>
+          <path d="M400 224Q431 268 400 298Q368 274 400 224Z"/>
+
+      </g>
+      <text x="400" y="392" text-anchor="middle"
+        font-family="Georgia,serif" font-size="42"
+        fill="#FAF7F0">Ignite</text>
+      <text x="400" y="436" text-anchor="middle"
+        font-family="Arial,sans-serif" font-size="17"
+        letter-spacing="4" fill="#d6bf91">
+        YOUTH · FAITH · FELLOWSHIP
+      </text>
+    </svg>

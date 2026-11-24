@@ -1,16 +1,890 @@
 ---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Button from "../components/Button.astro";
+import FeatureCard from "../components/FeatureCard.astro";
+import HomePhoto from "../components/HomePhoto.astro";
+import { photos } from "../data/home-images";
+import "../styles/home.css";
+
+const worship = [
+  {
+    "number": "01",
+    "title": "Singing",
+    "description": "Praising God and encouraging one another through spiritual songs.",
+    "scripture": "Ephesians 5:19",
+    "detail": "Speaking to yourselves in psalms and hymns and spiritual songs, singing and making melody in your heart to the Lord."
+  },
+  {
+    "number": "02",
+    "title": "Prayer",
+    "description": "Coming before God in thanksgiving, praise and prayer.",
+    "scripture": "Acts 2:42",
+    "detail": "And they continued stedfastly in the apostles' doctrine and fellowship, and in breaking of bread, and in prayers."
+  },
+  {
+    "number": "03",
+    "title": "The Lord's Supper",
+    "description": "Remembering the sacrifice of our Lord Jesus Christ.",
+    "scripture": "Acts 20:7",
+    "detail": "And upon the first day of the week, when the disciples came together to break bread..."
+  },
+  {
+    "number": "04",
+    "title": "The Word",
+    "description": "Learning from the Scriptures and growing in faith.",
+    "scripture": "2 Timothy 3:16",
+    "detail": "All scripture is given by inspiration of God, and is profitable for doctrine, for reproof, for correction, for instruction in righteousness."
+  },
+  {
+    "number": "05",
+    "title": "Giving",
+    "description": "Giving willingly and cheerfully to support the work of the Lord.",
+    "scripture": "2 Corinthians 9:7",
+    "detail": "Every man according as he purposeth in his heart, so let him give; not grudgingly, or of necessity: for God loveth a cheerful giver."
+  }
+];
+
+const verses = [
+  ["One Lord, one faith, one baptism.", "Ephesians 4:5"],
+  ["Thy word is a lamp unto my feet, and a light unto my path.", "Psalm 119:105"],
+  ["We love him, because he first loved us.", "1 John 4:19"],
+  ["I can do all things through Christ which strengtheneth me.", "Philippians 4:13"]
+];
+
+const congregations = [
+  {
+    name: "Vashi",
+    region: "Navi Mumbai",
+    filter: "navi-mumbai",
+    slug: "vashi",
+    time: "Worship timings to be confirmed",
+    image: photos.vashi
+  },
+  {
+    name: "Goregaon",
+    region: "Mumbai",
+    filter: "mumbai",
+    slug: "goregaon",
+    time: "Previous listing: Sunday, 9:30–11:30 AM",
+    image: photos.goregaon
+  },
+  {
+    name: "Mira Road",
+    region: "Mumbai Metropolitan Region",
+    filter: "mmr",
+    slug: "mira-road",
+    time: "Previous listing: Sunday, 12:30–2:00 PM",
+    image: photos.miraRoad
+  },
+  {
+    name: "Nallasopara",
+    region: "Mumbai Metropolitan Region",
+    filter: "mmr",
+    slug: "nallasopara",
+    time: "Previous listing: Sunday, 9:00–11:00 AM",
+    image: photos.nallasopara
+  }
+];
+
+const beliefs = [
+  {
+    number: "01",
+    title: "Jesus Christ",
+    description: "Jesus Christ is central to our faith, our hope and our salvation.",
+    scripture: "John 14:6",
+    detail: "I am the way, the truth, and the life: no man cometh unto the Father, but by me."
+  },
+  {
+    number: "02",
+    title: "The Scriptures",
+    description: "We seek guidance through the inspired Word of God.",
+    scripture: "2 Timothy 3:16",
+    detail: "All scripture is given by inspiration of God, and is profitable for doctrine, for reproof, for correction, for instruction in righteousness."
+  },
+  {
+    number: "03",
+    title: "Faith and Baptism",
+    description: "We seek to respond to the Gospel through faith and obedience.",
+    scripture: "Acts 2:38",
+    detail: "Repent, and be baptized every one of you in the name of Jesus Christ for the remission of sins."
+  },
+  {
+    number: "04",
+    title: "Christian Fellowship",
+    description: "Encouraging one another and growing together in Christ.",
+    scripture: "Acts 2:42",
+    detail: "And they continued stedfastly in the apostles' doctrine and fellowship, and in breaking of bread, and in prayers."
+  },
+  {
+    number: "05",
+    title: "The Lord's Supper",
+    description: "Remembering the sacrifice of Jesus Christ.",
+    scripture: "1 Corinthians 11:26",
+    detail: "For as often as ye eat this bread, and drink this cup, ye do shew the Lord's death till he come."
+  },
+  {
+    number: "06",
+    title: "Living in Faith",
+    description: "Putting the teachings of Jesus into practice every day.",
+    scripture: "James 1:22",
+    detail: "But be ye doers of the word, and not hearers only, deceiving your own selves."
+  }
+];
+
+const events = [
+  {
+    name: "Ignite",
+    label: "Bangalore",
+    description: "A Christian gathering bringing young people together in faith and fellowship.",
+    slug: "ignite",
+    theme: "ignite",
+    image: photos.ignite
+  },
+  {
+    name: "Prerna",
+    label: "Bible Quiz",
+    description: "Discover the joy of studying Scripture through Biblical learning and quizzing.",
+    slug: "prerna",
+    theme: "prerna",
+    image: photos.prerna
+  },
+  {
+    name: "Arise",
+    label: "Mumbai",
+    description: "A gathering in Mumbai for Christian encouragement and fellowship.",
+    slug: "arise",
+    theme: "arise",
+    image: photos.arise
+  }
+];
+
+const resources = [
+  {
+    title: "Sermons",
+    description: "Explore messages rooted in the Word of God.",
+    href: "/resources/sermons/",
+    image: photos.sermons
+  },
+  {
+    title: "Bible Studies",
+    description: "Study Scripture and grow in Biblical understanding.",
+    href: "/resources/bible-studies/",
+    image: photos.bibleStudy
+  },
+  {
+    title: "The Lord's Supper",
+    description: "Reflect upon the sacrifice and remembrance of Christ.",
+    href: "/resources/lords-supper/",
+    image: photos.communion
+  }
+];
+
+const insights = [
+  {
+    category: "Biblical Studies",
+    title: "Explore the Scriptures",
+    description: "Discover Biblical teachings, characters, passages and their context.",
+    href: "/insights/biblical-studies/",
+    image: photos.scriptures
+  },
+  {
+    category: "Christian Living",
+    title: "Faith in everyday life",
+    description: "Explore how the teachings of Jesus shape the way we live.",
+    href: "/insights/christian-living/",
+    image: photos.christianLiving
+  },
+  {
+    category: "Christian Apologetics",
+    title: "Exploring faith and evidence",
+    description: "Consider historical questions, Biblical evidence and Christian faith.",
+    href: "/insights/christian-apologetics/",
+    image: photos.apologetics
+  }
+];
+
+const faqs = [
+  ["Where can I find a Church of Christ in Mumbai?",
+   "Our congregation directory includes locations in Mumbai, Navi Mumbai and the wider metropolitan region. Visit an individual congregation page for available information."],
+  ["Can I visit if I am new to Christianity?",
+   "You are welcome to learn about Jesus Christ, explore the Scriptures and visit a participating congregation."],
+  ["When do congregations meet?",
+   "Worship timings vary by congregation. Please confirm current meeting times and venues before travelling."],
+  ["Can I request a personal Bible study?",
+   "Yes. Explore our Bible study resources and visit the Request a Bible Study page. Contact arrangements will be added as they are confirmed."],
+  ["Where can I learn about Ignite, Prerna and Arise?",
+   "Our events directory contains dedicated pages for each gathering, including links to existing official event websites where available."],
+  ["Are the congregation details current?",
+   "Some details come from earlier congregation listings. We are working to confirm current timings, addresses and contact information."]
+];
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<BaseLayout
+  title="Mumbai Church of Christ"
+  description="Discover Churches of Christ in Mumbai and Navi Mumbai. Explore Biblical Christianity, local congregations, church events, sermons and Bible studies."
+  noindex={true}
+>
+  <div class="homepage">
+
+    <!-- HERO -->
+
+    <section class="home-hero">
+      <div class="container hero-grid">
+        <div class="home-hero-copy">
+          <span class="eyebrow">One Lord. One Faith. One Baptism.</span>
+
+          <h1>
+            Rooted in Scripture.
+            <em>United in Christ.</em>
+          </h1>
+
+          <p class="lead">
+            Discover a community of believers seeking to follow
+            Jesus Christ, grow in God's Word and encourage one
+            another in faith.
+          </p>
+
+          <div class="actions">
+            <Button href="/congregations/">Find a Congregation</Button>
+            <Button href="/about/what-we-believe/" variant="outline">
+              Explore Our Faith
+            </Button>
+          </div>
+
+          <div class="hero-location">
+            <span class="gold-dot"></span>
+            Mumbai · Navi Mumbai · Maharashtra
+          </div>
+        </div>
+
+        <div class="hero-visual">
+          <HomePhoto
+            src={photos.gateway}
+            alt="Gateway of India in Mumbai"
+            eager={true}
+          />
+
+          <div class="hero-overlay">
+            <span>Rooted in faith. Connected by Christ.</span>
+            <strong>Welcome to Mumbai.</strong>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SCRIPTURE ROTATOR -->
+
+    <section class="verse-section" aria-label="Scripture reflections">
+      <div class="container verse-shell" data-verse-rotator>
+        <span class="eyebrow">The Word of God</span>
+
+        <div class="verse-stage" data-verse-stage>
+          {verses.map(([verse, reference], index) => (
+            <div class="verse-slide" data-verse hidden={index !== 0}>
+              <blockquote>“{verse}”</blockquote>
+              <cite>{reference} · KJV</cite>
+            </div>
+          ))}
+        </div>
+
+        <div class="verse-controls">
+          <button type="button" data-prev-verse aria-label="Previous verse">←</button>
+
+          {verses.map((_, index) => (
+            <button
+              type="button"
+              class="verse-dot"
+              data-verse-index={index}
+              aria-label={`Show verse ${index + 1}`}
+              aria-pressed={index === 0 ? "true" : "false"}
+            ></button>
+          ))}
+
+          <button type="button" data-next-verse aria-label="Next verse">→</button>
+          <button type="button" data-pause-verse aria-label="Pause automatic rotation">Ⅱ</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- WELCOME -->
+
+    <section class="section section-paper">
+      <div class="container editorial-split">
+        <div class="editorial-photo welcome-scripture-art">
+  <div class="welcome-art-inner">
+
+    <svg viewBox="0 0 120 120" fill="none"
+      aria-hidden="true">
+      <circle cx="60" cy="60" r="55"
+        stroke="currentColor" opacity=".2"/>
+      <path d="M60 15V59M43 32H77"
+        stroke="currentColor" stroke-width="1.5"/>
+      <path d="M60 100Q40 78 15 84V48Q41 44 60 68Q79 44 105 48V84Q80 78 60 100ZM60 68V100"
+        stroke="currentColor" stroke-width="1.5"/>
+    </svg>
+
+    <span class="welcome-art-label">
+      Growing together in Christ
+    </span>
+
+    <blockquote>
+      “For where two or three are gathered
+      together in my name, there am I in
+      the midst of them.”
+    </blockquote>
+
+    <cite>Matthew 18:20 · KJV</cite>
+
+  </div>
+</div>
+
+        <div class="editorial-copy">
+          <span class="eyebrow">Welcome</span>
+
+          <h2>A place to grow in faith.</h2>
+
+          <p class="lead">
+            Whether you have followed Christ for many years
+            or are beginning to explore Christianity, we invite
+            you to discover the teachings of Jesus.
+          </p>
+
+          <p>
+            This website connects independent Churches of Christ
+            across Mumbai and Navi Mumbai, and brings together
+            Biblical resources, congregation information and
+            Christian gatherings.
+          </p>
+
+          <Button href="/about/">Get to Know Us</Button>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONGREGATION DIRECTORY -->
+
+    <section id="congregations" class="section">
+      <div class="container" data-congregation-explorer>
+
+        <div class="section-top">
+          <div class="section-heading">
+            <span class="eyebrow">Worship with us</span>
+            <h2>Find your local congregation.</h2>
+            <p class="lead">
+              Explore Churches of Christ across the Mumbai region.
+            </p>
+          </div>
+
+          <a class="text-link" href="/congregations/">
+            View all congregations →
+          </a>
+        </div>
+
+        <div class="region-filters" aria-label="Filter congregations">
+          {[
+            ["all", "All locations"],
+            ["mumbai", "Mumbai"],
+            ["navi-mumbai", "Navi Mumbai"],
+            ["mmr", "Metropolitan region"]
+          ].map(([value, label], index) => (
+            <button
+              type="button"
+              data-region-filter={value}
+              aria-pressed={index === 0 ? "true" : "false"}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+
+        <div class="congregation-grid">
+          {congregations.map(item => (
+            <article class="visual-card" data-region={item.filter}>
+              <a href={`/congregations/${item.slug}/`} class="card-photo">
+                <HomePhoto
+                  src={item.image}
+                  alt=""
+                  label=""
+                />
+              </a>
+
+              <div class="card-content">
+                <span class="card-kicker">{item.region}</span>
+                <h3>{item.name} Church of Christ</h3>
+                <p>{item.time}</p>
+
+                <a class="card-link" href={`/congregations/${item.slug}/`}>
+                  Explore Congregation <span>→</span>
+                </a>
+              </div>
+            </article>
+          ))}
+        </div>
+
+        <p class="directory-note">
+          Please confirm current worship timings and meeting venues
+          before visiting. Historical listings are being updated.
+        </p>
+
+        <span class="visually-hidden" data-filter-status aria-live="polite"></span>
+      </div>
+    </section>
+
+    <!-- BIBLICAL BELIEFS -->
+
+    <section class="section section-paper">
+      <div class="container">
+        <div class="section-heading">
+          <span class="eyebrow">Our foundation</span>
+          <h2>What we believe.</h2>
+          <p class="lead">
+            Centred on Christ. Guided by Scripture.
+            Explore the Biblical foundations of our faith.
+          </p>
+        </div>
+
+        <div class="grid-3">
+          {beliefs.map(item => <FeatureCard {...item} />)}
+        </div>
+
+        <div class="section-bottom">
+          <Button href="/about/what-we-believe/" variant="outline">
+            Discover Our Beliefs
+          </Button>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- WHAT A SUNDAY LOOKS LIKE -->
+
+    <section class="section sunday-section">
+      <div class="container">
+        <div class="section-top">
+          <div class="section-heading">
+            <span class="eyebrow">On the first day of the week</span>
+            <h2>What a Sunday looks like.</h2>
+            <p class="lead">
+              Discover the New Testament pattern of worship.
+              You are welcome to learn, participate or simply listen.
+            </p>
+          </div>
+
+          <a class="text-link" href="/plan-your-visit/">
+            Plan your Sunday →
+          </a>
+        </div>
+
+        <div class="sunday-grid">
+          {worship.map(item => (
+            <FeatureCard {...item} />
+          ))}
+        </div>
+
+        <p class="directory-note">
+          Scripture quotations: King James Version.
+          Check individual congregation pages for local worship arrangements.
+        </p>
+      </div>
+    </section>
+
+    <!-- EVENTS -->
+
+    <section class="section events-section">
+      <div class="container">
+        <div class="section-top">
+          <div class="section-heading">
+            <span class="eyebrow">Faith and fellowship</span>
+            <h2>Gather. Learn. Grow.</h2>
+            <p class="lead">
+              Discover Christian gatherings and opportunities
+              to grow together in faith.
+            </p>
+          </div>
+
+          <a class="text-link" href="/events/">Explore events →</a>
+        </div>
+
+        <div class="grid-3">
+          {events.map(event => (
+            <a
+              class:list={["event-card", event.theme]}
+              href={`/events/${event.slug}/`}
+            >
+              <div class="event-photo">
+                <HomePhoto
+                  src={event.image}
+                  alt={`${event.name} thematic illustration`}
+                />
+              </div>
+
+              <div class="event-shade"></div>
+
+              <div class="event-content">
+                <span class="event-label">{event.label}</span>
+                <h3>{event.name}</h3>
+                <p>{event.description}</p>
+                <span class="event-action">Discover event →</span>
+              </div>
+            </a>
+          ))}
+        </div>
+
+        <p class="directory-note">
+          Event artwork is illustrative. Confirmed dates and
+          registration details will appear on individual event pages.
+        </p>
+      </div>
+    </section>
+
+    <!-- RESOURCES -->
+
+    <section class="section section-paper">
+      <div class="container">
+        <div class="section-top">
+          <div class="section-heading">
+            <span class="eyebrow">Deepen your understanding</span>
+            <h2>Resources for your faith.</h2>
+            <p class="lead">
+              Explore Biblical teaching, study and reflection.
+            </p>
+          </div>
+
+          <a href="/resources/" class="text-link">
+            All resources →
+          </a>
+        </div>
+
+        <div class="grid-3">
+          {resources.map(item => (
+            <a class="visual-card resource-card" href={item.href}>
+              <div class="card-photo">
+                <HomePhoto src={item.image} alt={item.title + " illustration"} />
+              </div>
+
+              <div class="card-content">
+                <h3>{item.title}</h3>
+                <p>{item.description}</p>
+                <span class="card-link">Explore Resources <span>→</span></span>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- INSIGHTS -->
+
+    <section class="section">
+      <div class="container">
+        <div class="section-top">
+          <div class="section-heading">
+            <span class="eyebrow">Biblical insights</span>
+            <h2>Faith worth exploring.</h2>
+            <p class="lead">
+              Discover Biblical perspectives on faith, history
+              and everyday Christian living.
+            </p>
+          </div>
+
+          <a href="/insights/" class="text-link">All insights →</a>
+        </div>
+
+        <div class="grid-3">
+          {insights.map(item => (
+            <a class="visual-card insight-card" href={item.href}>
+              <div class="card-photo">
+                <HomePhoto src={item.image} alt={item.category + " illustration"} />
+              </div>
+
+              <div class="card-content">
+                <span class="card-kicker">{item.category}</span>
+                <h3>{item.title}</h3>
+                <p>{item.description}</p>
+                <span class="card-link">Explore Topic <span>→</span></span>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+
+    <section class="section section-paper">
+      <div class="container faq-layout">
+        <div class="section-heading">
+          <span class="eyebrow">Frequently asked questions</span>
+          <h2>New here?<br />You are welcome.</h2>
+
+          <p class="lead">
+            Find answers to common questions about visiting,
+            worship and connecting with a congregation.
+          </p>
+
+          <Button href="/plan-your-visit/">Plan Your Visit</Button>
+        </div>
+
+        <div class="faq-list">
+          {faqs.map(([question, answer]) => (
+            <details class="faq-item">
+              <summary>
+                <span>{question}</span>
+                <span class="faq-plus" aria-hidden="true">+</span>
+              </summary>
+              <p>{answer}</p>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- CLOSING INVITATION -->
+
+    <section class="next-step-section">
+      <div class="container">
+        <div class="next-step-shell">
+          <div class="next-step-heading">
+            <span class="eyebrow">Your next step</span>
+            <h2>There's a place for you here.</h2>
+            <p>
+              Whether you are exploring Christianity,
+              seeking to understand the Bible or looking
+              for a congregation, you are welcome.
+            </p>
+          </div>
+
+          <div class="next-step-grid">
+
+            <a class="next-step-card" href="/plan-your-visit/">
+              <div class="next-step-icon">
+                <svg viewBox="0 0 48 48" fill="none"
+                  stroke="currentColor" stroke-width="1.5"
+                  aria-hidden="true">
+                  <path d="M24 43S9 29 9 18a15 15 0 0 1 30 0c0 11-15 25-15 25Z"/>
+                  <circle cx="24" cy="18" r="5"/>
+                </svg>
+              </div>
+              <h3>Worship with us.</h3>
+              <p>Find a local congregation and discover what to expect when you visit.</p>
+              <span class="next-step-link">
+                Plan Your Visit <span>→</span>
+              </span>
+            </a>
+
+            <a class="next-step-card" href="/request-a-bible-study/">
+              <div class="next-step-icon">
+                <svg viewBox="0 0 48 48" fill="none"
+                  stroke="currentColor" stroke-width="1.5"
+                  aria-hidden="true">
+                  <path d="M24 39Q13 28 4 33V9Q15 7 24 18Q33 7 44 9V33Q35 28 24 39ZM24 18V39"/>
+                  <path d="M10 16q6 0 10 5M10 22q6 0 10 5M28 21q4-5 10-5M28 27q4-5 10-5"/>
+                </svg>
+              </div>
+              <h3>Explore the Bible.</h3>
+              <p>Ask questions, study Scripture and grow in your understanding of God's Word.</p>
+              <span class="next-step-link">
+                Request a Bible Study <span>→</span>
+              </span>
+            </a>
+
+            <a class="next-step-card" href="/prayer-requests/">
+              <div class="next-step-icon">
+                <svg viewBox="0 0 48 48" fill="none"
+                  stroke="currentColor" stroke-width="1.5"
+                  aria-hidden="true">
+                  <path d="M24 40S5 28 5 16C5 5 19 3 24 13C29 3 43 5 43 16C43 28 24 40 24 40Z"/>
+                  <path d="M14 23h6l4-8 4 13 3-5h4"/>
+                </svg>
+              </div>
+              <h3>Let us pray for you.</h3>
+              <p>Share a prayer request and connect with others through Christian encouragement.</p>
+              <span class="next-step-link">
+                Prayer Requests <span>→</span>
+              </span>
+            </a>
+
+          </div>
+
+          <div class="next-step-scripture">
+            <span></span>
+            <blockquote>
+              “Come unto me, all ye that labour and are
+              heavy laden, and I will give you rest.”
+              <cite>Matthew 11:28 · KJV</cite>
+            </blockquote>
+            <span></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+
+  </div>
+</BaseLayout>
+
+<script>
+  // Scripture rotator with pause and reduced-motion support.
+
+  const rotator = document.querySelector<HTMLElement>("[data-verse-rotator]");
+
+  if (rotator) {
+    const slides = Array.from(rotator.querySelectorAll<HTMLElement>("[data-verse]"));
+    const dots = Array.from(rotator.querySelectorAll<HTMLButtonElement>("[data-verse-index]"));
+    const pause = rotator.querySelector<HTMLButtonElement>("[data-pause-verse]");
+    const reduced = matchMedia("(prefers-reduced-motion: reduce)");
+
+    let index = 0;
+    let paused = reduced.matches;
+    let timer: number | undefined;
+
+    function show(next: number) {
+      index = (next + slides.length) % slides.length;
+
+      slides.forEach((slide, i) => {
+        slide.hidden = i !== index;
+      });
+
+      dots.forEach((dot, i) => {
+        dot.setAttribute("aria-pressed", String(i === index));
+      });
+    }
+
+    function restart() {
+      window.clearInterval(timer);
+
+      if (!paused && !document.hidden && !rotator?.matches(":hover") &&
+          !rotator?.contains(document.activeElement)) {
+        timer = window.setInterval(() => show(index + 1), 8000);
+      }
+    }
+
+    function updatePause() {
+      if (!pause) return;
+
+      pause.textContent = paused ? "▶" : "Ⅱ";
+      pause.setAttribute("aria-label",
+        paused ? "Resume automatic rotation" : "Pause automatic rotation");
+    }
+
+    rotator.querySelector("[data-prev-verse]")?.addEventListener("click", () => {
+      show(index - 1);
+      restart();
+    });
+
+    rotator.querySelector("[data-next-verse]")?.addEventListener("click", () => {
+      show(index + 1);
+      restart();
+    });
+
+    dots.forEach((dot, i) => {
+      dot.addEventListener("click", () => {
+        show(i);
+        restart();
+      });
+    });
+
+    pause?.addEventListener("click", () => {
+      paused = !paused;
+      updatePause();
+      restart();
+    });
+
+    rotator.addEventListener("pointerenter", restart);
+    rotator.addEventListener("pointerleave", restart);
+    rotator.addEventListener("focusin", restart);
+    rotator.addEventListener("focusout", () => requestAnimationFrame(restart));
+    document.addEventListener("visibilitychange", restart);
+
+    reduced.addEventListener("change", () => {
+      if (reduced.matches) paused = true;
+      updatePause();
+      restart();
+    });
+
+    updatePause();
+    restart();
+  }
+
+  // Congregation region filtering.
+
+  const explorer = document.querySelector("[data-congregation-explorer]");
+
+  if (explorer) {
+    const buttons = Array.from(explorer.querySelectorAll<HTMLButtonElement>("[data-region-filter]"));
+    const cards = Array.from(explorer.querySelectorAll<HTMLElement>("[data-region]"));
+
+    buttons.forEach(button => {
+      button.addEventListener("click", () => {
+        const region = button.dataset.regionFilter;
+        let count = 0;
+
+        buttons.forEach(other => {
+          other.setAttribute("aria-pressed", String(other === button));
+        });
+
+        cards.forEach(card => {
+          card.hidden = region !== "all" && card.dataset.region !== region;
+          if (!card.hidden) count++;
+        });
+
+        const status = explorer.querySelector("[data-filter-status]");
+
+        if (status) status.textContent = `${count} congregations displayed`;
+      });
+    });
+  }
+
+  // Hover FAQ on desktop; native details on mobile.
+
+  const hover = matchMedia("(hover:hover) and (pointer:fine)");
+  const faqs = Array.from(document.querySelectorAll<HTMLDetailsElement>(".faq-item"));
+
+  faqs.forEach(faq => {
+    let hoverOpened = false;
+
+    faq.addEventListener("pointerenter", () => {
+      if (!hover.matches || faq.open) return;
+
+      faqs.forEach(other => {
+        if (other !== faq && !other.contains(document.activeElement)) {
+          other.open = false;
+        }
+      });
+
+      hoverOpened = true;
+      faq.open = true;
+    });
+
+    faq.addEventListener("pointerleave", () => {
+      if (hoverOpened && !faq.contains(document.activeElement)) {
+        faq.open = false;
+        hoverOpened = false;
+      }
+    });
+
+    faq.addEventListener("focusout", event => {
+      if (hoverOpened && !faq.matches(":hover") &&
+          !faq.contains(event.relatedTarget as Node | null)) {
+        faq.open = false;
+        hoverOpened = false;
+      }
+    });
+
+    faq.querySelector("summary")?.addEventListener("click", event => {
+      if (hover.matches && hoverOpened && event.detail > 0) {
+        event.preventDefault();
+        hoverOpened = false;
+      }
+    });
+
+    faq.addEventListener("keydown", event => {
+      if (event.key === "Escape") {
+        faq.open = false;
+        hoverOpened = false;
+        faq.querySelector("summary")?.focus();
+      }
+    });
+  });
+</script>

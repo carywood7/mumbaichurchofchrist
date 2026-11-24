@@ -1,0 +1,88 @@
+---
+interface Props {
+  src?: string;
+  alt: string;
+  label?: string;
+  eager?: boolean;
+}
+
+const {
+  src,
+  alt,
+  label = "",
+  eager = false
+} = Astro.props;
+---
+
+<div class="home-photo">
+  {src ? (
+    <img
+      src={src}
+      alt={alt}
+      loading={eager ? "eager" : "lazy"}
+      fetchpriority={eager ? "high" : "auto"}
+      decoding="async"
+    />
+  ) : (
+    <div class="photo-fallback" aria-hidden="true">
+      <svg viewBox="0 0 100 100" fill="none">
+        <circle cx="50" cy="50" r="43" stroke="currentColor" opacity=".3"/>
+        <path d="M50 15v42M36 29h28" stroke="currentColor" stroke-width="2"/>
+        <path d="M50 83Q30 64 12 70V43Q33 40 50 59Q67 40 88 43V70Q70 64 50 83Z M50 59v24" stroke="currentColor" stroke-width="1.4"/>
+      </svg>
+    </div>
+  )}
+
+  {label && <span class="photo-label">{label}</span>}
+</div>
+
+<style>
+  .home-photo {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    background: #182D49;
+  }
+
+  .home-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform .8s var(--ease);
+  }
+
+  .photo-fallback {
+    display: grid;
+    place-items: center;
+    width: 100%;
+    height: 100%;
+    min-height: 180px;
+    color: #d6bf91;
+    background: radial-gradient(circle at 50% 30%, #36577b, #112239);
+  }
+
+  .photo-fallback svg {
+    width: 28%;
+    max-width: 140px;
+  }
+
+  .photo-label {
+    position: absolute;
+    bottom: 14px;
+    left: 14px;
+    padding: 7px 12px;
+    border-radius: 3px;
+    background: rgba(17,34,57,.88);
+    color: white;
+    font-size: 11px;
+    line-height: 1.5;
+    letter-spacing: .06em;
+  }
+
+  @media (hover:hover) and (pointer:fine) {
+    .home-photo:hover img {
+      transform: scale(1.045);
+    }
+  }
+</style>

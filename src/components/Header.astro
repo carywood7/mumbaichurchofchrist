@@ -1,0 +1,699 @@
+---
+import { navigation, connectionLinks } from "../data/navigation";
+
+const path = Astro.url.pathname;
+
+const isActive = (href: string) =>
+  href === "/" ? path === "/" : path.startsWith(href);
+---
+
+<header class="site-header" data-site-header>
+  <div class="header-shell">
+
+    <a class="brand" href="/" aria-label="Mumbai Church of Christ home">
+      <img
+        src="/images/brand/mumbai-church-of-christ.png"
+        alt="Mumbai Church of Christ"
+        width="2112"
+        height="704"
+        loading="eager"
+      />
+    </a>
+
+    <nav class="desktop-nav" aria-label="Main navigation">
+      {navigation.map((item) => (
+        <div class="nav-item">
+          <div class="nav-control">
+            <a
+              href={item.href}
+              class:list={["nav-link", { active: isActive(item.href) }]}
+              aria-current={path === item.href ? "page" : undefined}
+            >
+              {item.label}
+            </a>
+
+            {item.children.length > 0 && (
+              <button
+                class="dropdown-toggle"
+                type="button"
+                aria-label={`Toggle ${item.label} menu`}
+                aria-expanded="false"
+                aria-controls={`nav-${item.label.toLowerCase()}`}
+              >
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+                  <path d="m4 6 4 4 4-4" />
+                </svg>
+              </button>
+            )}
+          </div>
+
+          {item.children.length > 0 && (
+            <div
+              class="dropdown"
+              id={`nav-${item.label.toLowerCase()}`}
+              inert
+            >
+              <div class="dropdown-panel">
+                <span class="dropdown-heading">
+                  Explore {item.label}
+                </span>
+
+                {item.children.map((child) => (
+                  <a href={child.href} class="dropdown-link"
+                     aria-current={path === child.href ? "page" : undefined}>
+                    <span>{child.label}</span>
+                    <span class="menu-arrow" aria-hidden="true">→</span>
+                  </a>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      ))}
+    </nav>
+
+    <a class="visit-button desktop-visit" href="/plan-your-visit/">
+      Plan Your Visit <span aria-hidden="true">→</span>
+    </a>
+
+    <button
+      class="mobile-toggle"
+      aria-label="Open navigation"
+      aria-expanded="false"
+      aria-controls="mobile-navigation"
+      type="button"
+    >
+      <span></span>
+      <span></span>
+    </button>
+
+  </div>
+
+  <div class="mobile-navigation" id="mobile-navigation" hidden>
+    <nav aria-label="Mobile navigation">
+      {navigation.map((item) => (
+        item.children.length > 0 ? (
+          <details class="mobile-group">
+            <summary>
+              {item.label}
+              <span aria-hidden="true">+</span>
+            </summary>
+            <div class="mobile-submenu">
+              {item.children.map((child) => (
+                <a href={child.href}>{child.label}</a>
+              ))}
+            </div>
+          </details>
+        ) : (
+          <a class="mobile-home" href={item.href}>{item.label}</a>
+        )
+      ))}
+    </nav>
+
+    <div class="mobile-connections">
+      <a class="visit-button" href="/plan-your-visit/">Plan Your Visit →</a>
+      {connectionLinks.slice(1).map((item) => (
+        <a href={item.href}>{item.label}</a>
+      ))}
+    </div>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 200;
+    background: var(--ivory);
+    border-bottom: 1px solid var(--sand);
+    transition: transform .35s var(--ease), box-shadow .35s var(--ease);
+  }
+
+  .site-header.is-hidden {
+    transform: translateY(-105%);
+  }
+
+  .site-header.is-scrolled {
+    box-shadow: 0 8px 30px rgba(17,34,57,.09);
+  }
+
+  .header-shell {
+    width: min(1600px, calc(100% - clamp(64px,7vw,128px)));
+    min-height: 100px;
+    margin-inline: auto;
+    padding-block: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    flex: 0 0 290px;
+    width: 290px;
+  }
+
+  .brand img {
+    width: 100%;
+    height: auto;
+    max-height: 84px;
+    object-fit: contain;
+    object-position: left center;
+  }
+
+  .desktop-nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+    gap: clamp(12px,1.4vw,26px);
+  }
+
+  .nav-item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    min-height: 82px;
+  }
+
+  .nav-control {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+  }
+
+  .nav-link {
+    position: relative;
+    padding-block: 16px;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--forest);
+    white-space: nowrap;
+  }
+
+  .nav-link::after {
+    content: "";
+    position: absolute;
+    inset-inline: 0;
+    bottom: 8px;
+    height: 2px;
+    background: var(--gold);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform .3s var(--ease);
+  }
+
+  .nav-link.active::after,
+  .nav-link:hover::after,
+  .nav-item[data-open] .nav-link::after {
+    transform: scaleX(1);
+  }
+
+  .dropdown-toggle {
+    display: grid;
+    place-items: center;
+    width: 22px;
+    min-height: 44px;
+    border: 0;
+    padding: 0;
+    color: var(--forest);
+    background: transparent;
+  }
+
+  .dropdown-toggle svg {
+    width: 16px;
+    height: 16px;
+    transition: transform .25s var(--ease);
+  }
+
+  .nav-item[data-open] .dropdown-toggle svg {
+    transform: rotate(180deg);
+  }
+
+  .dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 330px;
+    padding-top: 8px;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateY(8px);
+    transition: opacity .2s, transform .25s var(--ease), visibility .25s;
+  }
+
+  .nav-item:nth-last-child(-n+2) .dropdown {
+    left: auto;
+    right: 0;
+  }
+
+  .nav-item[data-open] .dropdown {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
+
+  .dropdown-panel {
+    padding: 20px;
+    background: var(--paper);
+    border: 1px solid var(--sand);
+    border-top: 3px solid var(--gold);
+    border-radius: 8px;
+    box-shadow: 0 24px 60px rgba(17,34,57,.14);
+    max-height: calc(100dvh - 120px);
+    overflow-y: auto;
+  }
+
+  .dropdown-heading {
+    display: block;
+    padding: 4px 10px 14px;
+    color: var(--gold-dark);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+  }
+
+  .dropdown-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 13px 10px;
+    border-radius: 5px;
+    color: var(--forest);
+    font-size: 17px;
+    font-weight: 500;
+    line-height: 1.5;
+    transition: background .2s;
+  }
+
+  .dropdown-link:hover,
+  .dropdown-link:focus-visible,
+  .dropdown-link[aria-current="page"] {
+    background: #EEE9DD;
+  }
+
+  .menu-arrow {
+    color: var(--gold-dark);
+    transition: transform .25s;
+  }
+
+  .dropdown-link:hover .menu-arrow {
+    transform: translateX(4px);
+  }
+
+  .visit-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    min-height: 50px;
+    padding: 12px 18px;
+    border-radius: 5px;
+    background: var(--forest);
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    white-space: nowrap;
+    flex-shrink: 0;
+    transition: background .25s, transform .25s;
+  }
+
+  .visit-button:hover {
+    background: var(--forest-light);
+    transform: translateY(-2px);
+  }
+
+  .mobile-toggle,
+  .mobile-navigation {
+    display: none;
+  }
+
+  .mobile-navigation[hidden] {
+    display: none !important;
+  }
+
+  @media (min-width: 1301px) and (max-width: 1450px) {
+    .header-shell {
+      gap: 16px;
+    }
+
+    .desktop-nav {
+      gap: 10px;
+    }
+
+    .brand {
+      width: 260px;
+      flex-basis: 260px;
+    }
+
+    .nav-link {
+      font-size: 17px;
+    }
+  }
+
+  @media (max-width: 1300px) {
+    .desktop-nav,
+    .desktop-visit {
+      display: none;
+    }
+
+    .brand {
+      flex: 0 1 270px;
+      min-width: 0;
+    }
+
+    .header-shell {
+      min-height: 94px;
+    }
+
+    .mobile-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 7px;
+      width: 48px;
+      height: 48px;
+      flex-shrink: 0;
+      background: transparent;
+      border: 1px solid var(--sand);
+      border-radius: 6px;
+    }
+
+    .mobile-toggle span {
+      width: 22px;
+      height: 2px;
+      background: var(--forest);
+      transition: transform .25s;
+    }
+
+    .mobile-toggle[aria-expanded="true"] span:first-child {
+      transform: translateY(4.5px) rotate(45deg);
+    }
+
+    .mobile-toggle[aria-expanded="true"] span:last-child {
+      transform: translateY(-4.5px) rotate(-45deg);
+    }
+
+    .mobile-navigation {
+      display: block;
+      position: absolute;
+      top: 100%;
+      inset-inline: 0;
+      max-height: calc(100dvh - 100px);
+      overflow-y: auto;
+      background: var(--ivory);
+      padding: 20px var(--gutter) 36px;
+      border-top: 1px solid var(--sand);
+      box-shadow: 0 25px 50px rgba(17,34,57,.12);
+    }
+
+    .mobile-home,
+    .mobile-group summary {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 58px;
+      border-bottom: 1px solid var(--sand);
+      color: var(--forest);
+      font-size: 19px;
+      font-weight: 600;
+      list-style: none;
+      cursor: pointer;
+    }
+
+    .mobile-group summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .mobile-group summary span {
+      color: var(--gold-dark);
+      font-size: 26px;
+    }
+
+    .mobile-group[open] summary span {
+      transform: rotate(45deg);
+    }
+
+    .mobile-submenu {
+      display: grid;
+      padding: 12px 0 16px 16px;
+    }
+
+    .mobile-submenu a {
+      padding-block: 10px;
+      color: var(--forest);
+      font-size: 17px;
+    }
+
+    .mobile-connections {
+      display: grid;
+      gap: 16px;
+      margin-top: 24px;
+      font-size: 17px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .header-shell {
+      width: calc(100% - 40px);
+      min-height: 82px;
+      gap: 12px;
+    }
+
+    .brand {
+      flex-basis: 230px;
+      width: 230px;
+    }
+
+    .brand img {
+      max-height: 66px;
+    }
+  }
+
+  @media (max-width: 360px) {
+    .header-shell {
+      width: calc(100% - 32px);
+    }
+
+    .brand {
+      flex-basis: 210px;
+    }
+  }
+
+
+  /* SPRINT 2F — Cross-device header behaviour */
+
+  .site-header {
+    will-change: transform;
+    transition:
+      transform .32s cubic-bezier(.22,.61,.36,1),
+      box-shadow .3s ease;
+  }
+
+  .site-header.is-hidden {
+    transform: translate3d(0,-110%,0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .site-header {
+      transition: none;
+    }
+  }
+
+</style>
+
+<script>
+  const header = document.querySelector<HTMLElement>("[data-site-header]");
+
+  if (header) {
+    const items = Array.from(header.querySelectorAll<HTMLElement>(".nav-item"));
+    const hover = matchMedia("(hover: hover) and (pointer: fine)");
+    const desktop = matchMedia("(min-width: 1301px)");
+    const mobileToggle = header.querySelector<HTMLButtonElement>(".mobile-toggle");
+    const mobileMenu = header.querySelector<HTMLElement>(".mobile-navigation");
+
+    function close(item: HTMLElement) {
+      item.removeAttribute("data-open");
+      item.querySelector(".dropdown")?.setAttribute("inert", "");
+      item.querySelector(".dropdown-toggle")?.setAttribute("aria-expanded", "false");
+    }
+
+    function closeAll() {
+      items.forEach(close);
+    }
+
+    function open(item: HTMLElement) {
+      items.filter(other => other !== item).forEach(close);
+
+      if (!item.querySelector(".dropdown")) return;
+
+      item.setAttribute("data-open", "");
+      item.querySelector(".dropdown")?.removeAttribute("inert");
+      item.querySelector(".dropdown-toggle")?.setAttribute("aria-expanded", "true");
+      header?.classList.remove("is-hidden");
+    }
+
+    items.forEach(item => {
+      let timer: number | undefined;
+
+      item.addEventListener("pointerenter", () => {
+        window.clearTimeout(timer);
+        if (hover.matches && desktop.matches) open(item);
+      });
+
+      item.addEventListener("pointerleave", () => {
+        if (!hover.matches) return;
+
+        timer = window.setTimeout(() => {
+          if (!item.matches(":hover") &&
+              !item.contains(document.activeElement)) close(item);
+        }, 100);
+      });
+
+      item.addEventListener("focusout", event => {
+        if (!item.contains(event.relatedTarget as Node | null) &&
+            !item.matches(":hover")) close(item);
+      });
+
+      item.querySelector(".dropdown-toggle")?.addEventListener("click", () => {
+        if (item.hasAttribute("data-open")) close(item);
+        else open(item);
+      });
+    });
+
+    function setMobile(opened: boolean) {
+      if (!mobileToggle || !mobileMenu) return;
+
+      mobileMenu.hidden = !opened;
+      mobileToggle.setAttribute("aria-expanded", String(opened));
+      mobileToggle.setAttribute("aria-label", opened ? "Close navigation" : "Open navigation");
+
+      if (opened) {
+        closeAll();
+        header?.classList.remove("is-hidden");
+      }
+    }
+
+    mobileToggle?.addEventListener("click", () => {
+      setMobile(mobileToggle.getAttribute("aria-expanded") !== "true");
+    });
+
+    const groups = Array.from(header.querySelectorAll<HTMLDetailsElement>(".mobile-group"));
+
+    groups.forEach(group => {
+      group.addEventListener("toggle", () => {
+        if (group.open) {
+          groups.filter(other => other !== group).forEach(other => other.open = false);
+        }
+      });
+    });
+
+    document.addEventListener("pointerdown", event => {
+      if (event.target instanceof Node && !header.contains(event.target)) {
+        closeAll();
+        setMobile(false);
+      }
+    });
+
+    document.addEventListener("keydown", event => {
+      if (event.key !== "Escape") return;
+
+      const opened = items.find(item => item.hasAttribute("data-open"));
+
+      if (opened) {
+        closeAll();
+        opened.querySelector<HTMLButtonElement>(".dropdown-toggle")?.focus();
+      }
+
+      if (mobileMenu && !mobileMenu.hidden) {
+        setMobile(false);
+        mobileToggle?.focus();
+      }
+    });
+
+    desktop.addEventListener("change", () => {
+      closeAll();
+      setMobile(false);
+      header.classList.remove("is-hidden");
+    });
+
+
+    /* Responsive header scroll behaviour */
+
+    let previousY = Math.max(0, window.scrollY);
+    let direction = 0;
+    let distance = 0;
+    let pending = false;
+    let keyboardMode = false;
+
+    document.addEventListener("pointerdown", () => {
+      keyboardMode = false;
+    }, { passive: true });
+
+    document.addEventListener("keydown", event => {
+      if (event.key === "Tab") {
+        keyboardMode = true;
+      }
+    });
+
+    function update() {
+      const y = Math.max(0, window.scrollY);
+      const delta = y - previousY;
+
+      previousY = y;
+
+      const menuOpen =
+        items.some(item => item.hasAttribute("data-open")) ||
+        mobileToggle?.getAttribute("aria-expanded") === "true";
+
+      const keyboardInteraction =
+        keyboardMode &&
+        header?.contains(document.activeElement);
+
+      header?.classList.toggle("is-scrolled", y > 20);
+
+      if (y <= 80 || menuOpen || keyboardInteraction) {
+        header?.classList.remove("is-hidden");
+        direction = 0;
+        distance = 0;
+      } else if (Math.abs(delta) > 0.1) {
+        const nextDirection = delta > 0 ? 1 : -1;
+
+        if (nextDirection !== direction) {
+          direction = nextDirection;
+          distance = 0;
+        }
+
+        distance += Math.abs(delta);
+
+        if (direction === 1 && distance >= 16) {
+          header?.classList.add("is-hidden");
+        }
+
+        if (direction === -1 && distance >= 10) {
+          header?.classList.remove("is-hidden");
+        }
+      }
+
+      pending = false;
+    }
+
+    header.addEventListener("focusin", () => {
+      header.classList.remove("is-hidden");
+    });
+
+    window.addEventListener("scroll", () => {
+      if (!pending) {
+        pending = true;
+        requestAnimationFrame(update);
+      }
+    }, { passive: true });
+  }
+</script>

@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 520">
+      <rect width="800" height="520" fill="#44315F"/>
+      <g fill="none" stroke="#d6bf91" opacity=".12">
+        <circle cx="400" cy="190" r="175"/>
+        <circle cx="400" cy="190" r="205"/>
+        <circle cx="400" cy="190" r="235"/>
+      </g>
+      <g fill="none" stroke="#e2cca1" stroke-width="3.5"
+         stroke-linecap="round" stroke-linejoin="round">
+
+          <circle cx="400" cy="185" r="62"/>
+          <path d="M400 71V103M400 267V299M286 185H318M482 185H514M320 105l23 23M457 242l23 23M480 105l-23 23M343 242l-23 23"/>
+
+      </g>
+      <text x="400" y="392" text-anchor="middle"
+        font-family="Georgia,serif" font-size="42"
+        fill="#FAF7F0">Arise</text>
+      <text x="400" y="436" text-anchor="middle"
+        font-family="Arial,sans-serif" font-size="17"
+        letter-spacing="4" fill="#d6bf91">
+        MUMBAI
+      </text>
+    </svg>

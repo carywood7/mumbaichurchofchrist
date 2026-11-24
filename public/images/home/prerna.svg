@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 520">
+      <rect width="800" height="520" fill="#79602F"/>
+      <g fill="none" stroke="#d6bf91" opacity=".12">
+        <circle cx="400" cy="190" r="175"/>
+        <circle cx="400" cy="190" r="205"/>
+        <circle cx="400" cy="190" r="235"/>
+      </g>
+      <g fill="none" stroke="#e2cca1" stroke-width="3.5"
+         stroke-linecap="round" stroke-linejoin="round">
+
+          <path d="M400 298Q325 225 238 251V113Q330 94 400 174Q470 94 562 113V251Q475 225 400 298Z M400 174V298"/>
+          <path d="M265 151Q330 148 374 191M265 181Q330 178 374 221M535 151Q470 148 426 191M535 181Q470 178 426 221"/>
+
+      </g>
+      <text x="400" y="392" text-anchor="middle"
+        font-family="Georgia,serif" font-size="42"
+        fill="#FAF7F0">Prerna</text>
+      <text x="400" y="436" text-anchor="middle"
+        font-family="Arial,sans-serif" font-size="17"
+        letter-spacing="4" fill="#d6bf91">
+        BIBLICAL LEARNING
+      </text>
+    </svg>

@@ -1,0 +1,176 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Button from "../components/Button.astro";
+import { navigation, connectionLinks } from "../data/navigation";
+
+export function getStaticPaths() {
+  const pages = new Map();
+
+  for (const group of navigation) {
+    if (group.href === "/") continue;
+
+    pages.set(group.href, {
+      title: group.label,
+      parent: "Home",
+      parentHref: "/",
+      links: group.children.filter(child => child.href !== group.href)
+    });
+
+    for (const child of group.children) {
+      if (child.href === group.href ||
+        child.href === "/resources/church-history/") continue;
+
+      pages.set(child.href, {
+        title: child.label,
+        parent: group.label,
+        parentHref: group.href,
+        links: []
+      });
+    }
+  }
+
+  for (const item of connectionLinks) {
+    pages.set(item.href, {
+      title: item.label,
+      parent: "Home",
+      parentHref: "/",
+      links: []
+    });
+  }
+
+  return Array.from(pages.entries()).map(([href, page]) => ({
+    params: { slug: href.replace(/^\/|\/$/g, "") },
+    props: { page }
+  }));
+}
+
+const { page } = Astro.props;
+const description = `${page.title} — Mumbai Church of Christ.`;
+
+const events: Record<string, { text: string; url?: string }> = {
+  "/events/ignite/": {
+    text: "Ignite is a Christian gathering in Bangalore.",
+    url: "https://www.blrchurchofchrist.in/#ignite"
+  },
+  "/events/prerna/": {
+    text: "Prerna encourages Biblical learning through Bible quizzing.",
+    url: "https://preranabiblequiz.com/"
+  },
+  "/events/arise/": {
+    text: "Arise is a Christian gathering in Mumbai."
+  }
+};
+
+const event = events[Astro.url.pathname];
+---
+
+<BaseLayout title={page.title} description={description} noindex={true}>
+  <section class="inner-hero">
+    <div class="container">
+      <nav class="breadcrumbs" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        {page.parentHref !== "/" && (
+          <>
+            <span aria-hidden="true">/</span>
+            <a href={page.parentHref}>{page.parent}</a>
+          </>
+        )}
+        <span aria-hidden="true">/</span>
+        <span aria-current="page">{page.title}</span>
+      </nav>
+
+      <div class="intro">
+        <span class="eyebrow">Mumbai Church of Christ</span>
+        <h1>{page.title}</h1>
+        <p class="lead">{event?.text || description}</p>
+
+        {event?.url && (
+          <Button href={event.url}>Official Event Website</Button>
+        )}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-paper">
+    <div class="container">
+      {page.links.length > 0 ? (
+        <div class="grid-3">
+          {page.links.map((link: { label: string; href: string }) => (
+            <a class="directory-card" href={link.href}>
+              <h3>{link.label}</h3>
+              <span>Explore →</span>
+            </a>
+          ))}
+        </div>
+      ) : (
+        <div class="section-heading">
+          <span class="eyebrow">Under development</span>
+          <h2>More information coming soon.</h2>
+          <p class="lead">We are preparing this section of our new website.</p>
+          <Button href={page.parentHref} variant="outline">
+            Back to {page.parent}
+          </Button>
+        </div>
+      )}
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .inner-hero {
+    padding-block: 32px 85px;
+    border-bottom: 1px solid var(--sand);
+    background: radial-gradient(ellipse at top right,rgba(180,154,102,.12),transparent 65%),var(--ivory);
+  }
+
+  .breadcrumbs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    font-size: 15px;
+    color: var(--muted);
+  }
+
+  .breadcrumbs a:hover {
+    text-decoration: underline;
+  }
+
+  .intro {
+    max-width: 850px;
+    margin-top: 64px;
+  }
+
+  .intro h1 {
+    font-size: clamp(40px,6vw,76px);
+    margin-block: 24px;
+  }
+
+  .directory-card {
+    display: flex;
+    flex-direction: column;
+    min-height: 190px;
+    padding: 30px;
+    border: 1px solid var(--sand);
+    background: var(--ivory);
+    border-radius: 10px;
+    transition: transform .3s, border-color .3s, box-shadow .3s;
+  }
+
+  .directory-card h3 {
+    font-size: 27px;
+  }
+
+  .directory-card span {
+    margin-top: auto;
+    color: var(--forest);
+    font-weight: 600;
+  }
+
+  @media (hover:hover) and (pointer:fine) {
+    .directory-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--gold);
+      box-shadow: var(--shadow-soft);
+    }
+  }
+</style>

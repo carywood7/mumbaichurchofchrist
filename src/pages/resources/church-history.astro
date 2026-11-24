@@ -1,0 +1,609 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import FeatureCard from "../../components/FeatureCard.astro";
+
+const foundations = [
+  {
+    number: "01",
+    title: "Christ established His church",
+    description: "Explore the promise Jesus made concerning His church.",
+    scripture: "Matthew 16:18",
+    detail: "Upon this rock I will build my church; and the gates of hell shall not prevail against it."
+  },
+  {
+    number: "02",
+    title: "The early church",
+    description: "Discover the worship and fellowship of the first Christians.",
+    scripture: "Acts 2:42",
+    detail: "And they continued stedfastly in the apostles' doctrine and fellowship, and in breaking of bread, and in prayers."
+  },
+  {
+    number: "03",
+    title: "Christ as the head",
+    description: "Examine the relationship between Jesus and His church.",
+    scripture: "Colossians 1:18",
+    detail: "And he is the head of the body, the church."
+  },
+  {
+    number: "04",
+    title: "The authority of Scripture",
+    description: "Consider the role of God's Word in Christian faith and practice.",
+    scripture: "2 Timothy 3:16",
+    detail: "All scripture is given by inspiration of God, and is profitable for doctrine, for reproof, for correction, for instruction in righteousness."
+  },
+  {
+    number: "05",
+    title: "The Christian identity",
+    description: "Explore how the disciples were identified in the New Testament.",
+    scripture: "Acts 11:26",
+    detail: "And the disciples were called Christians first in Antioch."
+  },
+  {
+    number: "06",
+    title: "Unity in Christ",
+    description: "Study the Biblical foundation of Christian unity.",
+    scripture: "Ephesians 4:5",
+    detail: "One Lord, one faith, one baptism."
+  }
+];
+---
+
+<BaseLayout
+  title="Church History and Restoration"
+  description="Explore the first-century church, Christian history and the foundations of New Testament Christianity."
+  noindex={true}
+>
+  <section class="history-hero section">
+    <div class="container">
+      <nav class="history-breadcrumb">
+        <a href="/">Home</a> /
+        <a href="/resources/">Resources</a> /
+        Church History
+      </nav>
+
+      <span class="eyebrow">Back to the Scriptures</span>
+
+      <h1>Understanding the church.</h1>
+
+      <p class="lead">
+        Explore the origins of Christianity, the first-century
+        church and the relationship between Scripture,
+        church history and Christian practice today.
+      </p>
+    </div>
+  </section>
+
+  <section class="section section-paper">
+    <div class="container">
+      <div class="section-heading">
+        <span class="eyebrow">Biblical foundations</span>
+        <h2>What does the New Testament teach?</h2>
+      </div>
+
+      <div class="grid-3">
+        {foundations.map(item => <FeatureCard {...item} />)}
+      </div>
+
+      <p class="scripture-note">
+        Scripture quotations and excerpts: King James Version.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="history-feature">
+        <div class="history-copy">
+          <span class="eyebrow">Featured book and study resource</span>
+          <h2>Who Changed the Church?</h2>
+          <p class="book-author">By Don L. Wood</p>
+          <p>
+            Explore questions about the origins of the church,
+            its development throughout history and the relationship
+            between Christian practice and the New Testament.
+            Examine historical claims alongside Scripture.
+          </p>
+
+          <a
+            class="button button-primary"
+            href="http://whochangedthechurch.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Explore the Book ↗
+          </a>
+        </div>
+
+        <div class="history-book">
+          <div class="book-atmosphere" aria-hidden="true"></div>
+
+          <span class="book-label">Explore the book</span>
+
+          <div class="book-preview" data-book-preview data-side="front">
+  <div class="book-object">
+
+    <div class="book-pages" aria-hidden="true"></div>
+    <div class="book-spine" aria-hidden="true"></div>
+
+    <img
+      class="book-front"
+      src="/images/resources/church-history/book-front.webp"
+      alt="Who Changed the Church? Front cover by Don L. Wood"
+      loading="lazy"
+      decoding="async"
+      aria-hidden="false"
+    />
+
+    <img
+      class="book-back"
+      src="/images/resources/church-history/book-back.webp"
+      alt="Who Changed the Church? Back cover"
+      loading="lazy"
+      decoding="async"
+      aria-hidden="true"
+    />
+
+  </div>
+</div>
+
+          <div class="book-controls">
+            <button type="button"
+              data-book-side="front"
+              aria-pressed="true">
+              Front cover
+            </button>
+
+            <button type="button"
+              data-book-side="back"
+              aria-pressed="false">
+              Back cover
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .history-hero {
+    background: radial-gradient(
+      ellipse at top right,
+      rgba(180,154,102,.15),
+      transparent 65%
+    );
+  }
+
+  .history-breadcrumb {
+    margin-bottom: 40px;
+    color: var(--muted);
+    font-size: 15px;
+  }
+
+  h1 {
+    max-width: 850px;
+    margin-block: 24px;
+  }
+
+  .scripture-note {
+    margin-top: 25px;
+    color: var(--muted);
+    font-size: 14px;
+  }
+
+  .history-feature {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    align-items: center;
+    overflow: hidden;
+    background: var(--paper);
+    border: 1px solid var(--sand);
+    border-radius: 12px;
+  }
+
+  .history-copy {
+    padding: clamp(25px,5vw,65px);
+  }
+
+  .history-copy h2 {
+    margin-block: 20px;
+  }
+
+  .history-copy p {
+    color: var(--muted);
+    font-size: 18px;
+  }
+
+  .history-art {
+    height: 100%;
+    min-height: 340px;
+    display: grid;
+    place-items: center;
+    background: #112239;
+  }
+
+  .history-art svg {
+    width: min(75%,300px);
+  }
+
+  @media (max-width: 800px) {
+    .history-feature {
+      grid-template-columns: 1fr;
+    }
+
+    .history-art {
+      min-height: 280px;
+    }
+  }
+
+
+  .history-feature {
+    grid-template-columns: 1.15fr 1fr;
+    box-shadow: var(--shadow-soft);
+  }
+
+  .history-book {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    min-height: 560px;
+    padding: 40px 32px;
+    background: #112239;
+  }
+
+  .book-atmosphere {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background:
+      radial-gradient(
+        ellipse at 50% 35%,
+        rgba(180,154,102,.2),
+        transparent 60%
+      ),
+      radial-gradient(
+        ellipse at 80% 10%,
+        #294564,
+        transparent 65%
+      );
+  }
+
+  .book-label {
+    margin-bottom: 26px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: .17em;
+    text-transform: uppercase;
+    color: #D6BF91;
+  }
+
+  .book-preview {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 370px;
+    perspective: 1000px;
+  }
+
+  .book-preview img {
+    display: block;
+    max-width: 100%;
+    width: auto;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 3px;
+    box-shadow: 12px 20px 45px rgba(0,0,0,.35);
+    transition: transform .45s var(--ease);
+  }
+
+  .book-preview img[hidden] {
+    display: none !important;
+  }
+
+  .book-controls {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 28px;
+  }
+
+  .book-controls button {
+    padding: 10px 16px;
+    border: 1px solid rgba(255,255,255,.25);
+    border-radius: 5px;
+    background: transparent;
+    color: #D2DCE8;
+    font-size: 14px;
+    transition: background .25s, color .25s;
+  }
+
+  .book-controls button[aria-pressed="true"] {
+    background: #FAF7F0;
+    color: #182D49;
+    border-color: #FAF7F0;
+  }
+
+  @media (hover:hover) and (pointer:fine) {
+    .book-preview:hover img {
+      transform: rotateY(-7deg) translateY(-5px);
+    }
+
+    .book-controls button:hover {
+      border-color: #D6BF91;
+    }
+  }
+
+  @media (max-width: 800px) {
+    .history-feature {
+      grid-template-columns: 1fr;
+    }
+
+    .history-book {
+      min-height: 450px;
+      padding: 32px 20px;
+    }
+
+    .book-preview {
+      height: 320px;
+    }
+  }
+
+
+
+  /* SPRINT 2E — Premium book presentation */
+
+  .history-feature {
+    grid-template-columns: 1fr 1fr;
+    border-radius: 16px;
+    overflow: hidden;
+  }
+
+  .history-copy {
+    padding: clamp(30px, 4.5vw, 65px);
+  }
+
+  .history-copy h2 {
+    font-size: clamp(36px, 4.2vw, 60px);
+    line-height: 1.12;
+    margin-bottom: 14px;
+  }
+
+  .history-copy .book-author {
+    font-size: 17px;
+    font-weight: 600;
+    color: #80683E;
+    margin: 0 0 25px;
+  }
+
+  .history-copy p {
+    line-height: 1.85;
+  }
+
+  .history-book {
+    min-height: 640px;
+    padding: 35px 35px 30px;
+    background: #112239;
+  }
+
+  .book-atmosphere {
+    background:
+      radial-gradient(
+        ellipse at 50% 38%,
+        rgba(94,139,183,.35),
+        transparent 65%
+      ),
+      radial-gradient(
+        ellipse at 50% 100%,
+        rgba(180,154,102,.12),
+        transparent 55%
+      );
+  }
+
+  .book-label {
+    margin-bottom: 20px;
+    font-size: 11px;
+    letter-spacing: .2em;
+  }
+
+  .book-preview {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 100%;
+    height: clamp(320px, 35vw, 460px);
+    perspective: 1600px;
+  }
+
+  .book-object {
+    position: relative;
+    height: 92%;
+    aspect-ratio: 2/3;
+    max-width: calc(100% - 34px);
+    transform-style: preserve-3d;
+    transform: rotateY(-17deg) rotateX(3deg);
+    transition: transform .85s cubic-bezier(.2,.7,.2,1);
+  }
+
+  .book-preview img {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    object-fit: fill;
+    border-radius: 2px 4px 4px 2px;
+    backface-visibility: hidden;
+    transition: none;
+    box-shadow: none;
+  }
+
+  .book-preview .book-front {
+    transform: translateZ(13px);
+  }
+
+  .book-preview .book-back {
+    transform: rotateY(180deg) translateZ(13px);
+  }
+
+  .book-pages {
+    position: absolute;
+    top: 3px;
+    bottom: 3px;
+    right: 0;
+    width: 26px;
+    background: repeating-linear-gradient(
+      90deg,
+      #D3C9AF 0,
+      #F0E6D0 2px,
+      #DED4BF 3px
+    );
+    transform-origin: right center;
+    transform: translateZ(13px) rotateY(-90deg);
+  }
+
+  .book-spine {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 26px;
+    background: linear-gradient(
+      90deg,
+      #102339,
+      #36577B,
+      #15283F
+    );
+    transform-origin: left center;
+    transform: translateZ(13px) rotateY(90deg);
+  }
+
+  .book-preview::after {
+    content: "";
+    position: absolute;
+    bottom: -4px;
+    left: 20%;
+    right: 20%;
+    height: 22px;
+    border-radius: 50%;
+    background: rgba(0,0,0,.5);
+    filter: blur(16px);
+    pointer-events: none;
+  }
+
+  .book-preview[data-side="back"] .book-object {
+    transform: rotateY(163deg) rotateX(3deg);
+  }
+
+  .book-controls {
+    position: relative;
+    display: inline-flex;
+    gap: 4px;
+    padding: 5px;
+    margin-top: 25px;
+    border: 1px solid rgba(255,255,255,.16);
+    border-radius: 7px;
+    background: rgba(0,0,0,.12);
+  }
+
+  .book-controls button {
+    border: 0;
+    padding: 11px 19px;
+    border-radius: 4px;
+    font-size: 14px;
+  }
+
+  @media (hover:hover) and (pointer:fine) {
+    .book-preview:hover .book-front {
+      transform: translateZ(13px);
+    }
+
+    .book-preview:hover .book-back {
+      transform: rotateY(180deg) translateZ(13px);
+    }
+
+    .book-preview[data-side="front"]:hover .book-object {
+      transform: rotateY(-5deg) rotateX(0deg)
+        translateY(-7px);
+    }
+
+    .book-preview[data-side="back"]:hover .book-object {
+      transform: rotateY(175deg) rotateX(0deg)
+        translateY(-7px);
+    }
+  }
+
+  @media (max-width: 800px) {
+    .history-feature {
+      grid-template-columns: 1fr;
+    }
+
+    .history-book {
+      min-height: 480px;
+      padding: 30px 20px;
+    }
+
+    .book-preview {
+      height: 350px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .book-object {
+      transition: none;
+    }
+  }
+
+</style>
+
+
+<script>
+  const preview = document.querySelector<HTMLElement>(
+    "[data-book-preview]"
+  );
+
+  if (preview) {
+    const controls = Array.from(
+      document.querySelectorAll<HTMLButtonElement>(
+        "[data-book-side]"
+      )
+    );
+
+    const front = preview.querySelector(".book-front");
+    const back = preview.querySelector(".book-back");
+
+    function showCover(side: string) {
+      const selected = side === "back" ? "back" : "front";
+
+      preview!.dataset.side = selected;
+
+      front?.setAttribute(
+        "aria-hidden",
+        String(selected !== "front")
+      );
+
+      back?.setAttribute(
+        "aria-hidden",
+        String(selected !== "back")
+      );
+
+      controls.forEach(button => {
+        button.setAttribute(
+          "aria-pressed",
+          String(button.dataset.bookSide === selected)
+        );
+      });
+    }
+
+    controls.forEach(button => {
+      button.addEventListener("click", () => {
+        showCover(button.dataset.bookSide || "front");
+      });
+    });
+  }
+</script>

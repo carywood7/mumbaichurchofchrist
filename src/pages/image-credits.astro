@@ -1,0 +1,62 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { photoCredits } from "../data/home-images";
+---
+
+<BaseLayout
+  title="Image Credits"
+  description="Image sources, authors and licensing information."
+  noindex={true}
+>
+  <section class="section">
+    <div class="container">
+      <span class="eyebrow">Attribution</span>
+      <h1>Image credits.</h1>
+      <p class="lead">
+        We acknowledge the creators of the photographs
+        used on this website. Images may be cropped
+        visually for layout.
+      </p>
+
+      <div class="credit-list">
+        {photoCredits.map(item => (
+          <article>
+            <h3>{item.title}</h3>
+            <p>{item.author}</p>
+            <a href={item.source}>Original photograph</a>
+            {" · "}
+            {item.licenseUrl ? (
+              <a href={item.licenseUrl}>{item.license}</a>
+            ) : item.license}
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .credit-list {
+    max-width: 850px;
+    margin-top: 40px;
+  }
+
+  article {
+    padding-block: 24px;
+    border-bottom: 1px solid var(--sand);
+  }
+
+  h3 {
+    font-size: 23px;
+    overflow-wrap: anywhere;
+  }
+
+  article a {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+
+  article p {
+    color: var(--muted);
+  }
+</style>

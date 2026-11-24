@@ -1,0 +1,31 @@
+---
+interface Props {
+  href: string;
+  variant?: "primary" | "outline";
+  arrow?: boolean;
+}
+
+const {
+  href,
+  variant = "primary",
+  arrow = true
+} = Astro.props;
+---
+
+<a href={href} class:list={["button", `button-${variant}`]}>
+  <slot />
+
+  {arrow && (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.6"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M4 12h15M13 6l6 6-6 6" />
+    </svg>
+  )}
+</a>

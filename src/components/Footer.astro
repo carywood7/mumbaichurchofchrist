@@ -1,0 +1,173 @@
+---
+import { navigation, connectionLinks } from "../data/navigation";
+---
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a class="footer-logo" href="/" aria-label="Mumbai Church of Christ home">
+          <img
+            src="/images/brand/mumbai-church-of-christ.png"
+            alt="Mumbai Church of Christ"
+            width="2112"
+            height="704"
+            loading="lazy"
+            decoding="async"
+          />
+        </a>
+        <p>Rooted in Scripture.<br />United in Christ.</p>
+        <blockquote>
+          “One Lord, one faith, one baptism.”
+          <cite>Ephesians 4:5 · KJV</cite>
+        </blockquote>
+      </div>
+
+      <div class="footer-links">
+        <h3>Explore</h3>
+        {navigation.map(item => (
+          <a href={item.href}>{item.label}</a>
+        ))}
+      </div>
+
+      <div class="footer-links">
+        <h3>Congregations</h3>
+        <a href="/congregations/vashi/">Vashi</a>
+        <a href="/congregations/mira-road/">Mira Road</a>
+        <a href="/congregations/goregaon/">Goregaon</a>
+        <a href="/congregations/nallasopara/">Nallasopara</a>
+        <a href="/congregations/">All Congregations</a>
+      </div>
+
+      <div class="footer-links">
+        <h3>Get Connected</h3>
+        {connectionLinks.map(item => (
+          <a href={item.href}>{item.label}</a>
+        ))}
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span>© {new Date().getFullYear()} Mumbai Church of Christ</span>
+      <a href="/image-credits/">Image credits</a>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    padding-top: 72px;
+    background: #112239;
+    color: var(--ivory);
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 1.5fr repeat(3,minmax(0,1fr));
+    gap: 36px;
+    padding-bottom: 56px;
+  }
+
+  .footer-brand h2 {
+    color: var(--ivory);
+    font-size: 30px;
+  }
+
+  .footer-brand p {
+    color: #D2DCE8;
+    font-size: 17px;
+  }
+
+  .footer-brand blockquote {
+    margin: 24px 0 0;
+    color: #D6BF91;
+    font-family: var(--font-heading);
+    font-size: 20px;
+  }
+
+  cite {
+    display: block;
+    margin-top: 10px;
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-style: normal;
+  }
+
+  .footer-links {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .footer-links h3 {
+    color: var(--ivory);
+    font-family: var(--font-body);
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 0;
+  }
+
+  .footer-links a {
+    font-size: 16px;
+    color: #D2DCE8;
+    transition: color .25s;
+  }
+
+  .footer-links a:hover {
+    color: #D6BF91;
+  }
+
+  .footer-bottom {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 16px;
+    padding-block: 24px;
+    border-top: 1px solid rgba(255,255,255,.15);
+    color: #D2DCE8;
+    font-size: 14px;
+  }
+
+  @media (max-width: 900px) {
+    .footer-grid {
+      grid-template-columns: repeat(2,minmax(0,1fr));
+    }
+  }
+
+  @media (max-width: 540px) {
+    .footer-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .footer-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 340px;
+    padding: 12px 14px;
+    margin-bottom: 22px;
+    border-radius: 8px;
+    background: var(--ivory);
+  }
+
+  .footer-logo img {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+  }
+
+  .footer-logo:hover {
+    background: white;
+  }
+
+  @media (max-width: 540px) {
+    .footer-logo {
+      max-width: 290px;
+    }
+  }
+
+</style>
