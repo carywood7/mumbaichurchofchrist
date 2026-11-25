@@ -51,40 +51,6 @@ const verses = [
   ["I can do all things through Christ which strengtheneth me.", "Philippians 4:13"]
 ];
 
-const congregations = [
-  {
-    name: "Vashi",
-    region: "Navi Mumbai",
-    filter: "navi-mumbai",
-    slug: "vashi",
-    time: "Worship timings to be confirmed",
-    image: photos.vashi
-  },
-  {
-    name: "Goregaon",
-    region: "Mumbai",
-    filter: "mumbai",
-    slug: "goregaon",
-    time: "Previous listing: Sunday, 9:30–11:30 AM",
-    image: photos.goregaon
-  },
-  {
-    name: "Mira Road",
-    region: "Mumbai Metropolitan Region",
-    filter: "mmr",
-    slug: "mira-road",
-    time: "Previous listing: Sunday, 12:30–2:00 PM",
-    image: photos.miraRoad
-  },
-  {
-    name: "Nallasopara",
-    region: "Mumbai Metropolitan Region",
-    filter: "mmr",
-    slug: "nallasopara",
-    time: "Previous listing: Sunday, 9:00–11:00 AM",
-    image: photos.nallasopara
-  }
-];
 
 const beliefs = [
   {
@@ -364,71 +330,207 @@ const faqs = [
     <!-- CONGREGATION DIRECTORY -->
 
     <section id="congregations" class="section">
-      <div class="container" data-congregation-explorer>
+  <div class="container">
 
-        <div class="section-top">
-          <div class="section-heading">
-            <span class="eyebrow">Worship with us</span>
-            <h2>Find your local congregation.</h2>
-            <p class="lead">
-              Explore Churches of Christ across the Mumbai region.
-            </p>
+    <div class="section-top">
+      <div class="section-heading">
+        <span class="eyebrow">
+          One faith · Local congregations
+        </span>
+
+        <h2>Find a congregation near you.</h2>
+
+        <p class="lead">
+          Discover Jesus Christ, grow in your understanding
+          of Scripture and connect with a local Church of Christ.
+        </p>
+      </div>
+
+      <a class="text-link" href="/congregations/">
+        View all congregations →
+      </a>
+    </div>
+
+    <div class="home-region-grid">
+
+      {[
+        {
+          number: "01",
+          name: "Mumbai",
+          filter: "mumbai",
+          theme: "mumbai",
+          description:
+            "Explore Churches of Christ across Mumbai and its suburbs.",
+          areas: "Dharavi · Govandi · Goregaon"
+        },
+        {
+          number: "02",
+          name: "Navi Mumbai",
+          filter: "navi-mumbai",
+          theme: "navi",
+          description:
+            "Connect with congregations and explore opportunities to grow in faith.",
+          areas: "Vashi and surrounding areas"
+        },
+        {
+          number: "03",
+          name: "Wider Mumbai Region",
+          filter: "mmr",
+          theme: "metro",
+          description:
+            "Discover local congregations beyond the Mumbai and Navi Mumbai city areas.",
+          areas: "Mira Road · Vasai · Nallasopara"
+        }
+      ].map(region => (
+
+        <a
+          class={`home-region-card home-region-${region.theme}`}
+          href={`/congregations/?region=${region.filter}`}
+          aria-label={`Explore congregations in ${region.name}`}
+        >
+
+          <div class="home-region-visual">
+
+            <span class="home-region-number">
+              {region.number} / REGION
+            </span>
+
+            <div class="home-region-orbits" aria-hidden="true">
+              <svg viewBox="0 0 320 200" fill="none">
+
+                <circle cx="160" cy="100" r="78"
+                  stroke="currentColor" opacity=".14"/>
+
+                <circle cx="160" cy="100" r="57"
+                  stroke="currentColor" opacity=".23"/>
+
+                <circle cx="160" cy="100" r="105"
+                  stroke="currentColor" opacity=".08"/>
+
+                <path d="M0 65H320M0 140H320M90 0V200M230 0V200"
+                  stroke="currentColor"
+                  stroke-dasharray="4 8"
+                  opacity=".12"/>
+
+                {region.theme === "mumbai" ? (
+                  <g class="home-region-symbol"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round">
+
+                    <path d="M85 145H235"/>
+                    <path d="M112 145V75H136V145"/>
+                    <path d="M184 145V75H208V145"/>
+                    <path d="M136 145V102Q160 66 184 102V145"/>
+                    <path d="M112 75V64H136V75"/>
+                    <path d="M184 75V64H208V75"/>
+                    <path d="M136 75H184"/>
+                    <path d="M143 75V59Q160 39 177 59V75"/>
+                    <path d="M160 49V38"/>
+                    <path d="M121 87H127M193 87H199"/>
+                    <path d="M121 111H127M193 111H199"/>
+                    <path d="M100 153H220"/>
+                  </g>
+                ) : region.theme === "navi" ? (
+                  <g class="home-region-symbol"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round">
+
+                    <path d="M73 145H247"/>
+                    <path d="M92 145V100H116V145"/>
+                    <path d="M124 145V65H153V145"/>
+                    <path d="M161 145V85H189V145"/>
+                    <path d="M197 145V108H225V145"/>
+                    <path d="M138 65V48"/>
+                    <path d="M132 81H145M132 96H145M132 111H145"/>
+                    <path d="M169 100H181M169 115H181"/>
+                    <path d="M84 160H236"/>
+                    <path d="M104 171H216"/>
+                  </g>
+                ) : (
+                  <g class="home-region-symbol"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round">
+
+                    <path d="M78 145L124 82L159 127L198 67L245 145"/>
+                    <path d="M113 97L124 82L135 97"/>
+                    <path d="M185 87L198 67L212 87"/>
+                    <path d="M79 145H245"/>
+                    <path d="M105 160H224"/>
+                    <path d="M160 145Q123 165 171 181"/>
+                    <circle cx="94" cy="58" r="13"/>
+                  </g>
+                )}
+
+                <circle cx="55" cy="100" r="3"
+                  fill="currentColor" opacity=".5"/>
+
+                <circle cx="265" cy="100" r="3"
+                  fill="currentColor" opacity=".5"/>
+
+              </svg>
+            </div>
+
+            <span class="home-region-visual-caption">
+              Explore your region
+            </span>
+
           </div>
 
-          <a class="text-link" href="/congregations/">
-            View all congregations →
-          </a>
-        </div>
+          <div class="home-region-content">
 
-        <div class="region-filters" aria-label="Filter congregations">
-          {[
-            ["all", "All locations"],
-            ["mumbai", "Mumbai"],
-            ["navi-mumbai", "Navi Mumbai"],
-            ["mmr", "Metropolitan region"]
-          ].map(([value, label], index) => (
-            <button
-              type="button"
-              data-region-filter={value}
-              aria-pressed={index === 0 ? "true" : "false"}
-            >
-              {label}
-            </button>
-          ))}
-        </div>
+            <span class="card-kicker">Churches of Christ</span>
 
-        <div class="congregation-grid">
-          {congregations.map(item => (
-            <article class="visual-card" data-region={item.filter}>
-              <a href={`/congregations/${item.slug}/`} class="card-photo">
-                <HomePhoto
-                  src={item.image}
-                  alt=""
-                  label=""
-                />
-              </a>
+            <h3>{region.name}</h3>
 
-              <div class="card-content">
-                <span class="card-kicker">{item.region}</span>
-                <h3>{item.name} Church of Christ</h3>
-                <p>{item.time}</p>
+            <p>{region.description}</p>
 
-                <a class="card-link" href={`/congregations/${item.slug}/`}>
-                  Explore Congregation <span>→</span>
-                </a>
-              </div>
-            </article>
-          ))}
-        </div>
+            <div class="home-region-areas">
+              <svg viewBox="0 0 24 24" fill="none"
+                aria-hidden="true">
+                <path
+                  d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z"
+                  stroke="currentColor"
+                  stroke-width="1.5"/>
+                <circle cx="12" cy="10" r="2.5"
+                  stroke="currentColor"
+                  stroke-width="1.5"/>
+              </svg>
 
-        <p class="directory-note">
-          Please confirm current worship timings and meeting venues
-          before visiting. Historical listings are being updated.
-        </p>
+              <span>{region.areas}</span>
+            </div>
 
-        <span class="visually-hidden" data-filter-status aria-live="polite"></span>
-      </div>
-    </section>
+            <div class="home-region-action">
+              <span>Explore Congregations</span>
+              <span class="home-region-arrow">→</span>
+            </div>
+
+          </div>
+
+        </a>
+
+      ))}
+
+    </div>
+
+    <div class="home-region-closing">
+      <p>
+        “One Lord, one faith, one baptism.”
+        <cite>Ephesians 4:5 · KJV</cite>
+      </p>
+
+      <Button href="/congregations/">
+        Find Your Local Congregation
+      </Button>
+    </div>
+
+  </div>
+</section>
 
     <!-- BIBLICAL BELIEFS -->
 
@@ -805,35 +907,6 @@ const faqs = [
 
     updatePause();
     restart();
-  }
-
-  // Congregation region filtering.
-
-  const explorer = document.querySelector("[data-congregation-explorer]");
-
-  if (explorer) {
-    const buttons = Array.from(explorer.querySelectorAll<HTMLButtonElement>("[data-region-filter]"));
-    const cards = Array.from(explorer.querySelectorAll<HTMLElement>("[data-region]"));
-
-    buttons.forEach(button => {
-      button.addEventListener("click", () => {
-        const region = button.dataset.regionFilter;
-        let count = 0;
-
-        buttons.forEach(other => {
-          other.setAttribute("aria-pressed", String(other === button));
-        });
-
-        cards.forEach(card => {
-          card.hidden = region !== "all" && card.dataset.region !== region;
-          if (!card.hidden) count++;
-        });
-
-        const status = explorer.querySelector("[data-filter-status]");
-
-        if (status) status.textContent = `${count} congregations displayed`;
-      });
-    });
   }
 
   // Hover FAQ on desktop; native details on mobile.

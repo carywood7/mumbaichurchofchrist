@@ -1,0 +1,11 @@
+---
+import CongregationLayout from "../../layouts/CongregationLayout.astro";
+import { congregations, previewCongregations } from "../../data/congregations";
+export function getStaticPaths() {
+  const records = new Map(congregations.map(c => [c.slug,c]));
+  for (const c of previewCongregations) records.set(c.slug,c);
+  return Array.from(records.values()).map(c => ({ params: { congregation: c.slug }, props: { c } }));
+}
+const { c } = Astro.props;
+---
+<CongregationLayout c={c}/>

@@ -1,0 +1,312 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import InsightCard from "./InsightCard.astro";
+import {
+  insightCategory,
+  relatedInsights,
+  readingMinutes,
+  type InsightArticle
+} from "../../data/insights";
+
+import "../../styles/resources.css";
+import "../../styles/insights.css";
+
+interface Props {
+  article: InsightArticle;
+}
+
+const { article } = Astro.props;
+const category = insightCategory(article.category);
+const related = relatedInsights(article);
+---
+
+<BaseLayout
+  title={article.title}
+  description={article.summary}
+  noindex={true}
+>
+  <div
+    class="br-reading-progress"
+    data-insight-progress
+    aria-hidden="true"
+  ></div>
+
+  <div class="br-resource-page in-reading-page">
+
+    <section class="br-article-hero">
+      <div class="container">
+
+        <nav class="br-breadcrumb" aria-label="Breadcrumb">
+          <a href="/">Home</a>
+          <span aria-hidden="true">/</span>
+          <a href="/insights/">Insights</a>
+          <span aria-hidden="true">/</span>
+
+          <a href={`/insights/${category.slug}/`}>
+            {category.title}
+          </a>
+        </nav>
+
+        <div class="br-article-intro">
+          <span class="eyebrow">
+            Christian Insights · {category.title}
+          </span>
+
+          <h1>{article.title}</h1>
+          <p>{article.summary}</p>
+
+          <div class="br-meta">
+            <span>{readingMinutes(article)} min reading</span>
+            <span>{article.scriptures.length} key Scriptures</span>
+            <span>{category.title}</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="br-section br-reading-section">
+      <div class="container br-reading-grid">
+
+        <aside class="br-reading-sidebar">
+
+          <span class="eyebrow">In this article</span>
+
+          <nav aria-label="Article contents">
+
+            {article.sections.map((section, i) => (
+              <a
+                href={`#section-${i + 1}`}
+                data-insight-section-link
+              >
+                <small>
+                  {String(i + 1).padStart(2, "0")}
+                </small>
+
+                {section.heading}
+              </a>
+            ))}
+
+            <a href="#takeaway" data-insight-section-link>
+              Putting faith into practice
+            </a>
+
+          </nav>
+
+          <button
+            type="button"
+            class="br-button br-button-outline"
+            data-insight-print
+          >Print Article</button>
+
+          <button
+            type="button"
+            class="br-button br-button-outline in-copy-button"
+            data-insight-copy
+          >Copy Article Link</button>
+
+          <small
+            data-copy-status
+            aria-live="polite"
+          ></small>
+
+        </aside>
+
+        <article class="br-reading-content" data-insight-reading>
+
+          <div class="in-reading-photo">
+            <img
+              src={article.image}
+              alt=""
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+
+          <div class="br-scripture-box">
+            <span class="eyebrow">Biblical foundation</span>
+            <h2>Key Scriptures</h2>
+
+            {article.scriptures.map(reference => (
+              <a
+                href={`https://www.biblegateway.com/passage/?search=${encodeURIComponent(reference)}&version=KJV`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {reference}
+                <span>Read passage ↗</span>
+              </a>
+            ))}
+          </div>
+
+          {article.sections.map((section, i) => (
+            <section
+              id={`section-${i + 1}`}
+              class="br-reading-part"
+              data-insight-section
+            >
+              <h2>{section.heading}</h2>
+
+              {section.paragraphs.map(paragraph => (
+                <p>{paragraph}</p>
+              ))}
+            </section>
+          ))}
+
+          <section
+            id="takeaway"
+            class="br-application"
+            data-insight-section
+          >
+            <span class="eyebrow">Personal reflection</span>
+            <h2>Putting faith into practice.</h2>
+            <p>{article.takeaway}</p>
+          </section>
+
+          <div class="br-article-next">
+            <span class="eyebrow">Continue learning</span>
+            <h2>Explore the Scriptures further.</h2>
+
+            <a class="br-button" href={article.resource}>
+              {article.resourceLabel} →
+            </a>
+          </div>
+
+        </article>
+
+      </div>
+    </section>
+
+    <section class="br-section br-related">
+      <div class="container">
+
+        <span class="eyebrow">Related reading</span>
+        <h2>Continue exploring.</h2>
+
+        <div class="br-grid">
+          {related.map(item => (
+            <InsightCard article={item}/>
+          ))}
+        </div>
+
+        <a class="br-text-link" href={`/insights/${category.slug}/`}>
+          ← More {category.title} articles
+        </a>
+
+      </div>
+    </section>
+
+    <section class="br-section br-invitation">
+      <div class="container">
+
+        <span class="eyebrow">Your next step</span>
+        <h2>Grow together in Christ.</h2>
+
+        <p>
+          Explore Scripture with others, ask questions
+          and connect with a local Church of Christ.
+        </p>
+
+        <a class="br-button" href="/congregations/">
+          Find a Congregation →
+        </a>
+
+      </div>
+    </section>
+
+  </div>
+</BaseLayout>
+
+<script>
+  document.querySelector(
+    "[data-insight-print]"
+  )?.addEventListener("click", () => window.print());
+
+  const status = document.querySelector("[data-copy-status]");
+
+  document.querySelector(
+    "[data-insight-copy]"
+  )?.addEventListener("click", async () => {
+    try {
+      await navigator.clipboard.writeText(
+        new URL(location.pathname, location.origin).href
+      );
+
+      if (status) status.textContent = "Article link copied.";
+    } catch {
+      if (status) {
+        status.textContent =
+          "Please copy the URL from your browser address bar.";
+      }
+    }
+  });
+
+  const progress = document.querySelector<HTMLElement>(
+    "[data-insight-progress]"
+  );
+
+  const content = document.querySelector<HTMLElement>(
+    "[data-insight-reading]"
+  );
+
+  const sections = Array.from(
+    document.querySelectorAll<HTMLElement>(
+      "[data-insight-section]"
+    )
+  );
+
+  const links = Array.from(
+    document.querySelectorAll<HTMLAnchorElement>(
+      "[data-insight-section-link]"
+    )
+  );
+
+  let scheduled = false;
+
+  function update() {
+    if (progress && content) {
+      const rect = content.getBoundingClientRect();
+
+      const distance = Math.max(
+        1,
+        rect.height - window.innerHeight * .5
+      );
+
+      const fraction = Math.max(
+        0,
+        Math.min(1, -rect.top / distance)
+      );
+
+      progress.style.transform = `scaleX(${fraction})`;
+    }
+
+    let active = "";
+
+    sections.forEach(section => {
+      if (section.getBoundingClientRect().top <= 170) {
+        active = section.id;
+      }
+    });
+
+    links.forEach(link => {
+      if (link.hash === `#${active}`) {
+        link.setAttribute("aria-current", "location");
+      } else {
+        link.removeAttribute("aria-current");
+      }
+    });
+
+    scheduled = false;
+  }
+
+  function schedule() {
+    if (!scheduled) {
+      scheduled = true;
+      requestAnimationFrame(update);
+    }
+  }
+
+  window.addEventListener("scroll", schedule, { passive: true });
+  window.addEventListener("resize", schedule);
+  schedule();
+</script>

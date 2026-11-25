@@ -2,12 +2,13 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Button from "../components/Button.astro";
 import { navigation, connectionLinks } from "../data/navigation";
+import { availableCongregations } from "../data/congregations";
 
 export function getStaticPaths() {
   const pages = new Map();
 
   for (const group of navigation) {
-    if (group.href === "/") continue;
+    if (group.href === "/" || group.href === "/congregations/") continue;
 
     pages.set(group.href, {
       title: group.label,
@@ -29,6 +30,10 @@ export function getStaticPaths() {
     }
   }
 
+  const built = new Set(availableCongregations.map(c => c.slug));
+  for (const [slug, label] of [["vashi", "Vashi"], ["goregaon", "Goregaon"], ["nallasopara", "Nallasopara"], ["mira-road", "Mira Road"]]) {
+    if (!built.has(slug)) pages.set(`/congregations/${slug}/`, {title:label,parent:"Congregations",parentHref:"/congregations/",links:[]});
+  }
   for (const item of connectionLinks) {
     pages.set(item.href, {
       title: item.label,
@@ -37,6 +42,26 @@ export function getStaticPaths() {
       links: []
     });
   }
+
+  // Sprint 4H: dedicated resource libraries.
+  pages.delete("/resources/");
+  pages.delete("/resources/bible-studies/");
+  pages.delete("/resources/sermons/");
+  pages.delete("/resources/lords-supper/");
+  pages.delete("/resources/questions-and-answers/");
+  pages.delete("/resources/devotionals/");
+  pages.delete("/about/");
+  pages.delete("/about/what-we-believe/");
+  pages.delete("/about/our-history/");
+  pages.delete("/about/new-testament-christianity/");
+
+  // Sprint 4K: dedicated Insights pages.
+  pages.delete("/insights/");
+  pages.delete("/insights/biblical-studies/");
+  pages.delete("/insights/christian-living/");
+  pages.delete("/insights/christian-apologetics/");
+  pages.delete("/insights/new-testament-christianity/");
+  pages.delete("/insights/spiritual-growth/");
 
   return Array.from(pages.entries()).map(([href, page]) => ({
     params: { slug: href.replace(/^\/|\/$/g, "") },
@@ -62,6 +87,7 @@ const events: Record<string, { text: string; url?: string }> = {
 };
 
 const event = events[Astro.url.pathname];
+const oldMira = Astro.url.pathname === "/congregations/mira-road/";
 ---
 
 <BaseLayout title={page.title} description={description} noindex={true}>
@@ -106,7 +132,7 @@ const event = events[Astro.url.pathname];
         <div class="section-heading">
           <span class="eyebrow">Under development</span>
           <h2>More information coming soon.</h2>
-          <p class="lead">We are preparing this section of our new website.</p>
+          <p class="lead">{oldMira ? "The earlier Mira Road listing is being checked. Browse the directory for the Poonam Sagar profile and other congregations." : "We are preparing this section of our new website."}</p>{oldMira && <p><a class="button button-primary" href="/congregations/?q=Mira%20Road">Explore Mira Road listings →</a></p>}
           <Button href={page.parentHref} variant="outline">
             Back to {page.parent}
           </Button>

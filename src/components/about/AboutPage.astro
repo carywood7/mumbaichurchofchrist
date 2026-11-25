@@ -1,0 +1,353 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Button from "../Button.astro";
+import {
+  aboutPages,
+  aboutHref,
+  type AboutPage
+} from "../../data/about-content";
+import "../../styles/about.css";
+
+interface Props {
+  page: AboutPage;
+}
+
+const { page } = Astro.props;
+---
+
+<BaseLayout
+  title={page.title}
+  description={page.description}
+  noindex={true}
+>
+  <div class="ap-page" data-about-page>
+
+    <section class="ap-hero">
+      <div class="container">
+
+        <nav class="ap-breadcrumb" aria-label="Breadcrumb">
+          <a href="/">Home</a>
+          <span aria-hidden="true">/</span>
+          {page.slug && (
+            <>
+              <a href="/about/">About</a>
+              <span aria-hidden="true">/</span>
+            </>
+          )}
+          <span aria-current="page">{page.title}</span>
+        </nav>
+
+        <div class="ap-hero-grid">
+          <div class="ap-hero-copy">
+            <span class="eyebrow">{page.eyebrow}</span>
+            <h1>{page.headline}</h1>
+            <p>{page.description}</p>
+
+            <div class="ap-actions">
+              <a class="ap-light-button" href="#discover">
+                Explore Our Faith →
+              </a>
+              <a class="ap-outline-button" href="/congregations/">
+                Find a Congregation
+              </a>
+            </div>
+          </div>
+
+          <div class="ap-hero-image">
+            <img
+              src={page.image}
+              alt={page.imageAlt}
+              loading="eager"
+              decoding="async"
+            />
+
+            <blockquote>
+              “{page.verse}”
+              <cite>{page.reference} · KJV excerpt</cite>
+            </blockquote>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <div class="ap-nav">
+      <div class="container">
+        <nav aria-label="About pages">
+          {aboutPages.map(item => (
+            <a
+              href={aboutHref(item)}
+              aria-current={item.slug === page.slug ? "page" : undefined}
+            >
+              {item.title}
+            </a>
+          ))}
+        </nav>
+      </div>
+    </div>
+
+    <section id="discover" class="ap-section">
+      <div class="container ap-intro">
+
+        <div>
+          <span class="eyebrow">Discover our faith</span>
+          <h2>{page.heading}</h2>
+        </div>
+
+        <div class="ap-intro-copy">
+          {page.intro.map(paragraph => <p>{paragraph}</p>)}
+        </div>
+
+      </div>
+    </section>
+
+    <section class="ap-section ap-foundations">
+      <div class="container">
+
+        <div class="section-heading">
+          <span class="eyebrow">Explore the Scriptures</span>
+          <h2>{page.cardsHeading}.</h2>
+          <p class="lead">
+            Explore each topic and its Biblical foundation.
+          </p>
+        </div>
+
+        <div class="ap-card-grid">
+          {page.cards.map((card, i) => (
+            <article class="ap-card">
+
+              <div class="ap-card-top">
+                <span>{String(i + 1).padStart(2, "0")}</span>
+
+                <svg viewBox="0 0 44 44" fill="none" aria-hidden="true">
+                  <circle cx="22" cy="22" r="20" stroke="currentColor" opacity=".4"/>
+                  <path
+                    d="M22 34Q13 27 5 29V12Q13 10 22 18Q31 10 39 12V29Q31 27 22 34ZM22 18V34"
+                    stroke="currentColor"
+                    stroke-width="1.2"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </div>
+
+              <h3>{card.title}</h3>
+              <p>{card.description}</p>
+
+              <details data-about-reveal>
+                <summary>
+                  <span>{card.scripture}</span>
+                  <span class="ap-plus" aria-hidden="true">+</span>
+                </summary>
+
+                <div class="ap-reveal-copy">
+                  <p>{card.detail}</p>
+                  {card.link && (
+                    <a href={card.link}>
+                      Explore further →
+                    </a>
+                  )}
+                </div>
+              </details>
+
+            </article>
+          ))}
+        </div>
+
+      </div>
+    </section>
+
+    {page.slug === "our-history" && (
+      <section class="ap-section">
+        <div class="container ap-history-resource">
+
+          <img
+            src="/images/resources/church-history/book-front.webp"
+            alt="Who Changed the Church? book cover"
+            loading="lazy"
+          />
+
+          <div>
+            <span class="eyebrow">Church history and restoration</span>
+            <h2>Who Changed the Church?</h2>
+
+            <p class="lead">
+              Explore our dedicated church history resource
+              and examine Christian faith and practice in
+              the light of the New Testament.
+            </p>
+
+            <Button href="/resources/church-history/">
+              Explore Church History
+            </Button>
+          </div>
+
+        </div>
+      </section>
+    )}
+
+    <section class="ap-section ap-questions">
+      <div class="container ap-faq-grid">
+
+        <div>
+          <span class="eyebrow">Questions are welcome</span>
+          <h2>Discover more.</h2>
+          <p class="lead">
+            Explore common questions about Christianity,
+            Scripture and the Churches of Christ.
+          </p>
+
+          <a class="ap-text-link" href="/resources/questions-and-answers/">
+            Explore Biblical Q&A →
+          </a>
+        </div>
+
+        <div class="ap-faq-list">
+          {page.faq.map(item => (
+            <details data-about-faq>
+              <summary>
+                <span>{item.question}</span>
+                <span class="ap-plus" aria-hidden="true">+</span>
+              </summary>
+              <p>{item.answer}</p>
+            </details>
+          ))}
+        </div>
+
+      </div>
+    </section>
+
+    <section class="ap-section ap-next">
+      <div class="container">
+
+        <span class="eyebrow">Continue your journey</span>
+        <h2>Explore. Learn. Follow Christ.</h2>
+
+        <div class="ap-next-grid">
+          {aboutPages.filter(item => item.slug !== page.slug).map(item => (
+            <a href={aboutHref(item)}>
+              <h3>{item.title}</h3>
+              <p>{item.description}</p>
+              <strong>Explore →</strong>
+            </a>
+          ))}
+        </div>
+
+      </div>
+    </section>
+
+    <section class="ap-section ap-invitation">
+      <div class="container">
+
+        <span class="eyebrow">Your next step</span>
+        <h2>Come and discover Christ.</h2>
+
+        <p class="lead">
+          Begin studying Scripture, explore your questions
+          or connect with a local congregation.
+        </p>
+
+        <div class="ap-actions">
+          <Button href="/resources/bible-studies/">
+            Begin a Bible Study
+          </Button>
+
+          <Button href="/congregations/" variant="outline">
+            Find a Congregation
+          </Button>
+        </div>
+
+        <blockquote>
+          “Come unto me, all ye that labour and are heavy laden,
+          and I will give you rest.”
+          <cite>Matthew 11:28 · KJV</cite>
+        </blockquote>
+
+      </div>
+    </section>
+
+  </div>
+</BaseLayout>
+
+<script>
+  const desktopHover = matchMedia("(hover:hover) and (pointer:fine)");
+
+  document.querySelectorAll<HTMLElement>("[data-about-page]").forEach(page => {
+
+    function setupReveal(
+      items: HTMLDetailsElement[],
+      exclusive: boolean
+    ) {
+      items.forEach(item => {
+        let hoverOpened = false;
+
+        const summary = item.querySelector("summary");
+
+        item.addEventListener("pointerenter", event => {
+          if (
+            !desktopHover.matches ||
+            event.pointerType !== "mouse" ||
+            item.open
+          ) return;
+
+          if (exclusive) {
+            items.forEach(other => {
+              if (
+                other !== item &&
+                !other.contains(document.activeElement)
+              ) other.open = false;
+            });
+          }
+
+          hoverOpened = true;
+          item.open = true;
+        });
+
+        item.addEventListener("pointerleave", () => {
+          if (
+            hoverOpened &&
+            !item.contains(document.activeElement)
+          ) {
+            item.open = false;
+            hoverOpened = false;
+          }
+        });
+
+        item.addEventListener("focusout", event => {
+          if (
+            hoverOpened &&
+            !item.contains(event.relatedTarget as Node | null) &&
+            !item.matches(":hover")
+          ) {
+            item.open = false;
+            hoverOpened = false;
+          }
+        });
+
+        summary?.addEventListener("click", () => {
+          hoverOpened = false;
+        });
+
+        item.addEventListener("toggle", () => {
+          if (exclusive && item.open) {
+            items.forEach(other => {
+              if (
+                other !== item &&
+                !other.contains(document.activeElement)
+              ) other.open = false;
+            });
+          }
+        });
+      });
+    }
+
+    setupReveal(
+      Array.from(page.querySelectorAll<HTMLDetailsElement>("[data-about-reveal]")),
+      false
+    );
+
+    setupReveal(
+      Array.from(page.querySelectorAll<HTMLDetailsElement>("[data-about-faq]")),
+      true
+    );
+  });
+</script>

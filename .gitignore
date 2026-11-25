@@ -27,3 +27,5 @@ pnpm-debug.log*
 !.env.example
 *.pem
 *.key
+
+src/data/congregations/*.local.json

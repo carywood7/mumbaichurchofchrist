@@ -1,0 +1,54 @@
+---
+import {
+  insightHref,
+  insightCategory,
+  readingMinutes,
+  type InsightArticle
+} from "../../data/insights";
+
+interface Props {
+  article: InsightArticle;
+}
+
+const { article } = Astro.props;
+const category = insightCategory(article.category);
+---
+
+<article
+  class="br-card in-article-card"
+  data-insight-card
+  data-category={category.slug}
+  data-search={`${article.title} ${article.summary} ${category.title} ${article.scriptures.join(" ")}`}
+>
+  <a
+    class={`in-card-visual in-theme-${category.theme}`}
+    href={insightHref(article)}
+    aria-label={`Read ${article.title}`}
+  >
+    <img
+      src={article.image}
+      alt=""
+      loading="lazy"
+      decoding="async"
+    />
+
+    <div class="in-card-overlay">
+      <span>{category.title}</span>
+      <small>{readingMinutes(article)} min read</small>
+    </div>
+  </a>
+
+  <div class="br-card-body">
+    <span class="eyebrow">{article.scriptures[0]}</span>
+
+    <h3>
+      <a href={insightHref(article)}>{article.title}</a>
+    </h3>
+
+    <p>{article.summary}</p>
+
+    <a class="br-card-action" href={insightHref(article)}>
+      Read Article <span aria-hidden="true">→</span>
+    </a>
+  </div>
+</article>

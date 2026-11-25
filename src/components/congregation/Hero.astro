@@ -1,0 +1,49 @@
+---
+import type { Congregation } from "../../data/congregations";
+import { verses } from "../../data/congregation-content";
+const { c } = Astro.props as { c: Congregation };
+---
+<section class="cf-hero" id="top">
+  <div class="cf-hero-image" aria-hidden="true" style={c.photos[0] ? `background-image: url('${c.photos[0]}')` : undefined}></div>
+  <div class="container cf-hero-content">
+    <nav aria-label="Breadcrumb" class="cf-breadcrumb"><a href="/">Home</a> / <a href="/congregations/">Congregations</a> / <span>{c.name}</span></nav>
+    <div class="cf-hero-grid">
+      <div>
+        <span class="eyebrow">Church of Christ · {c.name}, {c.region}</span>
+        <h1>Discover Jesus.<br/><em>Find truth in Him.</em></h1>
+        <p class="cf-lead">Whether you are exploring faith for the first time or looking for a congregation rooted in Scripture, we welcome you to come and learn about Jesus Christ.</p>
+        <div class="cf-actions"><a class="cf-btn light" href="#discover-jesus">Get to know Jesus <span>→</span></a><a class="cf-btn outline" href="#visit">Plan your visit</a></div>
+        <p class="cf-small">Open to questions. Rooted in Scripture. Centred on Christ.</p>
+      </div>
+      <div class="cf-hero-verse" data-verse-box>
+        <div class="cf-orbit" aria-hidden="true"><span></span><span></span><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M50 6v48M31 24h38M50 91Q29 73 6 77V47Q29 43 50 63Q71 43 94 47V77Q71 73 50 91ZM50 63v28"/></svg></div>
+        <span class="cf-overline">Words of Jesus</span>
+        {verses.map(([quote,ref],i)=><div data-verse={i} hidden={i!==0}><blockquote>“{quote}”</blockquote><cite>{ref} · KJV excerpt</cite></div>)}
+        <div class="cf-dots" aria-label="Select Scripture">{verses.map((_,i)=><button type="button" data-verse-select={i} aria-label={`Scripture ${i+1}`} aria-pressed={i===0}></button>)}<button type="button" data-verse-pause aria-pressed="false">Pause</button></div>
+      </div>
+    </div>
+    {!c.photos[0] && <a class="cf-credit" href="/image-credits/">Mumbai city photograph · image credits</a>}
+  </div>
+</section>
+<section class="cf-quick"><div class="container cf-quick-grid">
+  <div><span>01 / Location</span><strong>{c.name}, {c.region}</strong><a href="#visit">{c.address ? "Find our meeting place →" : "Meeting details →"}</a></div>
+  <div>
+  <span>02 / Worship</span>
+
+  {!c.gatherings.some(g => g.kind === 'worship') && <strong>Timings to be confirmed</strong>}
+  {c.detailsStatus === 'legacy' && <small>Previous listing · unverified</small>}
+  {c.gatherings.filter(g => g.kind === 'worship').map(g => (
+    <div class="cf-quick-service">
+      <strong>{g.time}</strong>
+      <small>{g.name} · {g.day || 'Day to confirm'}</small>
+    </div>
+  ))}
+
+  <small>
+    {c.language || 'Contact us to confirm worship language'}
+  </small>
+
+  <a href="#visit">View worship arrangements →</a>
+</div>
+  <div><span>03 / Weekly Bible study</span>{c.gatherings.filter(g=>g.kind==='study').map(g=><><strong>{g.day} · {g.time}</strong><a href="#bible-study">{c.detailsStatus === "legacy" ? "View earlier study listing →" : "Join a study →"}</a></>)}{!c.gatherings.some(g=>g.kind==='study') && <a href="#bible-study">Ask about study timings →</a>}</div>
+</div></section>

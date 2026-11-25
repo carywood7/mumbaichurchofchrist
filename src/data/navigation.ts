@@ -36,27 +36,15 @@ export const navigation = [
       },
       {
         "label": "Mumbai",
-        "href": "/congregations/mumbai/"
+        "href": "/congregations/?region=mumbai"
       },
       {
         "label": "Navi Mumbai",
-        "href": "/congregations/navi-mumbai/"
+        "href": "/congregations/?region=navi-mumbai"
       },
       {
-        "label": "Vashi",
-        "href": "/congregations/vashi/"
-      },
-      {
-        "label": "Mira Road",
-        "href": "/congregations/mira-road/"
-      },
-      {
-        "label": "Goregaon",
-        "href": "/congregations/goregaon/"
-      },
-      {
-        "label": "Nallasopara",
-        "href": "/congregations/nallasopara/"
+        "label": "Wider Mumbai Region",
+        "href": "/congregations/?region=mmr"
       }
     ]
   },

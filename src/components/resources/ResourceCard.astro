@@ -1,0 +1,85 @@
+---
+import type { BiblicalResource } from "../../data/biblical-resources";
+import { resourceHref, resourceCategories } from "../../data/biblical-resources";
+
+interface Props {
+  resource: BiblicalResource;
+}
+
+const { resource: r } = Astro.props;
+const meta = resourceCategories[r.category];
+const type = meta.type;
+---
+
+<a
+  class="br-card"
+  href={resourceHref(r)}
+  data-resource-card
+  data-topic={r.topic}
+  data-search={`${r.title} ${r.summary} ${r.topic} ${r.scriptures.join(" ")} ${r.teacher || ""}`}
+>
+  <div class:list={["br-card-art", r.category === "sermons" && "br-card-sermon",
+      r.category === "lords-supper" && "br-card-communion",
+      r.category === "questions-and-answers" && "br-card-qa",
+      r.category === "devotionals" && "br-card-devotional"]}>
+    <span>{type}</span>
+
+
+    {r.category === "lords-supper" ? (
+      <svg viewBox="0 0 160 115" fill="none" aria-hidden="true">
+        <circle cx="80" cy="56" r="49" stroke="currentColor" opacity=".15"/>
+        <circle cx="80" cy="56" r="39" stroke="currentColor" opacity=".22"/>
+        <g stroke="currentColor" stroke-width="1.5" stroke-linejoin="round">
+          <path d="M88 22H124L120 48Q116 61 106 61Q96 61 92 48Z"/>
+          <path d="M106 61V85M91 86H121M93 42H119"/>
+          <ellipse cx="52" cy="79" rx="27" ry="11"/>
+          <path d="M25 79V87Q52 104 79 87V79"/>
+          <path d="M35 75L44 82M48 72L57 80M61 74L69 81" opacity=".6"/>
+        </g>
+      </svg>
+    ) : r.category === "questions-and-answers" ? (
+      <svg viewBox="0 0 160 115" fill="none" aria-hidden="true">
+        <circle cx="80" cy="56" r="49" stroke="currentColor" opacity=".15"/>
+        <circle cx="80" cy="56" r="39" stroke="currentColor" opacity=".22"/>
+        <g stroke="currentColor" stroke-width="1.5" stroke-linejoin="round">
+          <path d="M28 24H132V83H85L67 100V83H28Z"/>
+          <path d="M65 42Q65 30 80 30Q97 30 97 44Q97 53 86 59Q80 62 80 70"/>
+          <circle cx="80" cy="76" r="2" fill="currentColor"/>
+        </g>
+      </svg>
+    ) : (
+    <svg viewBox="0 0 160 115" fill="none" aria-hidden="true">
+      <circle cx="80" cy="56" r="49" stroke="currentColor" opacity=".15"/>
+      <circle cx="80" cy="56" r="38" stroke="currentColor" opacity=".25"/>
+      <path
+        d="M80 98Q52 74 19 80V30Q52 25 80 53Q108 25 141 30V80Q108 74 80 98ZM80 53V98"
+        stroke="currentColor"
+        stroke-width="1.4"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M31 44Q49 43 65 55M31 57Q49 56 65 68M95 55Q111 43 129 44M95 68Q111 56 129 57"
+        stroke="currentColor"
+        stroke-width="1.2"
+        opacity=".6"
+      />
+    </svg>
+    )}
+
+    <small>{r.scriptures[0]}</small>
+  </div>
+
+  <div class="br-card-body">
+    <span class="eyebrow">{r.topic}</span>
+    <h3>{r.title}</h3>
+    <p>{r.summary}</p>
+
+    {r.teacher && <small>By {r.teacher}</small>}
+    {r.congregation && <small>{r.congregation}</small>}
+
+    <div class="br-card-action">
+      {meta.action}
+      <span aria-hidden="true">→</span>
+    </div>
+  </div>
+</a>

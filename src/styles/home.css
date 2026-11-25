@@ -1096,3 +1096,278 @@
     width: 80px;
   }
 }
+
+
+/* SPRINT 4G — Regional congregation explorer */
+
+.home-region-grid {
+  display: grid;
+  grid-template-columns: repeat(3,minmax(0,1fr));
+  gap: 22px;
+  align-items: stretch;
+  margin-top: 35px;
+}
+
+.home-region-card {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  height: 100%;
+  overflow: hidden;
+  border: 1px solid #DDD4C4;
+  border-radius: 12px;
+  background: #FAF7F0;
+  color: #182D49;
+  transition:
+    transform .35s var(--ease),
+    box-shadow .35s var(--ease),
+    border-color .35s var(--ease);
+}
+
+.home-region-visual {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  place-items: center;
+  height: 225px;
+  overflow: hidden;
+  color: #D6BF91;
+  background:
+    radial-gradient(
+      ellipse at 75% 15%,
+      #36577B,
+      transparent 75%
+    ),
+    #112239;
+}
+
+.home-region-navi .home-region-visual {
+  background:
+    radial-gradient(
+      ellipse at 70% 10%,
+      #80678F,
+      transparent 75%
+    ),
+    #403250;
+}
+
+.home-region-metro .home-region-visual {
+  background:
+    radial-gradient(
+      ellipse at 75% 10%,
+      #90616A,
+      transparent 75%
+    ),
+    #532A37;
+}
+
+.home-region-number {
+  position: absolute;
+  top: 20px;
+  left: 22px;
+  z-index: 2;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .15em;
+}
+
+.home-region-orbits {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+}
+
+.home-region-orbits svg {
+  width: 100%;
+  max-width: 330px;
+  height: 100%;
+  transition: transform .65s var(--ease);
+}
+
+.home-region-symbol {
+  transform-origin: center;
+  transition: transform .5s var(--ease);
+}
+
+.home-region-visual-caption {
+  position: absolute;
+  bottom: 16px;
+  font-size: 10px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  opacity: .8;
+}
+
+.home-region-content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 27px;
+}
+
+.home-region-content h3 {
+  font-size: clamp(28px,2.6vw,35px);
+  line-height: 1.2;
+  min-height: 2.4em;
+  margin: 14px 0;
+}
+
+.home-region-content p {
+  font-size: 16px;
+  line-height: 1.75;
+  color: #5D6370;
+  margin-bottom: 22px;
+}
+
+.home-region-areas {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-top: auto;
+  padding: 16px 0;
+  color: #80683E;
+  font-size: 13px;
+  line-height: 1.6;
+  border-top: 1px solid #DDD4C4;
+}
+
+.home-region-areas svg {
+  width: 19px;
+  height: 19px;
+  flex-shrink: 0;
+}
+
+.home-region-action {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  margin-top: 10px;
+  padding: 16px 0 0;
+  border-top: 1px solid #DDD4C4;
+  color: #182D49;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.home-region-arrow {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  flex-shrink: 0;
+  border: 1px solid #DDD4C4;
+  border-radius: 50%;
+  transition:
+    background .3s,
+    color .3s,
+    transform .3s;
+}
+
+.home-region-card:focus-visible {
+  outline: 3px solid #B49A66;
+  outline-offset: 4px;
+}
+
+.home-region-closing {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 24px;
+  margin-top: 28px;
+  padding: 25px 30px;
+  border: 1px solid #DDD4C4;
+  border-radius: 10px;
+  background: #F0EBE1;
+}
+
+.home-region-closing p {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-size: clamp(22px,2vw,27px);
+  line-height: 1.5;
+  color: #182D49;
+}
+
+.home-region-closing cite {
+  display: block;
+  margin-top: 5px;
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-style: normal;
+  color: #80683E;
+}
+
+@media (hover:hover) and (pointer:fine) {
+  .home-region-card:hover {
+    transform: translateY(-7px);
+    border-color: #B49A66;
+    box-shadow: 0 20px 45px rgba(17,34,57,.10);
+  }
+
+  .home-region-card:hover .home-region-orbits svg {
+    transform: scale(1.06);
+  }
+
+  .home-region-card:hover .home-region-symbol {
+    transform: translateY(-5px);
+  }
+
+  .home-region-card:hover .home-region-arrow {
+    background: #182D49;
+    border-color: #182D49;
+    color: white;
+    transform: translateX(3px);
+  }
+}
+
+@media (max-width:1000px) {
+  .home-region-grid {
+    gap: 15px;
+  }
+
+  .home-region-content {
+    padding: 22px;
+  }
+
+  .home-region-visual {
+    height: 190px;
+  }
+}
+
+@media (max-width:760px) {
+  .home-region-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .home-region-visual {
+    height: 210px;
+  }
+
+  .home-region-content h3 {
+    min-height: 0;
+  }
+
+  .home-region-content {
+    padding: 25px;
+  }
+
+  .home-region-closing {
+    text-align: center;
+    justify-content: center;
+    padding: 25px 20px;
+  }
+}
+
+@media (prefers-reduced-motion:reduce) {
+  .home-region-card,
+  .home-region-orbits svg,
+  .home-region-symbol,
+  .home-region-arrow {
+    transition: none !important;
+    transform: none !important;
+  }
+}

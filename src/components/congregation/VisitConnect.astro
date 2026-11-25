@@ -1,0 +1,61 @@
+---
+import type { Congregation } from "../../data/congregations";
+import { faithFAQs } from "../../data/congregation-content";
+const { c } = Astro.props as { c: Congregation };
+const query = encodeURIComponent(c.address + ', Maharashtra, India');
+const hasAddress = Boolean(c.address.trim());
+const hasContact = Boolean(c.email || c.contacts.length);
+const legacy = c.detailsStatus === 'legacy';
+const directions = hasAddress ? (c.mapLink || `https://www.google.com/maps/${legacy ? 'search/?api=1&query=' : 'dir/?api=1&destination='}${query}`) : '';
+const embed = hasAddress ? (c.mapEmbed || `https://maps.google.com/maps?q=${query}&z=16&output=embed`) : '';
+const study = `mailto:${c.email}?subject=${encodeURIComponent('Bible study enquiry — '+c.name)}`;
+const prayer = `mailto:${c.email}?subject=${encodeURIComponent('Request for a conversation or prayer — '+c.name)}`;
+const visitFAQs = [
+  ["When can I visit?", c.gatherings.length ? (legacy ? 'Earlier listing, not verified: ' : '') + c.gatherings.map(g=>`${g.name}: ${g.day || 'day to confirm'}, ${g.time}`).join('. ') + '. Please confirm before travelling.' : 'Meeting days and times are being confirmed.'],
+  ["What language is used in worship?", c.language ? c.language + '. Ask the congregation about other languages for personal study.' : "Contact the congregation to confirm worship and Bible study languages."],
+  ["Do I need to make a donation?", "You can visit and learn without making a payment."],
+  ["Where exactly do I go?", hasAddress ? (legacy ? 'Earlier address, not verified: ' : '') + c.address + '. Confirm the entrance and accessibility arrangements before travelling.' : 'The exact meeting address is being confirmed.'],
+  ["Can I simply attend and listen?", "You are welcome to observe and ask questions. Contact the congregation if you would like guidance before attending."]
+];
+---
+<section class="cf-section cf-tint" id="visit"><div class="container"><div class="cf-heading"><span class="eyebrow">Plan your first visit</span><h2>Find us in {c.name}.</h2><p>Check the meeting address, worship times and weekly Bible study before you travel.</p></div><div class="cf-map-grid">{hasAddress ? (
+<div class="cf-map" data-embedded-map>
+  <iframe
+    src={embed}
+    title={`Google Maps — Church of Christ, ${c.name}`}
+    loading="lazy"
+    referrerpolicy="no-referrer-when-downgrade"
+    allowfullscreen
+  ></iframe>
+
+  <div class="cf-map-caption">
+    <div>
+      <strong>{c.name}, {c.region}</strong>
+      <small>
+        {legacy ? 'Earlier meeting address; current venue not verified.' : c.mapEmbed
+          ? 'Meeting location'
+          : 'Address-based map. Confirm the exact entrance before visiting.'}
+      </small>
+    </div>
+
+    <a
+      href={directions}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={`Open directions to ${c.name} in Google Maps`}
+    >
+      Open Maps ↗
+    </a>
+  </div>
+</div>
+) : <div class="cf-map cf-pending-map"><span class="eyebrow">Location information</span><h3>Meeting location to be confirmed.</h3><p>We will add the actual map once the congregation supplies its address.</p></div>}
+<article class="cf-visit-card"><span class="eyebrow">Meeting address</span><h3>Church of Christ · {c.name}</h3><address>{c.address || "Meeting address to be confirmed"}</address>{legacy && <p class="cf-muted">Earlier listing only. Address and schedules have not been reconfirmed.</p>}{hasAddress && <div class="cf-actions"><a class="cf-btn" href={directions} target="_blank" rel="noopener noreferrer">{legacy ? "View earlier address ↗" : "Get directions ↗"}</a><button type="button" class="cf-btn secondary" data-copy-address={c.address}>Copy address</button></div>}<p role="status" data-copy-status class="cf-muted"></p><div class="cf-local-times">{!c.gatherings.length && <p>Worship and Bible study timings are being confirmed.</p>}{c.gatherings.map(g=><div><strong>{g.name}</strong><span>{g.day || 'Day to confirm'} · {g.time}</span></div>)}</div><p class="cf-muted">{hasContact ? "Please contact the congregation before travelling to confirm meeting arrangements." : "Please wait for confirmed meeting information before travelling."}</p></article></div></div></section>
+<section class="cf-section" id="faq"><div class="container cf-split cf-faq"><div><span class="eyebrow">Questions are welcome</span><h2>New to faith or new to the church?</h2><p class="cf-lead">You do not need to have all the answers before taking your first step.</p></div><div data-switcher="faq"><div class="cf-faq-tabs"><button type="button" data-select="0" aria-pressed="true">About faith</button><button type="button" data-select="1" aria-pressed="false">Visiting us</button></div>{[faithFAQs,visitFAQs].map((group,i)=><div data-panel={i} hidden={i!==0} class="cf-accordion">{group.map(([q,a])=><details><summary>{q}<span aria-hidden="true">+</span></summary><p>{a}</p></details>)}</div>)}</div></div></section>
+<section class="cf-section cf-connect" id="connect"><div class="container"><div class="cf-heading"><span class="eyebrow">Your next step</span><h2>Come and discover Christ.</h2><p>Whether you have questions, want to study the Bible or are ready to visit, we welcome you to reach out.</p></div><div class="cf-three cf-connect-grid"><article><span>01 / Learn</span><h3>Study the Bible</h3><p>Arrange a conversation about Scripture and the Gospel.</p>{c.email ? <a class="cf-btn" href={study}>Email a Bible study enquiry →</a> : c.contacts[0]?.phone ? <a class="cf-btn" href={`tel:+91${c.contacts[0].phone}`}>Call about Bible study →</a> : <a class="cf-btn secondary" href="#bible-study">Explore Bible study →</a>}</article><article><span>02 / Connect</span><h3>Visit the church</h3><p>Join us for worship and fellowship in {c.name}.</p><a class="cf-btn" href="#visit">Plan your visit →</a></article><article><span>03 / Pray</span><h3>Request prayer</h3><p>Reach out to ask about prayer or spiritual encouragement. Avoid sending private details in an initial email.</p>{c.email ? <a class="cf-btn" href={prayer}>Request a conversation →</a> : c.contacts[0]?.phone ? <a class="cf-btn" href={`tel:+91${c.contacts[0].phone}`}>Call the congregation →</a> : <p class="cf-muted">Contact details are being confirmed.</p>}</article></div><div class="cf-contacts">{c.contacts.map(person=><a href={`tel:+91${person.phone}`}><strong>{person.name}</strong><span>+91 {person.phone}</span></a>)}{c.email && <a href={`mailto:${c.email}`}><strong>Email the congregation</strong><span>{c.email}</span></a>}
+{(c.additionalEmails || []).map(email => (
+  <a href={`mailto:${email}`}>
+    <strong>Additional email contact</strong>
+    <span>{email}</span>
+  </a>
+))}{!hasContact && <a href="/congregations/"><strong>Find another congregation</strong><span>Browse the congregation directory →</span></a>}</div><blockquote class="cf-closing-verse">“Come unto me, all ye that labour and are heavy laden, and I will give you rest.”<cite>Matthew 11:28 · KJV</cite></blockquote></div></section>
+<div class="cf-mobile" aria-label="Quick congregation actions">{c.contacts[0]?.phone ? <a href={`tel:+91${c.contacts[0].phone}`}>Call</a> : c.email ? <a href={`mailto:${c.email}`}>Email</a> : <a href="/congregations/">Churches</a>}{hasAddress ? <a href={directions} target="_blank" rel="noopener noreferrer">{legacy ? "Map ↗" : "Directions ↗"}</a> : <a href="#visit">Visit info</a>}<a href="#bible-study">Bible study</a></div>

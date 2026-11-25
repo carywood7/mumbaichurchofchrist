@@ -1,0 +1,140 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import ResourceCard from "../../components/resources/ResourceCard.astro";
+import { biblicalResources } from "../../data/biblical-resources";
+import "../../styles/resources.css";
+
+const categories = [
+  {
+    title: "Bible Studies",
+    description: "Guided lessons, Scriptures and discussion questions.",
+    href: "/resources/bible-studies/",
+    image: "/images/home/bibleStudy.jpg",
+    count: biblicalResources.filter(r => r.category === "bible-studies").length
+  },
+  {
+    title: "Sermons",
+    description: "Biblical teaching and written sermon outlines.",
+    href: "/resources/sermons/",
+    image: "/images/home/sermons.jpg",
+    count: biblicalResources.filter(r => r.category === "sermons").length
+  },
+  {
+    title: "The Lord's Supper",
+    description: "Remember Christ through Scripture and communion reflections.",
+    href: "/resources/lords-supper/",
+    image: "/images/home/communion.jpg",
+    count: biblicalResources.filter(r => r.category === "lords-supper").length
+  },
+  {
+    title: "Biblical Q&A",
+    description: "Explore answers to questions about Christianity and Scripture.",
+    href: "/resources/questions-and-answers/",
+    image: "/images/home/apologetics.jpg",
+    count: biblicalResources.filter(r => r.category === "questions-and-answers").length
+  },
+  {
+    title: "Devotionals",
+    description: "Scriptural reflections for everyday Christian living.",
+    href: "/resources/devotionals/",
+    image: "/images/home/christianLiving.jpg",
+    count: biblicalResources.filter(r => r.category === "devotionals").length
+  },
+  {
+    title: "Church History",
+    description: "Explore the New Testament church and restoration.",
+    href: "/resources/church-history/",
+    image: "/images/resources/church-history/book-front.webp",
+    count: null
+  }
+];
+
+const featured = [
+  biblicalResources.find(r => r.slug === "who-is-jesus-christ"),
+  biblicalResources.find(r => r.slug === "what-must-i-do-to-be-saved"),
+  biblicalResources.find(r => r.slug === "keep-your-eyes-on-jesus")
+].filter((r): r is NonNullable<typeof r> => Boolean(r));
+---
+
+<BaseLayout
+  title="Biblical Resources"
+  description="Explore Bible studies, sermons and New Testament Christian teaching."
+  noindex={true}
+>
+  <section class="br-hero">
+    <div class="container">
+      <nav class="br-breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a><span>/</span><span>Resources</span>
+      </nav>
+
+      <div class="br-hero-copy">
+        <span class="eyebrow">Know Christ · Grow in faith</span>
+        <h1>Explore the riches of God's Word.</h1>
+        <p>Discover Jesus Christ and grow in your understanding of Scripture through Bible studies, sermons and Biblical resources.</p>
+        <a class="br-button br-button-light" href="/resources/bible-studies/">
+          Begin a Bible Study →
+        </a>
+      </div>
+
+      <blockquote>
+        “Sanctify them through thy truth: thy word is truth.”
+        <cite>John 17:17 · KJV</cite>
+      </blockquote>
+    </div>
+  </section>
+
+  <section class="br-section">
+    <div class="container">
+      <span class="eyebrow">Explore the library</span>
+      <h2>Grow in your knowledge of Christ.</h2>
+
+      <div class="br-grid">
+        {categories.map(category => (
+          <a class="br-card" href={category.href}>
+            <img
+              class:list={["br-category-photo", category.count === null && "br-book-photo"]}
+              src={category.image}
+              alt=""
+              loading="lazy"
+            />
+
+            <div class="br-card-body">
+              <span class="eyebrow">
+                {category.count === null ? "Featured resource" : `${category.count} written resources`}
+              </span>
+              <h3>{category.title}</h3>
+              <p>{category.description}</p>
+              <div class="br-card-action">Explore Resources <span>→</span></div>
+            </div>
+          </a>
+        ))}
+      </div>
+
+      <p class="br-editorial-note">
+        Explore our Bible studies, sermon outlines, communion reflections, devotionals and Biblical answers at your own pace.
+      </p>
+    </div>
+  </section>
+
+  <section class="br-section br-related">
+    <div class="container">
+      <span class="eyebrow">A place to begin</span>
+      <h2>Featured Biblical studies and teaching.</h2>
+
+      <div class="br-grid">
+        {featured.map(resource => <ResourceCard resource={resource}/>)}
+      </div>
+    </div>
+  </section>
+
+  <section class="br-section br-invitation">
+    <div class="container">
+      <span class="eyebrow">Study together</span>
+      <h2>Faith grows through God's Word.</h2>
+      <p>Find a local congregation and explore Scripture with others.</p>
+      <a class="br-button" href="/congregations/">
+        Find Your Local Congregation →
+      </a>
+    </div>
+  </section>
+</BaseLayout>

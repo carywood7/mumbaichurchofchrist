@@ -1,0 +1,21 @@
+---
+import { paths, salvation } from "../../data/congregation-content";
+---
+<section class="cf-section" id="start"><div class="container">
+  <div class="cf-heading"><span class="eyebrow">Begin where you are</span><h2>What brings you here today?</h2><p>Explore the questions that matter to you. No registration is needed to begin.</p></div>
+  <div class="cf-choice" data-switcher="visitor">
+    <div class="cf-choice-buttons" aria-label="Choose a journey">{paths.map((p,i)=><button type="button" data-select={i} aria-pressed={i===0}><span>0{i+1}</span>{p[0]}<b>↗</b></button>)}</div>
+    <div class="cf-choice-panels">{paths.map((p,i)=><article data-panel={i} hidden={i!==0}><span class="cf-overline">Your next step · {p[3]}</span><h3>{p[1]}</h3><p>{p[2]}</p><a class="cf-btn light" href={p[4]}>{p[5]} →</a></article>)}</div>
+  </div>
+</div></section>
+<section class="cf-section cf-tint" id="discover-jesus"><div class="container cf-split">
+  <figure class="cf-editorial"><img src="/images/home/bible.jpg" alt="An open Bible" loading="lazy"/><figcaption>Explore God's Word · <a href="/image-credits/">Image credits</a></figcaption></figure>
+  <div><span class="eyebrow">The foundation of our faith</span><h2>Who is Jesus Christ?</h2><p class="cf-lead">Jesus is the Son of God. He came to reveal the Father, save us from sin and bring us into fellowship with God.</p><p>His death, burial and resurrection are at the heart of the Gospel. You can begin by reading the Gospel of John and asking what His life means for yours.</p>
+  <div class="cf-accordion"><details><summary>Who is Jesus? <span>John 1:1–14</span></summary><p>The Word became flesh and dwelt among us. Jesus reveals God to us.</p></details><details><summary>Why do we need Him? <span>Romans 3:23–24</span></summary><p>All have sinned; redemption is offered through the grace of God in Christ.</p></details><details><summary>What is the Gospel? <span>1 Corinthians 15:1–4</span></summary><p>Christ died for our sins, was buried and rose again the third day, according to Scripture.</p></details></div>
+  <a class="cf-text-link" href="#salvation">Explore the Gospel and salvation →</a></div>
+</div></section>
+<section class="cf-section cf-dark" id="salvation"><div class="container">
+  <div class="cf-heading"><span class="eyebrow">Saved by grace through faith</span><h2>What must I do to be saved?</h2><p>Christ's sacrifice and resurrection are the foundation of salvation. Explore the response of faith described in Scripture, not a checklist for earning God's grace.</p><small>Ephesians 2:8–10 · 1 Corinthians 15:1–4</small></div>
+  <div data-switcher="salvation" class="cf-salvation"><div class="cf-steps">{salvation.map((p,i)=><button type="button" data-select={i} aria-pressed={i===0}><span>0{i+1}</span><strong>{p[0]}</strong><small>{p[1]}</small></button>)}</div><div class="cf-step-panels">{salvation.map((p,i)=><article data-panel={i} hidden={i!==0}><div><span class="cf-overline">Step {i+1} of 6</span><h3>{p[0]}</h3><p>{p[3]}</p></div><blockquote>“{p[2]}”<cite>{p[1]} · KJV excerpt</cite></blockquote></article>)}</div><div class="cf-step-nav"><button type="button" data-prev disabled>← Previous</button><span data-step-count>1 / 6</span><button type="button" data-next>Next →</button></div></div>
+  <div class="cf-centered"><a href="#bible-study" class="cf-btn light">Explore salvation in a Bible study →</a></div>
+</div></section>

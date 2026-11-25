@@ -1,0 +1,754 @@
+/* SPRINT 4H — Biblical resource library */
+
+.br-hero {
+  color: #FAF7F0;
+  padding: 30px 0 65px;
+  background:
+    radial-gradient(ellipse at 85% 15%, #36577B, transparent 65%),
+    #112239;
+}
+
+.br-hero .eyebrow {
+  color: #D6BF91;
+}
+
+.br-breadcrumb {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  font-size: 14px;
+  margin-bottom: 55px;
+}
+
+.br-hero .br-breadcrumb {
+  color: #D2DCE8;
+}
+
+.br-hero-copy {
+  max-width: 900px;
+}
+
+.br-hero h1 {
+  color: #FAF7F0;
+  font-size: clamp(43px, 6vw, 79px);
+  line-height: 1.13;
+  margin: 20px 0;
+}
+
+.br-hero-copy p {
+  color: #D2DCE8;
+  font-size: clamp(18px, 2vw, 22px);
+  max-width: 700px;
+  line-height: 1.7;
+  margin-bottom: 28px;
+}
+
+.br-hero blockquote {
+  margin: 50px 0 0;
+  padding-top: 28px;
+  border-top: 1px solid #ffffff26;
+  font-family: var(--font-heading);
+  color: #D6BF91;
+  font-size: clamp(24px, 3vw, 34px);
+}
+
+.br-hero cite {
+  display: block;
+  font: 14px var(--font-body);
+  margin-top: 12px;
+}
+
+.br-section {
+  padding-block: clamp(60px, 7vw, 100px);
+  background: #FAF7F0;
+}
+
+.br-section h2 {
+  margin-block: 20px;
+}
+
+.br-intro {
+  max-width: 760px;
+  color: #5D6370;
+  font-size: 19px;
+  line-height: 1.75;
+  margin-bottom: 30px;
+}
+
+.br-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 13px 22px;
+  border: 1px solid #182D49;
+  border-radius: 5px;
+  color: #fff;
+  background: #182D49;
+  font: 600 15px var(--font-body);
+  cursor: pointer;
+  text-align: center;
+  transition: transform .25s, box-shadow .25s;
+}
+
+.br-button-light {
+  color: #182D49;
+  background: #FAF7F0;
+  border-color: #FAF7F0;
+}
+
+.br-button-outline {
+  color: #182D49;
+  background: transparent;
+}
+
+.br-actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 28px;
+}
+
+.br-grid {
+  display: grid;
+  grid-template-columns: repeat(3,minmax(0,1fr));
+  gap: 22px;
+  align-items: stretch;
+  margin-top: 28px;
+}
+
+.br-card {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  height: 100%;
+  border: 1px solid #DDD4C4;
+  border-radius: 10px;
+  background: #FFFDF8;
+  overflow: hidden;
+  transition: transform .3s, border-color .3s, box-shadow .3s;
+}
+
+.br-card[hidden],
+.br-empty[hidden] {
+  display: none !important;
+}
+
+.br-card-art {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 200px;
+  padding: 18px;
+  gap: 8px;
+  color: #D6BF91;
+  background:
+    radial-gradient(ellipse at 75% 5%, #36577B, transparent 75%),
+    #112239;
+}
+
+.br-card-sermon {
+  background:
+    radial-gradient(ellipse at 75% 5%, #80678F, transparent 75%),
+    #403250;
+}
+
+.br-card-art svg {
+  width: 140px;
+  transition: transform .4s;
+}
+
+.br-card-art > span {
+  align-self: flex-start;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: .14em;
+}
+
+.br-card-art small {
+  font-size: 12px;
+}
+
+.br-category-photo {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.br-book-photo {
+  object-fit: contain;
+  padding: 12px;
+  background: #182D49;
+}
+
+.br-card-body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  padding: 25px;
+}
+
+.br-card-body h3 {
+  font-size: clamp(25px,2.5vw,31px);
+  margin: 15px 0;
+  line-height: 1.3;
+}
+
+.br-card-body p {
+  font-size: 16px;
+  line-height: 1.7;
+  color: #5D6370;
+  margin-bottom: 23px;
+}
+
+.br-card-action {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: auto;
+  border-top: 1px solid #DDD4C4;
+  padding-top: 17px;
+  font-weight: 600;
+  color: #182D49;
+}
+
+.br-card-action span {
+  transition: transform .3s;
+}
+
+.br-search-label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.br-search {
+  display: block;
+  width: 100%;
+  max-width: 700px;
+  min-height: 54px;
+  padding: 12px 18px;
+  border: 1px solid #DDD4C4;
+  border-radius: 6px;
+  background: #FFFDF8;
+  font: inherit;
+}
+
+.br-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin-top: 23px;
+}
+
+.br-filters button {
+  padding: 10px 17px;
+  border: 1px solid #DDD4C4;
+  border-radius: 5px;
+  color: #182D49;
+  background: #FFFDF8;
+  font: 600 14px var(--font-body);
+  cursor: pointer;
+  transition: background .2s, color .2s;
+}
+
+.br-filters button[aria-pressed="true"] {
+  color: white;
+  border-color: #182D49;
+  background: #182D49;
+}
+
+.br-result-count,
+.br-editorial-note {
+  margin-top: 22px;
+  color: #5D6370;
+  font-size: 14px;
+}
+
+.br-empty {
+  margin-top: 25px;
+  padding: 30px;
+  border: 1px solid #DDD4C4;
+  border-radius: 10px;
+}
+
+.br-empty p {
+  margin: 15px 0;
+}
+
+.br-article-hero {
+  padding: 30px 0 65px;
+  background: #F0EBE1;
+  border-bottom: 1px solid #DDD4C4;
+}
+
+.br-article-intro {
+  max-width: 900px;
+}
+
+.br-article-intro h1 {
+  font-size: clamp(42px,6vw,74px);
+  line-height: 1.12;
+  margin: 20px 0;
+}
+
+.br-article-intro p {
+  font-size: 22px;
+  color: #5D6370;
+  line-height: 1.7;
+  max-width: 800px;
+}
+
+.br-meta {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 22px;
+}
+
+.br-meta span {
+  font-size: 13px;
+  border: 1px solid #DDD4C4;
+  border-radius: 4px;
+  padding: 7px 12px;
+}
+
+.br-reading-grid {
+  display: grid;
+  grid-template-columns: minmax(210px,260px) minmax(0,1fr);
+  gap: clamp(30px,6vw,85px);
+  align-items: start;
+}
+
+.br-reading-sidebar {
+  position: sticky;
+  top: 125px;
+  border: 1px solid #DDD4C4;
+  border-radius: 9px;
+  background: #FFFDF8;
+  padding: 24px;
+}
+
+.br-reading-sidebar nav {
+  display: grid;
+  gap: 0;
+  margin: 18px 0 22px;
+}
+
+.br-reading-sidebar nav a {
+  display: flex;
+  gap: 10px;
+  border-bottom: 1px solid #DDD4C4;
+  padding: 13px 0;
+  line-height: 1.5;
+  font-size: 15px;
+}
+
+.br-reading-sidebar small {
+  color: #80683E;
+}
+
+.br-reading-content {
+  max-width: 850px;
+  min-width: 0;
+}
+
+.br-reading-content h2 {
+  font-size: clamp(29px,3.5vw,42px);
+  line-height: 1.25;
+}
+
+.br-reading-content p {
+  font-size: 18px;
+  line-height: 1.9;
+  color: #414B59;
+  margin: 0 0 20px;
+}
+
+.br-reading-part,
+.br-discussion,
+.br-application {
+  scroll-margin-top: 125px;
+  margin-top: 55px;
+}
+
+.br-scripture-box {
+  border: 1px solid #DDD4C4;
+  border-left: 3px solid #B49A66;
+  background: #F0EBE1;
+  border-radius: 7px;
+  padding: clamp(22px,4vw,35px);
+  margin-bottom: 25px;
+}
+
+.br-scripture-box a {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  flex-wrap: wrap;
+  border-top: 1px solid #DDD4C4;
+  padding: 15px 0;
+  font-weight: 600;
+  color: #182D49;
+}
+
+.br-scripture-box a span {
+  color: #80683E;
+  font-size: 13px;
+}
+
+.br-discussion details {
+  border-bottom: 1px solid #DDD4C4;
+}
+
+.br-discussion summary {
+  cursor: pointer;
+  padding: 20px 0;
+  line-height: 1.6;
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.br-discussion summary small {
+  margin-right: 10px;
+  color: #80683E;
+}
+
+.br-discussion details > div {
+  padding-bottom: 20px;
+}
+
+.br-discussion label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+
+.br-discussion textarea {
+  display: block;
+  width: 100%;
+  padding: 14px;
+  border: 1px solid #DDD4C4;
+  border-radius: 6px;
+  background: #FFFDF8;
+  resize: vertical;
+  font: inherit;
+}
+
+.br-discussion details > div small {
+  display: block;
+  margin-top: 8px;
+  color: #5D6370;
+  font-size: 12px;
+}
+
+.br-application {
+  padding: 27px;
+  background: #F0EBE1;
+  border-left: 3px solid #B49A66;
+  border-radius: 5px;
+}
+
+.br-article-next {
+  margin-top: 40px;
+  border-top: 1px solid #DDD4C4;
+  padding-top: 30px;
+}
+
+.br-related,
+.br-invitation {
+  background: #F0EBE1;
+}
+
+.br-invitation {
+  text-align: center;
+  border-top: 1px solid #DDD4C4;
+}
+
+.br-invitation p {
+  margin: 18px auto 25px;
+  max-width: 750px;
+  color: #5D6370;
+  font-size: 18px;
+}
+
+.br-text-link {
+  display: inline-block;
+  margin-top: 30px;
+  font-weight: 600;
+}
+
+.br-reading-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: #B49A66;
+  transform: scaleX(0);
+  transform-origin: left;
+  z-index: 999;
+  pointer-events: none;
+}
+
+.br-card:focus-visible,
+.br-button:focus-visible,
+.br-filters button:focus-visible {
+  outline: 3px solid #B49A66;
+  outline-offset: 3px;
+}
+
+@media (hover:hover) and (pointer:fine) {
+  .br-card:hover {
+    transform: translateY(-5px);
+    border-color: #B49A66;
+    box-shadow: 0 15px 35px rgba(17,34,57,.09);
+  }
+
+  .br-card:hover .br-card-art svg {
+    transform: scale(1.08);
+  }
+
+  .br-card:hover .br-card-action span {
+    transform: translateX(5px);
+  }
+
+  .br-button:hover {
+    transform: translateY(-2px);
+  }
+
+  .br-reading-sidebar nav a:hover {
+    color: #80683E;
+  }
+}
+
+@media (max-width:950px) {
+  .br-grid {
+    grid-template-columns: repeat(2,minmax(0,1fr));
+  }
+
+  .br-reading-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .br-reading-sidebar {
+    position: static;
+  }
+}
+
+@media (max-width:600px) {
+  .br-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .br-card-body {
+    padding: 22px;
+  }
+
+  .br-breadcrumb {
+    margin-bottom: 35px;
+    font-size: 13px;
+  }
+
+  .br-article-intro p {
+    font-size: 18px;
+  }
+
+  .br-reading-content p {
+    font-size: 17px;
+  }
+
+  .br-actions {
+    flex-direction: column;
+  }
+}
+
+@media (prefers-reduced-motion:reduce) {
+  .br-card,
+  .br-card-art svg,
+  .br-card-action span,
+  .br-button,
+  .br-filters button {
+    transition: none !important;
+  }
+
+  .br-card:hover,
+  .br-card:hover svg,
+  .br-card:hover .br-card-action span,
+  .br-button:hover {
+    transform: none !important;
+  }
+}
+
+@media print {
+  body:has(.br-resource-page) {
+    color: black !important;
+    background: white !important;
+    padding: 0 !important;
+  }
+
+  body:has(.br-resource-page) .site-header,
+  body:has(.br-resource-page) .site-footer,
+  .br-reading-progress,
+  .br-reading-sidebar,
+  .br-resource-page .br-breadcrumb,
+  .br-resource-page .br-related,
+  .br-resource-page .br-article-next,
+  .br-resource-page .br-meta {
+    display: none !important;
+  }
+
+  .br-resource-page .br-section,
+  .br-article-hero {
+    background: white !important;
+    padding: 15px 0 !important;
+  }
+
+  .br-reading-grid {
+    display: block;
+  }
+
+  .br-reading-content {
+    max-width: none;
+  }
+
+  .br-reading-content p {
+    font-size: 11pt;
+    line-height: 1.6;
+    color: black;
+  }
+
+  .br-article-intro h1 {
+    font-size: 28pt;
+  }
+
+  .br-reading-content h2 {
+    font-size: 19pt;
+    break-after: avoid;
+  }
+
+  .br-discussion details > div {
+    display: none !important;
+  }
+
+  .br-discussion summary {
+    font-size: 11pt;
+    min-height: 50px;
+  }
+
+  .br-application,
+  .br-scripture-box {
+    break-inside: avoid;
+    background: white;
+  }
+}
+
+
+/* SPRINT 4I — Communion and Biblical Q&A */
+
+.br-card-communion {
+  background:
+    radial-gradient(
+      ellipse at 80% 5%,
+      #986474,
+      transparent 75%
+    ),
+    #532A37;
+}
+
+.br-card-qa {
+  background:
+    radial-gradient(
+      ellipse at 80% 5%,
+      #557B9D,
+      transparent 75%
+    ),
+    #233C58;
+}
+
+.br-direct-answer {
+  padding: clamp(25px, 4vw, 40px);
+  margin-bottom: 28px;
+  border: 1px solid #DDD4C4;
+  border-left: 3px solid #B49A66;
+  border-radius: 8px;
+  background: #F0EBE1;
+}
+
+.br-direct-answer h2 {
+  margin: 14px 0 18px;
+}
+
+.br-direct-answer p {
+  margin-bottom: 18px;
+  color: #182D49;
+  font-size: clamp(18px, 2vw, 21px);
+  line-height: 1.85;
+}
+
+.br-direct-answer small {
+  display: block;
+  padding-top: 15px;
+  border-top: 1px solid #DDD4C4;
+  color: #5D6370;
+  font-size: 13px;
+}
+
+/* Keep all library cards aligned */
+
+.br-grid {
+  grid-auto-rows: 1fr;
+}
+
+.br-card-body {
+  min-width: 0;
+}
+
+.br-card-art {
+  flex-shrink: 0;
+}
+
+.br-discussion summary {
+  transition: color .25s;
+}
+
+@media (hover:hover) and (pointer:fine) {
+  .br-discussion summary:hover {
+    color: #80683E;
+  }
+}
+
+@media (max-width:600px) {
+  .br-grid {
+    grid-auto-rows: auto;
+  }
+}
+
+@media print {
+  .br-direct-answer {
+    background: white !important;
+    break-inside: avoid;
+  }
+}
+
+@media (prefers-reduced-motion:reduce) {
+  .br-discussion summary {
+    transition: none;
+  }
+}
+
+
+/* SPRINT 4J — Devotional library */
+
+.br-card-devotional {
+  background:
+    radial-gradient(
+      ellipse at 80% 5%,
+      #8D7955,
+      transparent 75%
+    ),
+    #463D30;
+}

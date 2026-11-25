@@ -1,0 +1,15 @@
+---
+import ResourceArticle from "../../../components/resources/ResourceArticle.astro";
+import { getResources } from "../../../data/biblical-resources";
+
+export function getStaticPaths() {
+  return getResources("devotionals").map(resource => ({
+    params: { lesson: resource.slug },
+    props: { resource }
+  }));
+}
+
+const { resource } = Astro.props;
+---
+
+<ResourceArticle resource={resource} />

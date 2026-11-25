@@ -1,0 +1,211 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import ResourceCard from "./ResourceCard.astro";
+import {
+  getRelatedResources,
+  resourceCategories,
+  type BiblicalResource
+} from "../../data/biblical-resources";
+import "../../styles/resources.css";
+
+interface Props {
+  resource: BiblicalResource;
+}
+
+const { resource: r } = Astro.props;
+const meta = resourceCategories[r.category];
+const categoryName = meta.title;
+const related = getRelatedResources(r);
+const words = r.sections.flatMap(s => s.paragraphs).join(" ").split(/\s+/).length;
+const minutes = Math.max(2, Math.ceil(words / 180));
+---
+
+<BaseLayout title={r.title} description={r.summary} noindex={true}>
+  <div class="br-reading-progress" data-reading-progress aria-hidden="true"></div>
+
+  <div class="br-resource-page">
+
+    <section class="br-article-hero">
+      <div class="container">
+        <nav class="br-breadcrumb" aria-label="Breadcrumb">
+          <a href="/">Home</a>
+          <span>/</span>
+          <a href="/resources/">Resources</a>
+          <span>/</span>
+          <a href={`/resources/${r.category}/`}>{categoryName}</a>
+        </nav>
+
+        <div class="br-article-intro">
+          <span class="eyebrow">{r.topic} · {meta.type}</span>
+          <h1>{r.title}</h1>
+          <p>{r.summary}</p>
+
+          <div class="br-meta">
+            <span>{minutes} min reading</span>
+            <span>{r.scriptures.length} key passages</span>
+            {r.teacher && <span>{r.teacher}</span>}
+            {r.congregation && <span>{r.congregation}</span>}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="br-section br-reading-section">
+      <div class="container br-reading-grid">
+
+        <aside class="br-reading-sidebar">
+          <span class="eyebrow">In this {meta.printLabel}</span>
+
+          <nav aria-label="Contents">
+            {r.sections.map((section, i) => (
+              <a href={`#part-${i + 1}`}>
+                <small>0{i + 1}</small>
+                {section.heading}
+              </a>
+            ))}
+            <a href="#discussion">Discussion questions</a>
+            <a href="#application">Practical application</a>
+          </nav>
+
+          <button class="br-button br-button-outline" type="button" data-print-resource>
+            Print {meta.printLabel}
+          </button>
+        </aside>
+
+        <article class="br-reading-content">
+
+          {r.answer && (
+            <div class="br-direct-answer">
+              <span class="eyebrow">The Biblical answer</span>
+              <h2>In brief</h2>
+              <p>{r.answer}</p>
+              <small>Explore the Scriptures and explanation below.</small>
+            </div>
+          )}
+
+          <div class="br-scripture-box">
+            <span class="eyebrow">Read these passages</span>
+            <h2>Key Scriptures</h2>
+
+            {r.scriptures.map(reference => (
+              <a
+                href={`https://www.biblegateway.com/passage/?search=${encodeURIComponent(reference)}&version=KJV`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {reference}<span>Read passage ↗</span>
+              </a>
+            ))}
+          </div>
+
+          {(r.audioUrl || r.videoUrl) && (
+            <div class="br-scripture-box">
+              <h2>Listen or watch</h2>
+              {r.audioUrl?.startsWith("https://") && (
+                <a href={r.audioUrl} rel="noopener noreferrer" target="_blank">
+                  Listen to the recording ↗
+                </a>
+              )}
+              {r.videoUrl?.startsWith("https://") && (
+                <a href={r.videoUrl} rel="noopener noreferrer" target="_blank">
+                  Watch the recording ↗
+                </a>
+              )}
+            </div>
+          )}
+
+          {r.sections.map((section, i) => (
+            <section id={`part-${i + 1}`} class="br-reading-part">
+              <span class="eyebrow">Part 0{i + 1}</span>
+              <h2>{section.heading}</h2>
+              {section.paragraphs.map(paragraph => <p>{paragraph}</p>)}
+            </section>
+          ))}
+
+          <section id="discussion" class="br-discussion">
+            <span class="eyebrow">Reflect and discuss</span>
+            <h2>Discussion questions</h2>
+            <p>Use these questions for personal reflection or a group Bible study.</p>
+
+            {r.questions.map((question, i) => (
+              <details>
+                <summary><small>0{i + 1}</small>{question}</summary>
+                <div>
+                  <label for={`reflection-${i}`}>Your reflection</label>
+                  <textarea
+                    id={`reflection-${i}`}
+                    rows="4"
+                    placeholder="Write your thoughts here..."
+                  ></textarea>
+                  <small>Temporary notes. Not stored or submitted by this website.</small>
+                </div>
+              </details>
+            ))}
+          </section>
+
+          <section id="application" class="br-application">
+            <span class="eyebrow">Put faith into practice</span>
+            <h2>Practical application</h2>
+            <p>{r.application}</p>
+          </section>
+
+          <div class="br-article-next">
+            <h2>Would you like to study together?</h2>
+            <p>Connect with a local congregation and enquire about studying Scripture with others.</p>
+            <a class="br-button" href="/congregations/">
+              Find a Congregation →
+            </a>
+          </div>
+
+        </article>
+      </div>
+    </section>
+
+    <section class="br-section br-related">
+      <div class="container">
+        <span class="eyebrow">Continue learning</span>
+        <h2>Explore related resources.</h2>
+
+        <div class="br-grid">
+          {related.map(resource => <ResourceCard resource={resource}/>)}
+        </div>
+
+        <a class="br-text-link" href={`/resources/${r.category}/`}>
+          ← Back to {categoryName}
+        </a>
+      </div>
+    </section>
+
+  </div>
+</BaseLayout>
+
+<script>
+  document.querySelector("[data-print-resource]")?.addEventListener("click", () => {
+    window.print();
+  });
+
+  const progress = document.querySelector<HTMLElement>("[data-reading-progress]");
+  const article = document.querySelector<HTMLElement>(".br-reading-content");
+  let scheduled = false;
+
+  function update() {
+    if (progress && article) {
+      const rect = article.getBoundingClientRect();
+      const distance = Math.max(1, rect.height - window.innerHeight * .5);
+      const percentage = Math.max(0, Math.min(1, -rect.top / distance));
+      progress.style.transform = `scaleX(${percentage})`;
+    }
+    scheduled = false;
+  }
+
+  function schedule() {
+    if (!scheduled) {
+      scheduled = true;
+      requestAnimationFrame(update);
+    }
+  }
+
+  window.addEventListener("scroll", schedule, { passive: true });
+  window.addEventListener("resize", schedule);
+  schedule();
+</script>

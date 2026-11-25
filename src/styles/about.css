@@ -1,0 +1,499 @@
+/* SPRINT 4J — About and Biblical foundations */
+
+.ap-hero {
+  padding: 30px 0 65px;
+  color: #FAF7F0;
+  background:
+    radial-gradient(ellipse at 85% 15%, #36577B, transparent 70%),
+    #112239;
+}
+
+.ap-breadcrumb {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 45px;
+  font-size: 14px;
+  color: #D2DCE8;
+}
+
+.ap-hero-grid {
+  display: grid;
+  grid-template-columns: 1.15fr .85fr;
+  gap: clamp(30px,5vw,75px);
+  align-items: center;
+}
+
+.ap-hero .eyebrow {
+  color: #D6BF91;
+}
+
+.ap-hero h1 {
+  color: #FAF7F0;
+  font-size: clamp(44px,5.6vw,76px);
+  line-height: 1.14;
+  margin: 22px 0;
+}
+
+.ap-hero-copy > p {
+  color: #D2DCE8;
+  font-size: clamp(18px,1.8vw,22px);
+  line-height: 1.8;
+}
+
+.ap-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 28px;
+}
+
+.ap-light-button,
+.ap-outline-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 53px;
+  padding: 12px 22px;
+  border: 1px solid #D6BF91;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  transition: transform .3s, background .3s, color .3s;
+}
+
+.ap-light-button {
+  background: #FAF7F0;
+  color: #182D49;
+  border-color: #FAF7F0;
+}
+
+.ap-outline-button {
+  color: #FAF7F0;
+}
+
+.ap-hero-image {
+  position: relative;
+  overflow: hidden;
+  min-height: 420px;
+  border: 1px solid #FFFFFF26;
+  border-radius: 12px;
+  background: #233E60;
+}
+
+.ap-hero-image img {
+  width: 100%;
+  height: 420px;
+  object-fit: cover;
+  opacity: .72;
+  transition: transform 1s var(--ease);
+}
+
+.ap-hero-image::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(transparent 25%, #112239F5);
+  pointer-events: none;
+}
+
+.ap-hero-image blockquote {
+  position: absolute;
+  z-index: 1;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: 0;
+  padding: 35px;
+  font-family: var(--font-heading);
+  font-size: clamp(24px,2.5vw,34px);
+  line-height: 1.4;
+  color: #FAF7F0;
+}
+
+.ap-hero-image cite,
+.ap-invitation cite {
+  display: block;
+  margin-top: 15px;
+  font: 14px var(--font-body);
+  color: #D6BF91;
+}
+
+.ap-nav {
+  border-bottom: 1px solid #DDD4C4;
+  background: #F0EBE1;
+}
+
+.ap-nav nav {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+  align-items: center;
+  padding: 16px 0;
+}
+
+.ap-nav a {
+  padding: 10px 15px;
+  border-radius: 5px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #182D49;
+  transition: background .25s, color .25s;
+}
+
+.ap-nav a[aria-current="page"] {
+  background: #182D49;
+  color: white;
+}
+
+.ap-section {
+  padding-block: clamp(65px,8vw,110px);
+  background: #FAF7F0;
+}
+
+.ap-section h2 {
+  margin-block: 20px;
+}
+
+.ap-intro,
+.ap-faq-grid {
+  display: grid;
+  grid-template-columns: .85fr 1.15fr;
+  gap: clamp(30px,6vw,85px);
+  align-items: start;
+}
+
+.ap-intro-copy {
+  padding-left: 30px;
+  border-left: 1px solid #B49A66;
+}
+
+.ap-intro-copy p {
+  font-size: 19px;
+  line-height: 1.9;
+  color: #414B59;
+}
+
+.ap-intro-copy p:last-child {
+  margin-bottom: 0;
+}
+
+.ap-foundations,
+.ap-next {
+  background: #F0EBE1;
+}
+
+.ap-card-grid,
+.ap-next-grid {
+  display: grid;
+  grid-template-columns: repeat(3,minmax(0,1fr));
+  gap: 22px;
+  align-items: stretch;
+}
+
+.ap-card {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: 27px;
+  border: 1px solid #DDD4C4;
+  border-radius: 10px;
+  background: #FFFDF8;
+  transition:
+    transform .3s var(--ease),
+    box-shadow .3s,
+    border-color .3s;
+}
+
+.ap-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #80683E;
+  margin-bottom: 20px;
+}
+
+.ap-card-top > span {
+  font-size: 13px;
+  letter-spacing: .12em;
+}
+
+.ap-card-top svg {
+  width: 44px;
+  transition: transform .3s;
+}
+
+.ap-card h3 {
+  font-size: clamp(26px,2.5vw,33px);
+  line-height: 1.25;
+  margin-bottom: 15px;
+}
+
+.ap-card > p {
+  color: #5D6370;
+  line-height: 1.7;
+  margin-bottom: 25px;
+}
+
+.ap-card details {
+  margin-top: auto;
+  border-top: 1px solid #DDD4C4;
+}
+
+.ap-card summary,
+.ap-faq-list summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  padding: 18px 0;
+  color: #182D49;
+  font-weight: 600;
+  list-style: none;
+  cursor: pointer;
+}
+
+.ap-card summary::-webkit-details-marker,
+.ap-faq-list summary::-webkit-details-marker {
+  display: none;
+}
+
+.ap-card summary {
+  color: #80683E;
+  font-size: 14px;
+}
+
+.ap-plus {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  border: 1px solid #DDD4C4;
+  border-radius: 50%;
+  font-size: 18px;
+  transition: transform .3s, background .3s;
+}
+
+details[open] > summary .ap-plus {
+  transform: rotate(45deg);
+  background: #F0EBE1;
+}
+
+.ap-reveal-copy {
+  border-top: 1px solid #DDD4C4;
+  padding: 15px 0 4px;
+}
+
+.ap-reveal-copy p {
+  font-size: 15px;
+  line-height: 1.75;
+  color: #414B59;
+}
+
+.ap-reveal-copy a,
+.ap-text-link {
+  font-size: 15px;
+  font-weight: 600;
+  color: #182D49;
+  text-decoration: underline;
+  text-underline-offset: 5px;
+  text-decoration-color: #B49A66;
+}
+
+.ap-faq-list details {
+  border-bottom: 1px solid #DDD4C4;
+}
+
+.ap-faq-list summary {
+  padding: 22px 0;
+  font-size: 17px;
+}
+
+.ap-faq-list details > p {
+  color: #5D6370;
+  font-size: 17px;
+  line-height: 1.8;
+  padding-bottom: 20px;
+}
+
+.ap-next-grid {
+  margin-top: 35px;
+}
+
+.ap-next-grid > a {
+  display: flex;
+  flex-direction: column;
+  padding: 27px;
+  border-radius: 10px;
+  border: 1px solid #DDD4C4;
+  background: #FFFDF8;
+  transition: transform .3s, border-color .3s;
+}
+
+.ap-next-grid h3 {
+  font-size: 28px;
+}
+
+.ap-next-grid p {
+  color: #5D6370;
+}
+
+.ap-next-grid strong {
+  margin-top: auto;
+  color: #182D49;
+}
+
+.ap-history-resource {
+  display: grid;
+  grid-template-columns: minmax(180px,270px) minmax(0,1fr);
+  gap: clamp(30px,6vw,85px);
+  align-items: center;
+}
+
+.ap-history-resource img {
+  width: 100%;
+  max-height: 390px;
+  object-fit: contain;
+  filter: drop-shadow(12px 15px 18px #11223926);
+}
+
+.ap-invitation {
+  text-align: center;
+}
+
+.ap-invitation .lead {
+  margin-inline: auto;
+}
+
+.ap-invitation .ap-actions {
+  justify-content: center;
+}
+
+.ap-invitation blockquote {
+  max-width: 800px;
+  margin: 40px auto 0;
+  padding-top: 30px;
+  border-top: 1px solid #DDD4C4;
+  font-family: var(--font-heading);
+  font-size: clamp(23px,3vw,32px);
+  line-height: 1.6;
+  color: #80683E;
+}
+
+.ap-invitation cite {
+  color: #80683E;
+}
+
+@media (hover:hover) and (pointer:fine) {
+  .ap-card:hover,
+  .ap-next-grid > a:hover {
+    transform: translateY(-5px);
+    border-color: #B49A66;
+    box-shadow: var(--shadow-soft);
+  }
+
+  .ap-card:hover .ap-card-top svg {
+    transform: scale(1.1);
+  }
+
+  .ap-hero-image:hover img {
+    transform: scale(1.05);
+  }
+
+  .ap-light-button:hover,
+  .ap-outline-button:hover {
+    transform: translateY(-2px);
+  }
+
+  .ap-outline-button:hover {
+    background: #FAF7F0;
+    color: #182D49;
+  }
+
+  .ap-nav a:not([aria-current]):hover {
+    background: #DDD4C4;
+  }
+}
+
+@media (max-width:950px) {
+  .ap-hero-grid,
+  .ap-intro,
+  .ap-faq-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ap-card-grid,
+  .ap-next-grid {
+    grid-template-columns: repeat(2,minmax(0,1fr));
+  }
+
+  .ap-hero-image,
+  .ap-hero-image img {
+    min-height: 320px;
+    height: 320px;
+  }
+}
+
+@media (max-width:600px) {
+  .ap-card-grid,
+  .ap-next-grid,
+  .ap-history-resource {
+    grid-template-columns: 1fr;
+  }
+
+  .ap-history-resource img {
+    max-width: 200px;
+    margin-inline: auto;
+  }
+
+  .ap-hero-image blockquote {
+    padding: 23px;
+  }
+
+  .ap-hero h1 {
+    font-size: clamp(38px,10vw,52px);
+  }
+
+  .ap-nav nav {
+    gap: 5px;
+  }
+
+  .ap-nav a {
+    font-size: 13px;
+    padding: 8px 10px;
+  }
+
+  .ap-intro-copy {
+    padding-left: 18px;
+  }
+
+  .ap-intro-copy p {
+    font-size: 17px;
+  }
+
+  .ap-actions {
+    flex-direction: column;
+  }
+
+  .ap-actions > a {
+    width: 100%;
+  }
+
+  .ap-card,
+  .ap-next-grid > a {
+    padding: 23px;
+  }
+}
+
+@media (prefers-reduced-motion:reduce) {
+  .ap-card,
+  .ap-next-grid > a,
+  .ap-card-top svg,
+  .ap-hero-image img,
+  .ap-light-button,
+  .ap-outline-button {
+    transition: none !important;
+    transform: none !important;
+  }
+}

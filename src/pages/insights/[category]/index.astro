@@ -1,0 +1,15 @@
+---
+import InsightsLibrary from "../../../components/insights/InsightsLibrary.astro";
+import { insightCategories } from "../../../data/insights";
+
+export function getStaticPaths() {
+  return insightCategories.map(category => ({
+    params: { category: category.slug },
+    props: { categorySlug: category.slug }
+  }));
+}
+
+const { categorySlug } = Astro.props;
+---
+
+<InsightsLibrary categorySlug={categorySlug}/>

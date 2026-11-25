@@ -1,0 +1,342 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import InsightCard from "./InsightCard.astro";
+import {
+  insightCategories,
+  insightArticles,
+  insightCategory,
+  getInsights
+} from "../../data/insights";
+
+import "../../styles/resources.css";
+import "../../styles/insights.css";
+
+interface Props {
+  categorySlug?: string;
+}
+
+const { categorySlug } = Astro.props;
+const category = categorySlug
+  ? insightCategory(categorySlug)
+  : undefined;
+
+const articles = getInsights(categorySlug);
+
+const title = category?.title || "Christian Insights";
+const description = category?.description ||
+  "Explore thoughtful Christian articles about Scripture, faith, discipleship and everyday life.";
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  noindex={true}
+>
+  <div class="in-page">
+
+    <section class="br-hero in-hero">
+      <div class="container">
+
+        <nav class="br-breadcrumb" aria-label="Breadcrumb">
+          <a href="/">Home</a>
+          <span aria-hidden="true">/</span>
+
+          {category ? (
+            <>
+              <a href="/insights/">Insights</a>
+              <span aria-hidden="true">/</span>
+              <span aria-current="page">{category.title}</span>
+            </>
+          ) : (
+            <span aria-current="page">Insights</span>
+          )}
+        </nav>
+
+        <div class="in-hero-grid">
+
+          <div class="br-hero-copy">
+            <span class="eyebrow">
+              {category?.title || "Explore · Understand · Grow"}
+            </span>
+
+            <h1>
+              {category?.title ||
+                "Faith for every part of life."}
+            </h1>
+
+            <p>{description}</p>
+
+            <a class="br-button br-button-light" href="#articles">
+              Explore Articles →
+            </a>
+          </div>
+
+          <div class="in-hero-art" aria-hidden="true">
+            <svg viewBox="0 0 350 300" fill="none">
+              <circle cx="175" cy="150" r="125"
+                stroke="currentColor" opacity=".13"/>
+              <circle cx="175" cy="150" r="100"
+                stroke="currentColor" opacity=".2"/>
+              <circle cx="175" cy="150" r="78"
+                stroke="currentColor" opacity=".25"/>
+              <path
+                d="M175 229Q112 183 43 195V93Q112 81 175 132Q238 81 307 93V195Q238 183 175 229ZM175 132V229"
+                stroke="currentColor"
+                stroke-width="1.6"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M175 70V22M153 43H197M69 115Q111 111 152 144M69 140Q111 136 152 169M198 144Q239 111 281 115M198 169Q239 136 281 140"
+                stroke="currentColor"
+                stroke-width="1.4"
+                stroke-linecap="round"
+              />
+            </svg>
+          </div>
+
+        </div>
+
+        <blockquote>
+          “Grow in grace, and in the knowledge of our Lord and Saviour Jesus Christ.”
+          <cite>2 Peter 3:18 · KJV excerpt</cite>
+        </blockquote>
+
+      </div>
+    </section>
+
+    {!category && (
+      <section class="br-section in-categories">
+        <div class="container">
+
+          <span class="eyebrow">Explore by interest</span>
+          <h2>What would you like to understand?</h2>
+
+          <div class="in-category-grid">
+            {insightCategories.map((item, i) => (
+              <a
+                class={`in-category-card in-theme-${item.theme}`}
+                href={`/insights/${item.slug}/`}
+              >
+                <span class="in-category-number">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+
+                <h3>{item.title}</h3>
+                <p>{item.description}</p>
+
+                <div class="in-category-action">
+                  <small>
+                    {getInsights(item.slug).length} articles
+                  </small>
+                  <span aria-hidden="true">→</span>
+                </div>
+              </a>
+            ))}
+          </div>
+
+        </div>
+      </section>
+    )}
+
+    <section class="br-section in-library" id="articles">
+      <div class="container" data-insight-library>
+
+        <span class="eyebrow">Christian perspectives</span>
+
+        <h2>
+          {category
+            ? `Explore ${category.title}.`
+            : "Explore our articles."}
+        </h2>
+
+        <p class="br-intro">
+          Read at your own pace, examine the Scriptures
+          and discover practical ways to follow Christ.
+        </p>
+
+        <label class="br-search-label" for="insights-search">
+          Search articles
+        </label>
+
+        <input
+          id="insights-search"
+          class="br-search"
+          type="search"
+          placeholder="Search by title, subject or Scripture..."
+          data-insight-search
+        />
+
+        {!category ? (
+          <div class="br-filters" aria-label="Article categories">
+            <button
+              type="button"
+              data-insight-filter="all"
+              aria-pressed="true"
+            >All Articles</button>
+
+            {insightCategories.map(item => (
+              <button
+                type="button"
+                data-insight-filter={item.slug}
+                aria-pressed="false"
+              >{item.title}</button>
+            ))}
+          </div>
+        ) : (
+          <nav class="in-category-nav" aria-label="Insights categories">
+            <a href="/insights/">All Articles</a>
+
+            {insightCategories.map(item => (
+              <a
+                href={`/insights/${item.slug}/`}
+                aria-current={item.slug === category.slug
+                  ? "page" : undefined}
+              >{item.title}</a>
+            ))}
+          </nav>
+        )}
+
+        <p class="br-result-count" data-insight-count aria-live="polite">
+          {articles.length} articles
+        </p>
+
+        <div class="br-grid">
+          {articles.map(article => (
+            <InsightCard article={article}/>
+          ))}
+        </div>
+
+        <div class="br-empty" data-insight-empty hidden>
+          <h3>No matching articles.</h3>
+          <p>Try another keyword or reset your filters.</p>
+
+          <button
+            class="br-button"
+            type="button"
+            data-insight-reset
+          >Reset Filters</button>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="br-section br-invitation">
+      <div class="container">
+        <span class="eyebrow">Go deeper</span>
+        <h2>Let Scripture guide your journey.</h2>
+
+        <p>
+          Continue exploring the Bible through guided studies,
+          sermon outlines and conversations with a local congregation.
+        </p>
+
+        <div class="br-actions">
+          <a class="br-button" href="/resources/bible-studies/">
+            Explore Bible Studies →
+          </a>
+
+          <a class="br-button br-button-outline" href="/congregations/">
+            Find a Congregation
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</BaseLayout>
+
+<script>
+  document.querySelectorAll<HTMLElement>(
+    "[data-insight-library]"
+  ).forEach(library => {
+
+    const search = library.querySelector<HTMLInputElement>(
+      "[data-insight-search]"
+    );
+
+    const cards = Array.from(
+      library.querySelectorAll<HTMLElement>(
+        "[data-insight-card]"
+      )
+    );
+
+    const filters = Array.from(
+      library.querySelectorAll<HTMLButtonElement>(
+        "[data-insight-filter]"
+      )
+    );
+
+    const count = library.querySelector("[data-insight-count]");
+
+    const empty = library.querySelector<HTMLElement>(
+      "[data-insight-empty]"
+    );
+
+    const hover = matchMedia(
+      "(hover:hover) and (pointer:fine)"
+    );
+
+    let selected = "all";
+
+    function render() {
+      const query = (search?.value || "").trim().toLowerCase();
+      let visible = 0;
+
+      cards.forEach(card => {
+        const categoryMatch =
+          selected === "all" ||
+          card.dataset.category === selected;
+
+        const searchMatch =
+          (card.dataset.search || "")
+            .toLowerCase()
+            .includes(query);
+
+        card.hidden = !(categoryMatch && searchMatch);
+
+        if (!card.hidden) visible++;
+      });
+
+      filters.forEach(button => {
+        button.setAttribute(
+          "aria-pressed",
+          String(button.dataset.insightFilter === selected)
+        );
+      });
+
+      if (count) {
+        count.textContent =
+          `${visible} ${visible === 1 ? "article" : "articles"}`;
+      }
+
+      if (empty) empty.hidden = visible !== 0;
+    }
+
+    filters.forEach(button => {
+      const select = () => {
+        selected = button.dataset.insightFilter || "all";
+        render();
+      };
+
+      button.addEventListener("click", select);
+
+      button.addEventListener("pointerenter", event => {
+        if (hover.matches && event.pointerType === "mouse") {
+          select();
+        }
+      });
+    });
+
+    search?.addEventListener("input", render);
+
+    library.querySelector(
+      "[data-insight-reset]"
+    )?.addEventListener("click", () => {
+      selected = "all";
+      if (search) search.value = "";
+      render();
+    });
+
+    render();
+  });
+</script>

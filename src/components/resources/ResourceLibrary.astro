@@ -1,0 +1,185 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import ResourceCard from "./ResourceCard.astro";
+import {
+  getResources,
+  resourceCategories,
+  type ResourceCategory
+} from "../../data/biblical-resources";
+import "../../styles/resources.css";
+
+interface Props {
+  category: ResourceCategory;
+}
+
+const { category } = Astro.props;
+const isStudy = category === "bible-studies";
+const items = getResources(category);
+const topics = [...new Set(items.map(item => item.topic))];
+
+const meta = resourceCategories[category];
+const title = meta.title;
+const headline = meta.headline;
+const description = meta.description;
+---
+
+<BaseLayout title={title} description={description} noindex={true}>
+  <div class="br-library">
+
+    <section class="br-hero">
+      <div class="container">
+        <nav class="br-breadcrumb" aria-label="Breadcrumb">
+          <a href="/">Home</a>
+          <span>/</span>
+          <a href="/resources/">Resources</a>
+          <span>/</span>
+          <span aria-current="page">{title}</span>
+        </nav>
+
+        <div class="br-hero-copy">
+          <span class="eyebrow">{title}</span>
+          <h1>{headline}</h1>
+          <p>{description}</p>
+
+          <a class="br-button br-button-light" href="#library">
+            Explore {meta.title} →
+          </a>
+        </div>
+
+        <blockquote>
+          “{meta.quote}”
+          <cite>{meta.reference} · KJV excerpt</cite>
+        </blockquote>
+      </div>
+    </section>
+
+    <section class="br-section" id="library">
+      <div class="container" data-resource-library>
+
+        <span class="eyebrow">Explore the Scriptures</span>
+        <h2>{meta.heading}</h2>
+
+        <p class="br-intro">
+          {meta.intro}
+        </p>
+
+        <label class="br-search-label" for="br-search">
+          Search by topic, title or Scripture
+        </label>
+
+        <input
+          id="br-search"
+          class="br-search"
+          type="search"
+          placeholder="Search the library..."
+          data-resource-search
+        />
+
+        <div class="br-filters" aria-label="Filter resources by topic">
+          {["All topics", ...topics].map((topic, i) => (
+            <button
+              type="button"
+              data-topic-filter={topic}
+              aria-pressed={i === 0 ? "true" : "false"}
+            >{topic}</button>
+          ))}
+        </div>
+
+        <p class="br-result-count" data-result-count aria-live="polite">
+          {items.length} resources
+        </p>
+
+        <div class="br-grid">
+          {items.map(resource => <ResourceCard resource={resource}/>)}
+        </div>
+
+        <div data-resource-empty hidden class="br-empty">
+          <h3>No matching resources</h3>
+          <p>Try another keyword or choose a different topic.</p>
+          <button type="button" class="br-button" data-reset-filters>
+            Reset filters
+          </button>
+        </div>
+
+        <p class="br-editorial-note">
+          Written teaching resources for Scripture study.
+          Read every passage in its Biblical context.
+        </p>
+
+      </div>
+    </section>
+
+    <section class="br-section br-invitation">
+      <div class="container">
+        <span class="eyebrow">Learn together</span>
+        <h2>Continue your journey with Christ.</h2>
+        <p>Find a congregation and enquire about weekly or personal Bible studies.</p>
+
+        <div class="br-actions">
+          <a class="br-button" href="/congregations/">
+            Find a Congregation →
+          </a>
+          <a class="br-button br-button-outline" href={isStudy ? "/resources/sermons/" : "/resources/bible-studies/"}>
+            {isStudy ? "Explore Sermons" : "Explore Bible Studies"}
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</BaseLayout>
+
+<script>
+  document.querySelectorAll<HTMLElement>("[data-resource-library]").forEach(library => {
+    const search = library.querySelector<HTMLInputElement>("[data-resource-search]");
+    const buttons = Array.from(library.querySelectorAll<HTMLButtonElement>("[data-topic-filter]"));
+    const cards = Array.from(library.querySelectorAll<HTMLElement>("[data-resource-card]"));
+    const count = library.querySelector("[data-result-count]");
+    const empty = library.querySelector<HTMLElement>("[data-resource-empty]");
+    const hover = matchMedia("(hover:hover) and (pointer:fine)");
+
+    let selected = "All topics";
+
+    function update() {
+      const query = (search?.value || "").trim().toLowerCase();
+      let visible = 0;
+
+      cards.forEach(card => {
+        const topicMatch = selected === "All topics" || selected === card.dataset.topic;
+        const searchMatch = (card.dataset.search || "").toLowerCase().includes(query);
+
+        card.hidden = !(topicMatch && searchMatch);
+        if (!card.hidden) visible++;
+      });
+
+      buttons.forEach(button => {
+        button.setAttribute("aria-pressed", String(button.dataset.topicFilter === selected));
+      });
+
+      if (count) count.textContent = `${visible} ${visible === 1 ? "resource" : "resources"}`;
+      if (empty) empty.hidden = visible !== 0;
+    }
+
+    buttons.forEach(button => {
+      const select = () => {
+        selected = button.dataset.topicFilter || "All topics";
+        update();
+      };
+
+      button.addEventListener("click", select);
+      button.addEventListener("pointerenter", event => {
+        if (hover.matches && event.pointerType === "mouse") select();
+      });
+    });
+
+    search?.addEventListener("input", update);
+
+    library.querySelector("[data-reset-filters]")?.addEventListener("click", () => {
+      selected = "All topics";
+      if (search) search.value = "";
+      update();
+    });
+
+    update();
+  });
+</script>
