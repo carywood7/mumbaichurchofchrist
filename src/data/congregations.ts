@@ -4,6 +4,10 @@ export interface Congregation {
   contacts: { name: string; phone: string }[];
   gatherings: { kind: string; name: string; day: string; time: string }[];
   photos: string[]; portrait: string; mapEmbed: string; mapLink: string;
+  heroImage?: string;
+  portraitSquare?: boolean;
+  venueName?: string;
+  venuePhoto?: string;
   contactName?: string;
   additionalEmails?: string[];
   approved: boolean;

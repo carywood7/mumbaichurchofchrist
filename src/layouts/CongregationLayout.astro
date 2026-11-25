@@ -12,7 +12,7 @@ const { c } = Astro.props as { c: Congregation };
   <div class="cf-page" data-congregation-funnel>
     {!c.approved && <div class="cf-preview">Local preview · Contact information, meeting details and map pin require publication approval.</div>}
     <Hero c={c}/>
-    <nav class="cf-local-nav" aria-label="Congregation sections"><div class="container"><a href="#discover-jesus">Discover Jesus</a><a href="#salvation">Salvation</a><a href="#our-faith">Our faith</a><a href="#worship">Worship</a><a href="#bible-study">Bible study</a><a href="#preacher">Preacher</a><a href="#visit">Visit us</a><a href="#connect">Contact</a></div></nav>
+    <nav class="cf-local-nav" aria-label="Congregation sections"><div class="container"><a href="#discover-jesus">Discover Jesus</a><a href="#salvation">Salvation</a><a href="#our-faith">Our faith</a><a href="#worship">Worship</a><a href="#bible-study">Bible study</a><a href="#preacher">Preacher</a>{c.photos.length > 0 && <a href="#gallery">Our congregation</a>}<a href="#visit">Visit us</a><a href="#connect">Contact</a></div></nav>
     <Journeys/>
     <LocalLife c={c}/>
     <VisitConnect c={c}/>

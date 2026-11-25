@@ -398,3 +398,218 @@
 /* SPRINT 4F — Incomplete congregation profiles */
 .cf-pending-map {display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:18px;padding:clamp(24px,4vw,50px);min-height:310px;background:#eae5db;border:1px solid var(--cf-line);border-radius:12px;}
 .cf-pending-map h3,.cf-pending-map p{margin:0;}
+
+
+/* SPRINT 5A — Authentic congregation photographs */
+
+.cf-portrait.cf-portrait-square {
+  aspect-ratio: 1 / 1;
+  object-fit: contain;
+  width: 100%;
+  height: auto;
+  background: #EAE5DB;
+  border: 1px solid var(--cf-line);
+  border-radius: 12px;
+}
+
+.cf-community-feature {
+  display: grid;
+  grid-template-columns: minmax(0,1.5fr) minmax(0,.8fr);
+  gap: clamp(24px,4vw,50px);
+  align-items: center;
+}
+
+.cf-community-photo,
+.cf-venue-photo {
+  margin: 0;
+  border-radius: 12px;
+  border: 1px solid var(--cf-line);
+  overflow: hidden;
+  background: #FFFDF8;
+  box-shadow: var(--shadow-soft);
+}
+
+.cf-community-photo img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 620px;
+  object-fit: contain;
+  background: #EAE5DB;
+}
+
+.cf-community-photo figcaption,
+.cf-venue-photo figcaption {
+  padding: 15px 18px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.5;
+  border-top: 1px solid var(--cf-line);
+}
+
+.cf-community-copy h3,
+.cf-venue-copy h3 {
+  margin: 18px 0;
+  font-size: clamp(29px,3vw,42px);
+  line-height: 1.25;
+}
+
+.cf-community-copy p,
+.cf-venue-copy p {
+  font-size: 17px;
+  line-height: 1.8;
+}
+
+.cf-community-copy blockquote {
+  border-left: 2px solid #B49A66;
+  padding: 12px 0 12px 20px;
+  margin: 25px 0;
+  font-family: var(--font-heading);
+  font-size: clamp(21px,2vw,26px);
+  line-height: 1.5;
+  color: var(--cf-navy);
+}
+
+.cf-community-copy cite {
+  display: block;
+  margin-top: 12px;
+  font: 13px var(--font-body);
+  color: #80683E;
+}
+
+.cf-community-more {
+  display: grid;
+  grid-template-columns: repeat(3,minmax(0,1fr));
+  gap: 20px;
+  margin-top: 24px;
+}
+
+.cf-community-more figure {
+  margin: 0;
+  overflow: hidden;
+  border-radius: 10px;
+  background: #EAE5DB;
+  border: 1px solid var(--cf-line);
+}
+
+.cf-community-more img {
+  width: 100%;
+  height: 100%;
+  max-height: 400px;
+  object-fit: contain;
+  display: block;
+}
+
+.cf-venue-feature {
+  display: grid;
+  grid-template-columns: minmax(0,320px) minmax(0,1fr);
+  gap: clamp(25px,5vw,65px);
+  align-items: center;
+  padding: clamp(22px,4vw,42px);
+  margin-top: 26px;
+  background: #FFFDF8;
+  border: 1px solid var(--cf-line);
+  border-radius: 12px;
+}
+
+.cf-venue-photo img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  height: auto;
+  object-fit: contain;
+  background: #EAE5DB;
+}
+
+.cf-venue-times {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin: 22px 0;
+  padding: 20px 0;
+  border-block: 1px solid var(--cf-line);
+}
+
+.cf-venue-times > div {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.cf-venue-times small {
+  color: #80683E;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+}
+
+.cf-venue-times strong {
+  color: var(--cf-navy);
+  font-size: clamp(20px,2.5vw,28px);
+  font-weight: 600;
+}
+
+.cf-community-photo,
+.cf-venue-photo,
+.cf-portrait-square {
+  transition:
+    box-shadow .3s,
+    border-color .3s,
+    transform .3s;
+}
+
+@media (hover:hover) and (pointer:fine) {
+  .cf-community-photo:hover,
+  .cf-venue-photo:hover,
+  .cf-portrait-square:hover {
+    border-color: #B49A66;
+    box-shadow: var(--shadow-soft);
+    transform: translateY(-4px);
+  }
+}
+
+@media (max-width:850px) {
+  .cf-community-feature,
+  .cf-venue-feature {
+    grid-template-columns: 1fr;
+  }
+
+  .cf-venue-photo {
+    width: 100%;
+    max-width: 320px;
+  }
+
+  .cf-preacher .cf-portrait-square {
+    max-width: 320px;
+  }
+
+  .cf-community-more {
+    grid-template-columns: repeat(2,minmax(0,1fr));
+  }
+}
+
+@media (max-width:600px) {
+  .cf-community-more {
+    grid-template-columns: 1fr;
+  }
+
+  .cf-venue-photo,
+  .cf-preacher .cf-portrait-square {
+    max-width: none;
+    width: 100%;
+  }
+
+  .cf-venue-feature {
+    padding: 20px;
+  }
+}
+
+@media (prefers-reduced-motion:reduce) {
+  .cf-community-photo,
+  .cf-venue-photo,
+  .cf-portrait-square {
+    transition: none !important;
+    transform: none !important;
+  }
+}

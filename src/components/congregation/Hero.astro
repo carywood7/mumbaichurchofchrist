@@ -2,9 +2,10 @@
 import type { Congregation } from "../../data/congregations";
 import { verses } from "../../data/congregation-content";
 const { c } = Astro.props as { c: Congregation };
+const heroPhoto = c.heroImage ?? c.photos[0];
 ---
 <section class="cf-hero" id="top">
-  <div class="cf-hero-image" aria-hidden="true" style={c.photos[0] ? `background-image: url('${c.photos[0]}')` : undefined}></div>
+  <div class="cf-hero-image" aria-hidden="true" style={heroPhoto ? `background-image: url('${heroPhoto}')` : undefined}></div>
   <div class="container cf-hero-content">
     <nav aria-label="Breadcrumb" class="cf-breadcrumb"><a href="/">Home</a> / <a href="/congregations/">Congregations</a> / <span>{c.name}</span></nav>
     <div class="cf-hero-grid">
@@ -22,7 +23,7 @@ const { c } = Astro.props as { c: Congregation };
         <div class="cf-dots" aria-label="Select Scripture">{verses.map((_,i)=><button type="button" data-verse-select={i} aria-label={`Scripture ${i+1}`} aria-pressed={i===0}></button>)}<button type="button" data-verse-pause aria-pressed="false">Pause</button></div>
       </div>
     </div>
-    {!c.photos[0] && <a class="cf-credit" href="/image-credits/">Mumbai city photograph · image credits</a>}
+    {!heroPhoto && <a class="cf-credit" href="/image-credits/">Mumbai city photograph · image credits</a>}
   </div>
 </section>
 <section class="cf-quick"><div class="container cf-quick-grid">

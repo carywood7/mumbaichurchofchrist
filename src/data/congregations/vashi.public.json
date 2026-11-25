@@ -3,17 +3,34 @@
   "name": "Vashi",
   "region": "Navi Mumbai",
   "language": "",
-  "preacher": "",
-  "contactName": "",
-  "address": "",
+  "preacher": "James",
+  "contactName": "James",
+  "address": "St. Lawrence High School, Sector-16A, Juhu Nagar Marg, Juhu Nagar, Sector-16, Vashi, Navi Mumbai, Maharashtra 400703",
   "email": "",
   "additionalEmails": [],
-  "contacts": [],
-  "gatherings": [],
-  "photos": [],
-  "portrait": "",
+  "contacts": [
+    {
+      "name": "James",
+      "phone": "8286868504"
+    }
+  ],
+  "gatherings": [
+    {
+      "kind": "worship",
+      "name": "Sunday worship",
+      "day": "Sunday",
+      "time": "11:30 AM – 1:30 PM"
+    }
+  ],
+  "photos": [
+    "/images/vashi-church/vashi-congregation.JPG"
+  ],
+  "portrait": "/images/vashi-church/james.jpg",
+  "portraitSquare": true,
+  "venueName": "St. Lawrence High School",
+  "venuePhoto": "/images/vashi-church/st-lawrence-high-school-vashi-navi-mumbai-convent-schools.avif",
+  "heroImage": "",
   "mapEmbed": "",
   "mapLink": "",
-  "approved": true,
-  "detailsStatus": "pending"
+  "approved": true
 }

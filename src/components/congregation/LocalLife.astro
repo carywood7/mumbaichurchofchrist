@@ -18,8 +18,77 @@ const studies = c.gatherings.filter(g=>g.kind==='study');
 
 <h2>
   {c.preacher || c.contactName || "Growing together in Christ."}
-</h2>{c.detailsStatus === "legacy" && c.preacher && <p class="cf-muted">Preacher name from an earlier listing; confirmation pending.</p>}<p class="cf-lead">Church of Christ · {c.name}</p><p>Questions about Jesus, the Bible, baptism or visiting for the first time? Reach out to discuss your questions and arrange a conversation or Bible study.</p>{c.contacts[0]?.phone ? <a class="cf-btn" href={`tel:+91${c.contacts[0].phone}`}>{c.preacher ? "Speak with our preacher →" : "Speak with our congregation contact →"}</a> : c.email ? <a class="cf-btn" href={`mailto:${c.email}`}>Email the congregation →</a> : <p class="cf-muted">Local contact details are being confirmed.</p>}</div>{c.portrait && <img class="cf-portrait" src={c.portrait} alt={c.preacher} loading="lazy"/>}<aside class="cf-preacher-verse"><span class="cf-overline">Teaching God's Word</span><blockquote>“Preach the word; be instant in season, out of season.”</blockquote><cite>2 Timothy 4:2 · KJV excerpt</cite></aside></div></section>
-{c.photos.length>0 && <section class="cf-section" id="gallery"><div class="container"><div class="cf-heading"><span class="eyebrow">Life together</span><h2>Our congregation.</h2></div><div class="cf-three">{c.photos.map((p,i)=><a href={p} target="_blank" rel="noopener"><img src={p} alt={`${c.name} congregation photograph ${i+1}`} loading="lazy"/></a>)}</div></div></section>}
+</h2>{c.detailsStatus === "legacy" && c.preacher && <p class="cf-muted">Preacher name from an earlier listing; confirmation pending.</p>}<p class="cf-lead">Church of Christ · {c.name}</p><p>Questions about Jesus, the Bible, baptism or visiting for the first time? Reach out to discuss your questions and arrange a conversation or Bible study.</p>{c.contacts[0]?.phone ? <a class="cf-btn" href={`tel:+91${c.contacts[0].phone}`}>{c.preacher ? "Speak with our preacher →" : "Speak with our congregation contact →"}</a> : c.email ? <a class="cf-btn" href={`mailto:${c.email}`}>Email the congregation →</a> : <p class="cf-muted">Local contact details are being confirmed.</p>}</div>{c.portrait && <img class:list={["cf-portrait", c.portraitSquare && "cf-portrait-square"]} src={c.portrait} alt={c.preacher} loading="lazy"/>}<aside class="cf-preacher-verse"><span class="cf-overline">Teaching God's Word</span><blockquote>“Preach the word; be instant in season, out of season.”</blockquote><cite>2 Timothy 4:2 · KJV excerpt</cite></aside></div></section>
+{c.photos.length > 0 && (
+  <section class="cf-section cf-community" id="gallery">
+    <div class="container">
+
+      <div class="cf-heading">
+        <span class="eyebrow">Life together</span>
+        <h2>Our congregation.</h2>
+        <p>
+          Discover the joy of Christian fellowship,
+          worship and growing together in God's Word.
+        </p>
+      </div>
+
+      <div class="cf-community-feature">
+
+        <figure class="cf-community-photo">
+          <img
+            src={c.photos[0]}
+            alt={`Members of the Church of Christ in ${c.name}`}
+            loading="lazy"
+            decoding="async"
+          />
+          <figcaption>
+            {c.name} Church of Christ
+          </figcaption>
+        </figure>
+
+        <div class="cf-community-copy">
+
+          <span class="eyebrow">One family in Christ</span>
+          <h3>Growing together in faith.</h3>
+
+          <p>
+            Christian fellowship is an opportunity
+            to encourage one another, study Scripture
+            and grow as disciples of Jesus Christ.
+          </p>
+
+          <blockquote>
+            “And let us consider one another to provoke
+            unto love and to good works.”
+            <cite>Hebrews 10:24 · KJV</cite>
+          </blockquote>
+
+          <a class="cf-btn" href="#visit">
+            Come and worship with us →
+          </a>
+
+        </div>
+
+      </div>
+
+      {c.photos.length > 1 && (
+        <div class="cf-community-more">
+          {c.photos.slice(1).map((photo, i) => (
+            <figure>
+              <img
+                src={photo}
+                alt={`${c.name} congregation photograph ${i + 2}`}
+                loading="lazy"
+                decoding="async"
+              />
+            </figure>
+          ))}
+        </div>
+      )}
+
+    </div>
+  </section>
+)}
 <section class="cf-section" id="resources"><div class="container"><div class="cf-heading"><span class="eyebrow">Continue learning</span><h2>Explore Scripture at your own pace.</h2><p>Start with these resources as you prepare to meet the congregation.</p></div><div class="cf-three cf-resources"><a href="#discover-jesus"><img src="/images/home/scriptures.jpg" alt="Scripture study illustration" loading="lazy"/><div><h3>Discover Jesus</h3><p>Explore the Gospel and the life of Christ.</p><strong>Start reading →</strong></div></a><a href="#worship"><img src="/images/home/communion.jpg" alt="Bible and communion elements" loading="lazy"/><div><h3>Remember Christ</h3><p>Explore the Lord’s Supper and the Biblical foundations of worship.</p><strong>Learn about worship →</strong></div></a><a href="/resources/bible-studies/">
   <img
     src="/images/home/christianLiving.jpg"
