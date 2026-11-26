@@ -8,6 +8,10 @@ export interface Congregation {
   portraitSquare?: boolean;
   venueName?: string;
   venuePhoto?: string;
+  transport?: {
+    type: string;
+    detail: string;
+  }[];
   contactName?: string;
   additionalEmails?: string[];
   approved: boolean;

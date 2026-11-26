@@ -55,7 +55,54 @@ const visitFAQs = [
   </div>
 </div>
 ) : <div class="cf-map cf-pending-map"><span class="eyebrow">Location information</span><h3>Meeting location to be confirmed.</h3><p>We will add the actual map once the congregation supplies its address.</p></div>}
-<article class="cf-visit-card"><span class="eyebrow">Meeting address</span><h3>Church of Christ · {c.name}</h3><address>{c.address || "Meeting address to be confirmed"}</address>{legacy && <p class="cf-muted">Earlier listing only. Address and schedules have not been reconfirmed.</p>}{hasAddress && <div class="cf-actions"><a class="cf-btn" href={directions} target="_blank" rel="noopener noreferrer">{legacy ? "View earlier address ↗" : "Get directions ↗"}</a><button type="button" class="cf-btn secondary" data-copy-address={c.address}>Copy address</button></div>}<p role="status" data-copy-status class="cf-muted"></p><div class="cf-local-times">{!c.gatherings.length && <p>Worship and Bible study timings are being confirmed.</p>}{c.gatherings.map(g=><div><strong>{g.name}</strong><span>{g.day || 'Day to confirm'} · {g.time}</span></div>)}</div><p class="cf-muted">{hasContact ? "Please contact the congregation before travelling to confirm meeting arrangements." : "Please wait for confirmed meeting information before travelling."}</p></article></div>
+<article class="cf-visit-card"><span class="eyebrow">Meeting address</span><h3>Church of Christ · {c.name}</h3><address>{c.address || "Meeting address to be confirmed"}</address>
+
+{c.transport && c.transport.length > 0 && (
+  <div class="cf-travel">
+
+    <span class="eyebrow">Getting here</span>
+    <h4>Plan your journey.</h4>
+
+    <div class="cf-travel-list">
+      {c.transport.map(item => (
+        <div class="cf-travel-item">
+
+          <div class="cf-travel-icon" aria-hidden="true">
+            {item.type.toLowerCase().includes("railway") ||
+             item.type.toLowerCase().includes("metro") ? (
+              <svg viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="1.5">
+                <rect x="5" y="3" width="14" height="15" rx="4"/>
+                <path d="M5 11h14M12 3v8M8 18l-3 3M16 18l3 3"/>
+                <circle cx="9" cy="15" r="1"/>
+                <circle cx="15" cy="15" r="1"/>
+              </svg>
+            ) : (
+              <svg viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="1.5">
+                <path d="M20 10c0 6-8 11-8 11S4 16 4 10a8 8 0 1 1 16 0Z"/>
+                <circle cx="12" cy="10" r="3"/>
+              </svg>
+            )}
+          </div>
+
+          <div>
+            <strong>{item.type}</strong>
+            <span>{item.detail}</span>
+          </div>
+
+        </div>
+      ))}
+    </div>
+
+    <p class="cf-muted">
+      Confirm the exact meeting entrance with the
+      congregation before travelling.
+    </p>
+
+  </div>
+)}
+{legacy && <p class="cf-muted">Earlier listing only. Address and schedules have not been reconfirmed.</p>}{hasAddress && <div class="cf-actions"><a class="cf-btn" href={directions} target="_blank" rel="noopener noreferrer">{legacy ? "View earlier address ↗" : "Get directions ↗"}</a><button type="button" class="cf-btn secondary" data-copy-address={c.address}>Copy address</button></div>}<p role="status" data-copy-status class="cf-muted"></p><div class="cf-local-times">{!c.gatherings.length && <p>Worship and Bible study timings are being confirmed.</p>}{c.gatherings.map(g=><div><strong>{g.name}</strong><span>{g.day || 'Day to confirm'} · {g.time}</span></div>)}</div><p class="cf-muted">{hasContact ? "Please contact the congregation before travelling to confirm meeting arrangements." : "Please wait for confirmed meeting information before travelling."}</p></article></div>
 
 {hasAddress && c.venuePhoto && (
   <div class="cf-venue-feature">

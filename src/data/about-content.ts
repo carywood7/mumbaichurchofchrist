@@ -32,11 +32,12 @@ export const aboutPages: AboutPage[] = [
     "description": "Discover the Churches of Christ across Mumbai and our shared commitment to Jesus Christ, Scripture and New Testament Christianity.",
     "image": "/images/home/bible.jpg",
     "imageAlt": "An open Bible",
-    "verse": "One Lord, one faith, one baptism.",
-    "reference": "Ephesians 4:5",
+    "verse": "The churches of Christ salute you.",
+    "reference": "Romans 16:16",
     "heading": "Christ is the centre of our faith.",
     "intro": [
       "We seek to follow Jesus Christ and the teaching of the New Testament. Our purpose is to glorify God, share the Gospel and encourage people to grow as faithful disciples.",
+      "The expression Churches of Christ is found in Romans 16:16, where Paul writes, 'The churches of Christ salute you.' The name reflects our desire to belong to Jesus Christ and follow His teaching as revealed in the New Testament. Jesus speaks of building His church in Matthew 16:18, and Colossians 1:18 identifies Christ as its head.",
       "The Mumbai Church of Christ website connects readers with local Churches of Christ throughout Mumbai, Navi Mumbai and the surrounding region.",
       "Each local congregation is responsible for its own worship, teaching and arrangements. This website serves as a shared directory and Biblical resource, rather than a governing authority over the congregations."
     ],
@@ -141,8 +142,8 @@ export const aboutPages: AboutPage[] = [
       {
         "title": "The Church",
         "description": "Christ is the head of His church.",
-        "scripture": "Colossians 1:18",
-        "detail": "Our shared identity is grounded in Christ. Local congregations seek to follow the pattern of the New Testament.",
+        "scripture": "Romans 16:16 · Colossians 1:18",
+        "detail": "Romans 16:16 refers to the churches of Christ. Jesus speaks of building His church in Matthew 16:18, and Colossians 1:18 identifies Him as its head. Our identity is grounded in Christ and our commitment to His teaching in the New Testament.",
         "link": "/resources/bible-studies/what-is-the-church/"
       },
       {
