@@ -12,7 +12,11 @@ const heroPhoto = c.heroImage ?? c.photos[0];
       <div>
         <span class="eyebrow">Church of Christ · {c.name}, {c.region}</span>
         <h1>Discover Jesus.<br/><em>Find truth in Him.</em></h1>
-        <p class="cf-lead">Whether you are exploring faith for the first time or looking for a congregation rooted in Scripture, we welcome you to come and learn about Jesus Christ.</p>
+        <p class="cf-lead">
+          Looking for a church in {c.name}? Discover Jesus Christ,
+          explore the Scriptures and connect with a local
+          Church of Christ.
+        </p>
         <div class="cf-actions"><a class="cf-btn light" href="#discover-jesus">Get to know Jesus <span>→</span></a><a class="cf-btn outline" href="#visit">Plan your visit</a></div>
         <p class="cf-small">Open to questions. Rooted in Scripture. Centred on Christ.</p>
 
@@ -32,7 +36,9 @@ const heroPhoto = c.heroImage ?? c.photos[0];
   </div>
 </section>
 <section class="cf-quick"><div class="container cf-quick-grid">
-  <div><span>01 / Location</span><strong>{c.name}, {c.region}</strong><a href="#visit">{c.address ? "Find our meeting place →" : "Meeting details →"}</a></div>
+  <div><span>01 / Location</span><strong>{c.name}, {c.region}</strong>
+    {c.address && <small>{c.address}</small>}
+    <a href="#visit">{c.address ? "Find our meeting place →" : "Meeting details →"}</a></div>
   <div>
   <span>02 / Worship</span>
 

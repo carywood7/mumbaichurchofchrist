@@ -23,7 +23,11 @@ const headline = meta.headline;
 const description = meta.description;
 ---
 
-<BaseLayout title={title} description={description} noindex={false}>
+<BaseLayout
+  title={category === "sermons" ? "Church of Christ Sermons" : title}
+  description={description}
+  noindex={false}
+>
   <div class="br-library">
 
     <section class="br-hero">
@@ -116,6 +120,11 @@ const description = meta.description;
         <p>Find a congregation and enquire about weekly or personal Bible studies.</p>
 
         <div class="br-actions">
+          {isStudy && (
+            <a class="br-button" href="/request-a-bible-study/">
+              Request a Local Bible Study →
+            </a>
+          )}
           <a class="br-button" href="/congregations/">
             Find a Congregation →
           </a>

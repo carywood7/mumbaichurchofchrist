@@ -186,8 +186,8 @@ const faqs = [
 ---
 
 <BaseLayout
-  title="Mumbai Church of Christ"
-  description="Discover Churches of Christ in Mumbai and Navi Mumbai. Explore Biblical Christianity, local congregations, church events, sermons and Bible studies."
+  title="Church in Mumbai & Navi Mumbai"
+  description="Looking for a church in Mumbai or Navi Mumbai? Find local Churches of Christ, worship timings, meeting locations, Bible studies and visitor information."
   noindex={false}
 >
   <div class="homepage">
@@ -205,9 +205,9 @@ const faqs = [
           </h1>
 
           <p class="lead">
-            Discover a community of believers seeking to follow
-            Jesus Christ, grow in God's Word and encourage one
-            another in faith.
+            Looking for a church in Mumbai or Navi Mumbai?
+            Connect with believers seeking to follow Jesus Christ,
+            study Scripture and grow together in faith.
           </p>
 
           <div class="actions">
@@ -338,11 +338,12 @@ const faqs = [
           One faith · Local congregations
         </span>
 
-        <h2>Find a congregation near you.</h2>
+        <h2>Find a church near you.</h2>
 
         <p class="lead">
-          Discover Jesus Christ, grow in your understanding
-          of Scripture and connect with a local Church of Christ.
+          Explore local Churches of Christ in Mumbai,
+          Navi Mumbai and the surrounding region. Find meeting
+          locations, worship timings and Bible study opportunities.
         </p>
       </div>
 
@@ -361,7 +362,7 @@ const faqs = [
           theme: "mumbai",
           description:
             "Explore Churches of Christ across Mumbai and its suburbs.",
-          areas: "Dharavi · Govandi · Goregaon"
+          areas: "Colaba · Dharavi · Govandi · Goregaon"
         },
         {
           number: "02",
@@ -385,7 +386,9 @@ const faqs = [
 
         <a
           class={`home-region-card home-region-${region.theme}`}
-          href={`/congregations/?region=${region.filter}`}
+          href={region.filter === "mmr"
+            ? "/congregations/?region=mmr"
+            : `/congregations/${region.filter}/`}
           aria-label={`Explore congregations in ${region.name}`}
         >
 

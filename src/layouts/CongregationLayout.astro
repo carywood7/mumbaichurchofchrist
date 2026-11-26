@@ -5,6 +5,11 @@ import Journeys from "../components/congregation/Journeys.astro";
 import LocalLife from "../components/congregation/LocalLife.astro";
 import VisitConnect from "../components/congregation/VisitConnect.astro";
 import type { Congregation } from "../data/congregations";
+import {
+  localTitle,
+  localDescription,
+  publicChurchEntity
+} from "../data/local-seo";
 import "../styles/congregation.css";
 const { c } = Astro.props as { c: Congregation };
 
@@ -18,18 +23,9 @@ const searchReady =
   Boolean(c.email || c.contacts.length);
 
 ---
-<BaseLayout title={`Church of Christ in ${c.name} – Worship & Bible Study`} description={`Discover Jesus Christ with the Church of Christ in ${c.name}, ${c.region}. Explore Scripture, worship, Bible study and visiting information.`} noindex={!searchReady}
+<BaseLayout title={localTitle(c)} description={localDescription(c)} noindex={!searchReady}
   socialImage={c.photos[0] || undefined}
-  primaryEntity={searchReady ? {
-    "@type":"Church",
-    name:`Church of Christ · ${c.name}`,
-    address:c.address,
-    ...(c.photos.length ? {
-      image:c.photos.map(photo =>
-        new URL(photo,"https://mumbaichurchofchrist.com").href
-      )
-    } : {})
-  } : undefined}
+  primaryEntity={searchReady ? publicChurchEntity(c) : undefined}
 >
   <div class="cf-page" data-congregation-funnel>
     {!c.approved && <div class="cf-preview">Local preview · Contact information, meeting details and map pin require publication approval.</div>}

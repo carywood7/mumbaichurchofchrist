@@ -252,10 +252,10 @@ export const communityPages: Record<string, CommunityPage> = {
   },
 
   "plan-your-visit": {
-    title:"Plan Your Visit to a Church of Christ in Mumbai",
+    title:"Sunday Worship & Church Timings in Mumbai",
     eyebrow:"Your first visit",
     headline:"Come as you are.",
-    description:"Find a Church of Christ in Mumbai or Navi Mumbai, check Sunday worship arrangements and learn what to expect on your first visit.",
+    description:"Find Sunday worship services, church timings and meeting locations in Mumbai and Navi Mumbai. Learn what to expect when visiting a Church of Christ.",
     image:"/images/home/mumbai.jpg",
     indexable:true,
     contacts:true,
@@ -281,6 +281,8 @@ export const communityPages: Record<string, CommunityPage> = {
       }
     ],
     faq:[
+      {question:"Where can I attend Sunday worship near me?",answer:"Use our congregation directory to find a local church. The Vashi Church of Christ has published Sunday worship timings; check other congregation profiles for their current arrangements."},
+      {question:"How can I find church timings in Mumbai?",answer:"The worship directory on this page lists published meeting times. Confirm the day, venue and language with your chosen congregation before travelling."},
       {question:"Can I attend if I am not a Christian?",answer:"Yes. Visitors are welcome to listen, learn and ask questions."},
       {question:"Do I have to make a donation?",answer:"No payment is required to visit or learn about Scripture."},
       {question:"What language is used?",answer:"Languages vary between congregations. Please confirm directly with your chosen congregation."}
@@ -290,10 +292,10 @@ export const communityPages: Record<string, CommunityPage> = {
   },
 
   "request-a-bible-study": {
-    title:"Request a Bible Study in Mumbai or Navi Mumbai",
+    title:"Bible Study in Mumbai & Navi Mumbai",
     eyebrow:"Discover God's Word",
     headline:"Open the Bible. Discover Christ.",
-    description:"Request a personal Bible study through a local Church of Christ in Mumbai or Navi Mumbai, or begin with our guided Scripture lessons.",
+    description:"Looking for Bible study groups or personal Bible studies in Mumbai and Navi Mumbai? Connect with a local Church of Christ or explore our Scripture lessons.",
     image:"/images/home/bibleStudy.jpg",
     indexable:true,
     contacts:true,
@@ -321,6 +323,8 @@ export const communityPages: Record<string, CommunityPage> = {
       }
     ],
     faq:[
+      {question:"Where can I find a Bible study group near me?",answer:"Choose a Church of Christ in your area using the congregation directory. Contact the congregation to ask about personal or group Bible study arrangements."},
+      {question:"Can beginners request a Bible study?",answer:"Yes. You can begin with basic questions about Jesus, Christianity and Scripture."},
       {question:"Do I need previous Bible knowledge?",answer:"No. You can begin with basic questions and study at your own pace."},
       {question:"Can I request a particular language?",answer:"Yes. Ask your local congregation about available languages."},
       {question:"Does this website collect my information?",answer:"There is no enquiry form on this page. Its contact links open your phone or email application so you can contact the congregation directly."}

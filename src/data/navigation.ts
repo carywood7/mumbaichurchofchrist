@@ -36,11 +36,11 @@ export const navigation = [
       },
       {
         "label": "Mumbai",
-        "href": "/congregations/?region=mumbai"
+        "href": "/congregations/mumbai/"
       },
       {
         "label": "Navi Mumbai",
-        "href": "/congregations/?region=navi-mumbai"
+        "href": "/congregations/navi-mumbai/"
       },
       {
         "label": "Wider Mumbai Region",

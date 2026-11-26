@@ -16,7 +16,9 @@ const { page } = Astro.props;
 ---
 
 <BaseLayout
-  title={page.title}
+  title={page.slug === "what-we-believe"
+    ? "Church of Christ Beliefs & Biblical Teachings"
+    : page.title}
   description={page.description}
   noindex={false}
 >

@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import LocalSchedule from "./LocalSchedule.astro";
 import {
   communityPages,
   eventCards,
@@ -250,6 +251,9 @@ const primaryLabel = page.contacts
         </div>
       </section>
     )}
+
+    {slug === "plan-your-visit" && <LocalSchedule mode="worship" />}
+    {slug === "request-a-bible-study" && <LocalSchedule mode="study" />}
 
     {page.contacts && (
       <section class="cm-section" id="local-contacts" data-contact-directory>

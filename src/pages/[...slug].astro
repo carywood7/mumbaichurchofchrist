@@ -74,6 +74,10 @@ export function getStaticPaths() {
   pages.delete("/prayer-requests/");
   pages.delete("/contact/");
 
+  // Sprint 7A: dedicated regional directories.
+  pages.delete("/congregations/mumbai/");
+  pages.delete("/congregations/navi-mumbai/");
+
   return Array.from(pages.entries()).map(([href, page]) => ({
     params: { slug: href.replace(/^\/|\/$/g, "") },
     props: { page }

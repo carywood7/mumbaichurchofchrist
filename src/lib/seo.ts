@@ -45,7 +45,9 @@ export function seoGraph(
     parts.length === 2 &&
       ["resources","insights"].includes(parts[0]) &&
       parts[1] !== "church-history" ||
-    canonical.pathname === "/events/archive/"
+    ["/congregations/mumbai/",
+     "/congregations/navi-mumbai/",
+     "/events/archive/"].includes(canonical.pathname)
   ) pageType = "CollectionPage";
 
   const graph: Entity[] = [
