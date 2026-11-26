@@ -15,6 +15,11 @@ const {
   noindex = true
 } = Astro.props;
 
+const productionRelease =
+  import.meta.env.PROD && process.env.CI === "true";
+
+const allowIndex = productionRelease && !noindex;
+
 const siteName = "Mumbai Church of Christ";
 
 const pageTitle = title === siteName
@@ -31,12 +36,48 @@ const canonical = new URL(
 <html lang="en">
   <head>
     <meta charset="utf-8" />
+
+    {productionRelease && (
+      <script is:inline>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+          window.dataLayer.push(arguments);
+        }
+
+        gtag('consent', 'default', {
+          ad_storage: 'denied',
+          analytics_storage: 'denied',
+          ad_user_data: 'denied',
+          ad_personalization: 'denied'
+        });
+
+        (function(w,d,s,l,i){
+          w[l]=w[l]||[];
+          w[l].push({
+            'gtm.start':new Date().getTime(),
+            event:'gtm.js'
+          });
+          var f=d.getElementsByTagName(s)[0],
+              j=d.createElement(s),
+              dl=l!='dataLayer'?'&l='+l:'';
+          j.async=true;
+          j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;
+          f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','GTM-MR2B6CBB');
+      </script>
+    )}
+
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#182D49" />
 
     <title>{pageTitle}</title>
     <meta name="description" content={description} />
-    <meta name="robots" content={noindex ? "noindex, nofollow" : "index, follow"} />
+    <meta name="robots" content={allowIndex
+      ? "index, follow"
+      : productionRelease
+        ? "noindex, follow"
+        : "noindex, nofollow"} />
 
     <link rel="canonical" href={canonical.href} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />

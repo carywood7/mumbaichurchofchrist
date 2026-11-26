@@ -20,7 +20,7 @@ const words = r.sections.flatMap(s => s.paragraphs).join(" ").split(/\s+/).lengt
 const minutes = Math.max(2, Math.ceil(words / 180));
 ---
 
-<BaseLayout title={r.title} description={r.summary} noindex={true}>
+<BaseLayout title={r.title} description={r.summary} noindex={false}>
   <div class="br-reading-progress" data-reading-progress aria-hidden="true"></div>
 
   <div class="br-resource-page">

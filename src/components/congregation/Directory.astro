@@ -6,7 +6,7 @@ const rows = [...availableCongregations].sort((a,b)=>a.name.localeCompare(b.name
 const regionKey = (region:string) => region === "Mumbai" ? "mumbai" : region === "Navi Mumbai" ? "navi-mumbai" : "mmr";
 const languages = [...new Set(rows.flatMap(c=>c.language.split(/\s+and\s+|,\s*/i).filter(Boolean)))].sort();
 ---
-<BaseLayout title="Find a Church of Christ Near You" description="Discover local congregations, worship and Bible study across Mumbai, Navi Mumbai and the surrounding region." noindex={true}>
+<BaseLayout title="Find a Church of Christ Near You" description="Discover local congregations, worship and Bible study across Mumbai, Navi Mumbai and the surrounding region." noindex={initialRegion !== "all"}>
   <div class="cd" data-directory data-initial-region={initialRegion}>
     <section class="cd-hero"><div class="container">
       <nav aria-label="Breadcrumb"><a href="/">Home</a> / Congregations</nav>
