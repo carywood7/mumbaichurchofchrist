@@ -28,7 +28,9 @@ const description = category?.description ||
 ---
 
 <BaseLayout
-  title={title}
+  title={categorySlug === "new-testament-christianity"
+    ? "New Testament Christianity Articles"
+    : title}
   description={description}
   noindex={false}
 >
