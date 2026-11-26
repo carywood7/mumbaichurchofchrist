@@ -24,6 +24,14 @@ const related = relatedInsights(article);
   title={article.title}
   description={article.summary}
   noindex={false}
+  socialImage={article.image}
+  primaryEntity={{
+    "@type":"Article",
+    headline:article.title,
+    description:article.summary,
+    articleSection:category.title,
+    image:new URL(article.image,"https://mumbaichurchofchrist.com").href
+  }}
 >
   <div
     class="br-reading-progress"

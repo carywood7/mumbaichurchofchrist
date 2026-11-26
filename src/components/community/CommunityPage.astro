@@ -1,0 +1,916 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import {
+  communityPages,
+  eventCards,
+  igniteArchive
+} from "../../data/community-pages";
+import {
+  congregations,
+  previewCongregations
+} from "../../data/congregations";
+
+const { slug } = Astro.props as { slug: string };
+const page = communityPages[slug];
+const isEvent = ["events","ignite","prerna","arise","archive"].includes(slug);
+
+// SPRINT 6A.2 — Independent congregation contacts.
+// Local records are excluded automatically in CI builds.
+
+const previewContacts = new Map(
+  previewCongregations.map(c => [c.slug, c.contacts])
+);
+
+const contacts = congregations
+  .filter(c => c.approved)
+  .map(c => {
+    const publishedPhones = c.contacts.filter(p => p.phone);
+    const localPhones = (previewContacts.get(c.slug) || [])
+      .filter(p => p.phone);
+
+    const previewOnly =
+      publishedPhones.length === 0 &&
+      localPhones.length > 0;
+
+    return {
+      ...c,
+      contacts: previewOnly ? localPhones : publishedPhones,
+      previewOnly
+    };
+  })
+  .sort((a,b) => a.name.localeCompare(b.name));
+
+function dialNumber(phone: string) {
+  const digits = phone.replace(/[^0-9]/g, "");
+
+  if (digits.length === 10) return "+91" + digits;
+
+  if (digits.length === 12 && digits.startsWith("91")) {
+    return "+" + digits;
+  }
+
+  return phone.trim();
+}
+
+function displayNumber(phone: string) {
+  const value = dialNumber(phone);
+
+  return value.replace(
+    /^\+91(\d{5})(\d{5})$/,
+    "+91 $1 $2"
+  );
+}
+
+const primaryCongregation = congregations.find(
+  c => c.approved && c.slug === "vashi"
+);
+
+const primaryContact = primaryCongregation?.contacts.find(
+  person => person.phone === "8286868504"
+);
+
+const primaryPhone = primaryContact
+  ? "+91" + primaryContact.phone
+  : "";
+
+const primaryWhatsApp = primaryPhone
+  ? "https://wa.me/" + primaryPhone.replace(/[^0-9]/g, "")
+  : "";
+
+const primaryPortrait = primaryCongregation?.portrait;
+
+
+const visiting = slug === "plan-your-visit";
+
+const primaryHref = page.contacts
+  ? "#local-contacts"
+  : page.source
+    ? page.source
+    : page.events
+      ? "#event-directory"
+      : "/congregations/";
+
+const primaryLabel = page.contacts
+  ? "Choose a congregation"
+  : page.source
+    ? "Visit event website"
+    : page.events
+      ? "Explore events"
+      : "Find a congregation";
+---
+
+<BaseLayout
+  title={page.title}
+  description={page.description}
+  noindex={!page.indexable}
+  socialImage={!page.illustration ? page.image : undefined}
+>
+  <div class="cm-page" data-community-page={slug}>
+    <section class="cm-hero">
+      <div class="container">
+        <nav aria-label="Breadcrumb" class="cm-breadcrumb">
+          <a href="/">Home</a>
+          {isEvent && slug !== "events" && (
+            <> / <a href="/events/">Events</a></>
+          )}
+          / <span>{page.eyebrow}</span>
+        </nav>
+
+        <div class="cm-hero-grid">
+          <div>
+            <span class="eyebrow">{page.eyebrow}</span>
+            <h1>{page.headline}</h1>
+            <p>{page.description}</p>
+            <div class="cm-actions">
+              <a class="cm-btn cm-light" href={primaryHref}>
+                {primaryLabel} →
+              </a>
+              <a class="cm-btn cm-outline-light" href="#overview">
+                Discover more
+              </a>
+            </div>
+          </div>
+
+          <figure>
+            <img
+              src={page.image}
+              alt={page.illustration
+                ? `${slug} event illustration`
+                : "Illustrative photograph"}
+              loading="eager"
+              decoding="async"
+            />
+            <figcaption>
+              {page.illustration
+                ? "Event illustration · not an event photograph"
+                : <a href="/image-credits/">Illustrative photograph · credits</a>}
+            </figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section id="overview" class="cm-section">
+      <div class="container cm-overview">
+        <div>
+          <span class="eyebrow">At a glance</span>
+          <h2>{page.title}</h2>
+          <p>{page.answer}</p>
+          {page.source && (
+            <a class="cm-text-link" href={page.source}>
+              {page.sourceLabel} ↗
+            </a>
+          )}
+        </div>
+        <blockquote>
+          “{page.verse}”
+          <cite>{page.reference} · KJV excerpt</cite>
+        </blockquote>
+      </div>
+    </section>
+
+    {page.events && (
+      <section id="event-directory" class="cm-section cm-tint">
+        <div class="container">
+          <span class="eyebrow">Explore our event directory</span>
+          <h2>Faith. Fellowship. Scripture.</h2>
+          <div class="cm-grid">
+            {eventCards.map(event => (
+              <a class="cm-event-card" href={`/events/${event.slug}/`}>
+                <img src={event.image} alt={`${event.title} illustration`} loading="lazy"/>
+                <div class="cm-card-copy">
+                  <small>{event.category}</small>
+                  <h3>{event.title}</h3>
+                  <strong>{event.location}</strong>
+                  <p>{event.description}</p>
+                  <span class="cm-status">Next date to be confirmed</span>
+                  <b>Explore event →</b>
+                </div>
+              </a>
+            ))}
+          </div>
+          <div class="cm-actions">
+            <a class="cm-btn" href="/events/archive/">Explore past events →</a>
+          </div>
+        </div>
+      </section>
+    )}
+
+    <section class="cm-section cm-tint">
+      <div class="container">
+        <span class="eyebrow">Discover more</span>
+        <h2>{page.heading}</h2>
+        <div class="cm-grid">
+          {page.sections.map((section,i) => (
+            <article class="cm-feature">
+              <span class="cm-number">{String(i+1).padStart(2,"0")}</span>
+              <h3>{section.title}</h3>
+              <p>{section.text}</p>
+              {section.scripture && (
+                <a class="cm-scripture"
+                  href={`https://www.biblegateway.com/passage/?search=${encodeURIComponent(section.scripture)}&version=KJV`}>
+                  {section.scripture} ↗
+                </a>
+              )}
+              {section.href && (
+                <a class="cm-text-link" href={section.href}>
+                  {section.label || "Read more"} →
+                </a>
+              )}
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    {page.archive && (
+      <section class="cm-section" id="event-archive">
+        <div class="container">
+          <span class="eyebrow">Verified past editions</span>
+          <h2>Ignite through the years.</h2>
+          <div class="cm-timeline">
+            {igniteArchive.map(event => (
+              <article>
+                <strong class="cm-year">{event.year}</strong>
+                <div>
+                  <h3>{event.title}</h3>
+                  <p>{event.dates}</p>
+                  <small>{event.venue}</small>
+                </div>
+                <span class="cm-status">Past event</span>
+              </article>
+            ))}
+          </div>
+          <p class="cm-source">
+            Source:
+            <a href="https://www.blrchurchofchrist.in/#ignite">
+              Bangalore Central Church of Christ
+            </a>
+          </p>
+        </div>
+      </section>
+    )}
+
+    {page.contacts && (
+      <section class="cm-section" id="local-contacts" data-contact-directory>
+        <div class="container">
+
+
+          {primaryContact && (
+            <article
+              class="cm-primary-contact"
+              data-primary-contact
+            >
+              <div class="cm-primary-photo">
+
+                {primaryPortrait && (
+                  <img
+                    src={primaryPortrait}
+                    alt="James, preacher"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                )}
+
+              </div>
+
+              <div class="cm-primary-copy">
+
+                <span class="eyebrow">
+                  Your first point of contact
+                </span>
+
+                <h2>Speak with James.</h2>
+
+                <strong class="cm-primary-role">
+                  Preacher · Vashi Church of Christ
+                </strong>
+
+                <p>
+                  Need help finding a congregation,
+                  planning your first visit, arranging
+                  a Bible study or requesting prayer?
+                  James is our primary contact for general
+                  enquiries and guidance.
+                </p>
+
+                <a
+                  class="cm-primary-number"
+                  href={`tel:${primaryPhone}`}
+                >
+                  +91 82868 68504
+                </a>
+
+                <div class="cm-primary-actions">
+
+                  <a
+                    class="cm-btn cm-primary-call"
+                    href={`tel:${primaryPhone}`}
+                  >
+                    <svg viewBox="0 0 24 24" fill="none"
+                      stroke="currentColor" stroke-width="1.6"
+                      aria-hidden="true">
+                      <path d="M22 16.9v3a2 2 0 0 1-2.2 2
+                        19.8 19.8 0 0 1-8.6-3.1
+                        19.5 19.5 0 0 1-6-6
+                        19.8 19.8 0 0 1-3.1-8.7
+                        A2 2 0 0 1 4.1 2h3
+                        a2 2 0 0 1 2 1.7
+                        l.7 3.5a2 2 0 0 1-.6 2.1
+                        L8 10.5a16 16 0 0 0 6 6
+                        l1.2-1.2a2 2 0 0 1 2.1-.6
+                        l3.5.7a2 2 0 0 1 1.2 1.5Z"/>
+                    </svg>
+                    Call James
+                  </a>
+
+                  <a
+                    class="cm-btn cm-whatsapp"
+                    href={primaryWhatsApp}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <svg viewBox="0 0 24 24" fill="none"
+                      stroke="currentColor" stroke-width="1.7"
+                      aria-hidden="true">
+                      <path d="M20.5 11.5a8.5 8.5 0 0 1-8.5 8.5
+                        9 9 0 0 1-4-.9L3 21l1.8-5
+                        A8.5 8.5 0 1 1 20.5 11.5Z"/>
+                      <path d="M8 8c1 4 3 6 7 7l1-2-3-1-1 1
+                        -2-2 1-1-1-3Z"/>
+                    </svg>
+                    WhatsApp James
+                  </a>
+
+                </div>
+
+                <a
+                  class="cm-primary-profile"
+                  href="/congregations/vashi/#preacher"
+                >
+                  Meet our preacher →
+                </a>
+
+              </div>
+            </article>
+          )}
+
+
+          <span class="eyebrow">Connect locally</span>
+          <h2>Find your local congregation.</h2>
+          <p class="cm-intro">
+            Explore Churches of Christ across Mumbai,
+            Navi Mumbai and the wider region. Each
+            congregation has its own local contact
+            and meeting arrangements.
+          </p>
+          <div class="cm-filters">
+            <label>
+              Search congregation
+              <input type="search" data-contact-search placeholder="Search congregation or location..."/>
+            </label>
+            <div class="cm-tabs" aria-label="Filter by region">
+              {["All","Mumbai","Navi Mumbai","Wider Mumbai Region"].map(region => (
+                <button type="button" data-contact-region={region} aria-pressed={region==="All"}>
+                  {region}
+                </button>
+              ))}
+            </div>
+          </div>
+          <p data-contact-count role="status" class="cm-source"></p>
+          <div class="cm-grid">
+            {contacts.map(c => (
+              <article class="cm-feature"
+                data-contact-card
+                data-region={c.region}
+                data-search-terms={`${c.name} ${c.region} ${c.address || ""}`.toLowerCase()}>
+                <span class="eyebrow">{c.region}</span>
+                <h3>Church of Christ · {c.name}</h3>
+                {c.gatherings.filter(g=>g.kind==="worship").map(g=>(
+                  <p><strong>{g.day || "Day to confirm"} · {g.time}</strong></p>
+                ))}
+                {c.address && <p>{c.address}</p>}
+
+                {!c.gatherings.some(g => g.kind === "worship") && (
+                  <p class="cm-pending-detail">
+                    Worship timings to be confirmed.
+                  </p>
+                )}
+
+                {!c.address && (
+                  <p class="cm-pending-detail">
+                    Meeting address to be confirmed.
+                  </p>
+                )}
+                {c.previewOnly && (
+                  <small class="cm-contact-preview">
+                    Local preview · publication pending
+                  </small>
+                )}
+
+                {c.contacts.filter(person=>person.phone).map(person=>(
+                  <a
+                    class="cm-contact-link cm-individual-phone"
+                    href={`tel:${dialNumber(person.phone)}`}
+                  >
+                    <strong>
+                      Call {person.name || "the congregation"} →
+                    </strong>
+                    <span>{displayNumber(person.phone)}</span>
+                  </a>
+                ))}
+                {c.email && (
+                  <a class="cm-contact-link" href={`mailto:${c.email}`}>
+                    Email congregation →
+                  </a>
+                )}
+                {!c.email &&
+                  !c.contacts.some(person => person.phone) && (
+                    <p class="cm-pending-detail">
+                      Local contact details not yet published.
+                    </p>
+                )}
+
+                <a
+                  class="cm-text-link"
+                  href={
+                    visiting && c.address
+                      ? `/congregations/${c.slug}/#visit`
+                      : !visiting &&
+                        (c.email || c.contacts.some(p => p.phone))
+                        ? `/congregations/${c.slug}/#connect`
+                        : `/congregations/${c.slug}/`
+                  }
+                >
+                  {visiting && c.address
+                    ? "View worship and directions"
+                    : "Explore congregation"} →
+                </a>
+              </article>
+            ))}
+          </div>
+          <p data-contact-empty hidden>No matching congregations. Try another region or search.</p>
+          <div class="cm-actions">
+            <a class="cm-btn" href="/congregations/">Browse all congregations →</a>
+          </div>
+        </div>
+      </section>
+    )}
+
+    <section class="cm-section cm-tint">
+      <div class="container cm-faq-grid">
+        <div>
+          <span class="eyebrow">Questions are welcome</span>
+          <h2>Frequently asked questions.</h2>
+          <p>Find clear answers before taking your next step.</p>
+        </div>
+        <div data-community-faq class="cm-faq">
+          {page.faq.map(item => (
+            <details>
+              <summary>{item.question}<span aria-hidden="true">+</span></summary>
+              <p>{item.answer}</p>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="cm-closing">
+      <div class="container">
+        <span class="eyebrow">Romans 16:16</span>
+        <h2>The churches of Christ salute you.</h2>
+        <p>Discover Jesus Christ through Scripture and connect with a local congregation.</p>
+        <div class="cm-actions">
+          <a class="cm-btn cm-light" href="/congregations/">Find a congregation →</a>
+          <a class="cm-btn cm-outline-light" href="/resources/">Explore Biblical resources</a>
+        </div>
+      </div>
+    </section>
+  </div>
+</BaseLayout>
+
+<script>
+  const hover = matchMedia("(hover:hover) and (pointer:fine)");
+
+  document.querySelectorAll<HTMLDetailsElement>(
+    "[data-community-faq] details"
+  ).forEach(item => {
+    let transient = false;
+
+    item.addEventListener("pointerenter", event => {
+      if (!hover.matches || event.pointerType !== "mouse") return;
+      if (!item.open) {
+        item.open = true;
+        transient = true;
+      }
+    });
+
+    const close = () => {
+      if (transient && !item.matches(":hover") &&
+          !item.contains(document.activeElement)) {
+        item.open = false;
+        transient = false;
+      }
+    };
+
+    item.addEventListener("pointerleave", close);
+    item.addEventListener("focusout", () => requestAnimationFrame(close));
+
+    item.querySelector("summary")?.addEventListener("click", event => {
+      if (transient && event.detail > 0) {
+        event.preventDefault();
+        transient = false;
+      }
+    });
+  });
+
+  document.querySelectorAll<HTMLElement>(
+    "[data-contact-directory]"
+  ).forEach(directory => {
+    const search = directory.querySelector<HTMLInputElement>(
+      "[data-contact-search]"
+    )!;
+    const buttons = [...directory.querySelectorAll<HTMLButtonElement>(
+      "[data-contact-region]"
+    )];
+    const cards = [...directory.querySelectorAll<HTMLElement>(
+      "[data-contact-card]"
+    )];
+
+    let region = "All";
+
+    function update() {
+      let count = 0;
+      const q = search.value.toLowerCase().trim();
+
+      buttons.forEach(button => button.setAttribute(
+        "aria-pressed",
+        String(button.dataset.contactRegion === region)
+      ));
+
+      cards.forEach(card => {
+        const actual = card.dataset.region;
+        const matchesRegion =
+          region === "All" ||
+          region === actual ||
+          (region === "Wider Mumbai Region" &&
+           actual !== "Mumbai" && actual !== "Navi Mumbai");
+
+        const visible = matchesRegion &&
+          (!q || card.dataset.searchTerms?.includes(q));
+
+        card.hidden = !visible;
+        if (visible) count++;
+      });
+
+      directory.querySelector("[data-contact-count]")!.textContent =
+        `${count} matching congregation${count===1?"":"s"}`;
+
+      directory.querySelector<HTMLElement>(
+        "[data-contact-empty]"
+      )!.hidden = count !== 0;
+    }
+
+    buttons.forEach(button => {
+      const select = () => {
+        region = button.dataset.contactRegion || "All";
+        update();
+      };
+
+      button.addEventListener("click", select);
+      button.addEventListener("pointerenter", event => {
+        if (hover.matches && event.pointerType==="mouse") select();
+      });
+    });
+
+    search.addEventListener("input", update);
+    update();
+  });
+</script>
+
+<style>
+  .cm-page [hidden]{display:none!important}
+  .cm-hero{
+    background:linear-gradient(125deg,#112239,#263f5d);
+    color:#fff;padding:32px 0 78px;
+  }
+  .cm-breadcrumb{color:#d2dce8;font-size:14px;margin-bottom:48px}
+  .cm-hero-grid{
+    display:grid;grid-template-columns:1.1fr .9fr;
+    align-items:center;gap:clamp(24px,5vw,70px);
+  }
+  .cm-hero h1{
+    color:#fff;font-size:clamp(42px,5.4vw,76px);
+    line-height:1.1;margin:22px 0;
+  }
+  .cm-hero .eyebrow,.cm-closing .eyebrow{color:#d6bf91}
+  .cm-hero p{font-size:20px;color:#e0e6ed;line-height:1.75}
+  .cm-hero figure{margin:0;border:1px solid #ffffff30;border-radius:15px;overflow:hidden;background:#182d49}
+  .cm-hero figure img{display:block;width:100%;aspect-ratio:5/4;object-fit:cover}
+  .cm-hero figcaption{padding:12px 16px;font-size:12px;color:#d2dce8}
+  .cm-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:25px}
+  .cm-btn{
+    display:inline-flex;align-items:center;justify-content:center;
+    padding:15px 23px;border:1px solid #182d49;
+    background:#182d49;color:#fff;border-radius:6px;
+    font-weight:700;transition:transform .25s,box-shadow .25s;
+  }
+  .cm-light{background:#faf7f0;color:#182d49;border-color:#faf7f0}
+  .cm-outline-light{background:transparent;border-color:#d6bf91;color:#fff}
+  .cm-section{padding:clamp(55px,7vw,100px) 0;background:#fffdf8}
+  .cm-tint{background:#f3eee5}
+  .cm-section h2{font-size:clamp(32px,4vw,50px);margin:18px 0 24px}
+  .cm-section p{line-height:1.8;font-size:17px}
+  .cm-overview,.cm-faq-grid{
+    display:grid;grid-template-columns:1.1fr .9fr;
+    gap:clamp(24px,5vw,65px);align-items:center;
+  }
+  .cm-overview blockquote{
+    margin:0;background:#182d49;color:#fff;
+    padding:clamp(26px,4vw,48px);border-radius:12px;
+    font:500 clamp(25px,3vw,38px)/1.5 var(--font-heading);
+  }
+  .cm-overview cite{
+    display:block;margin-top:22px;color:#d6bf91;
+    font:14px var(--font-body);
+  }
+  .cm-grid{
+    display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:20px;align-items:stretch;margin-top:30px;
+  }
+  .cm-feature,.cm-event-card{
+    display:flex;flex-direction:column;
+    background:#fffdf8;border:1px solid #ddd4c4;
+    border-radius:12px;overflow:hidden;
+    transition:transform .25s,border-color .25s,box-shadow .25s;
+  }
+  .cm-feature{padding:28px;min-width:0;overflow-wrap:anywhere}
+  .cm-feature h3,.cm-event-card h3{margin:15px 0;font-size:28px;line-height:1.2}
+  .cm-feature p,.cm-card-copy p{color:#5d6370}
+  .cm-number{font:30px var(--font-heading);color:#80683e}
+  .cm-scripture,.cm-text-link,.cm-contact-link{
+    color:#182d49;font-weight:700;display:inline-block;
+    text-decoration:underline;text-underline-offset:4px;
+  }
+  .cm-feature .cm-text-link{margin-top:auto;padding-top:20px}
+  .cm-contact-link{padding:8px 0}
+  .cm-event-card img{width:100%;height:200px;object-fit:cover;display:block}
+  .cm-card-copy{display:flex;flex-direction:column;flex:1;padding:24px}
+  .cm-card-copy small{color:#80683e;text-transform:uppercase;letter-spacing:.07em}
+  .cm-card-copy b{margin-top:auto;padding-top:20px;color:#182d49}
+  .cm-status{align-self:flex-start;font-size:12px;padding:7px 10px;border-radius:4px;background:#eee9df;color:#66552f}
+  .cm-timeline{display:grid;gap:12px;margin-top:32px}
+  .cm-timeline article{
+    display:grid;grid-template-columns:100px 1fr auto;gap:20px;
+    align-items:center;padding:25px;background:#faf7f0;
+    border:1px solid #ddd4c4;border-radius:9px;
+  }
+  .cm-year{font:36px var(--font-heading);color:#80683e}
+  .cm-timeline h3{margin:0 0 5px;font-size:25px}
+  .cm-timeline p{margin:3px 0}
+  .cm-timeline small,.cm-source{color:#5d6370}
+  .cm-source a{text-decoration:underline}
+  .cm-filters{border:1px solid #ddd4c4;border-radius:10px;padding:22px;background:#faf7f0}
+  .cm-filters label{display:grid;gap:8px;font-weight:600}
+  .cm-filters input{
+    width:100%;padding:14px;border:1px solid #cfc5b5;
+    border-radius:6px;font:inherit;background:#fff;
+  }
+  .cm-tabs{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+  .cm-tabs button{
+    background:#fff;border:1px solid #ddd4c4;color:#182d49;
+    padding:11px 15px;border-radius:5px;font-weight:600;cursor:pointer;
+  }
+  .cm-tabs button[aria-pressed=true]{background:#182d49;color:#fff}
+  .cm-faq-grid{align-items:start}
+  .cm-faq{display:grid;gap:12px}
+  .cm-faq details{border:1px solid #ddd4c4;border-radius:9px;background:#fffdf8}
+  .cm-faq summary{
+    display:flex;align-items:center;justify-content:space-between;
+    list-style:none;gap:16px;padding:21px;cursor:pointer;
+    font-weight:700;color:#182d49;
+  }
+  .cm-faq summary::-webkit-details-marker{display:none}
+  .cm-faq summary span{font-size:25px;transition:transform .2s}
+  .cm-faq details[open] summary span{transform:rotate(45deg)}
+  .cm-faq details p{padding:0 21px 21px;margin:0;color:#5d6370}
+  .cm-closing{padding:75px 0;background:#112239;color:#fff;text-align:center}
+  .cm-closing h2{color:#fff;font-size:clamp(32px,4vw,50px);margin:18px 0}
+  .cm-closing p{color:#d2dce8}
+  .cm-closing .cm-actions{justify-content:center}
+  @media(hover:hover) and (pointer:fine){
+    .cm-feature:hover,.cm-event-card:hover,.cm-btn:hover{
+      transform:translateY(-4px);border-color:#b49a66;box-shadow:var(--shadow-soft)
+    }
+  }
+  @media(max-width:900px){
+    .cm-hero-grid,.cm-overview,.cm-faq-grid{grid-template-columns:1fr}
+    .cm-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  }
+  @media(max-width:600px){
+    .cm-grid{grid-template-columns:1fr}
+    .cm-hero{padding-bottom:45px}
+    .cm-hero p{font-size:17px}
+    .cm-actions{flex-direction:column}
+    .cm-timeline article{grid-template-columns:1fr;gap:10px;padding:20px}
+    .cm-feature{padding:23px}
+  }
+  @media(prefers-reduced-motion:reduce){
+    .cm-page *{transition:none!important;scroll-behavior:auto!important}
+  }
+
+
+  /* SPRINT 6A.1 — Primary contact and full directory */
+
+  .cm-primary-contact {
+    display: grid;
+    grid-template-columns: minmax(0,280px) minmax(0,1fr);
+    align-items: center;
+    gap: clamp(24px,4vw,52px);
+    padding: clamp(26px,4vw,46px);
+    margin-bottom: 65px;
+    background: linear-gradient(120deg,#112239,#203c5a);
+    border: 1px solid #b49a6640;
+    border-radius: 14px;
+    color: #fff;
+  }
+
+  .cm-primary-photo img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    object-fit: contain;
+    background: #263f5d;
+    border: 1px solid #d6bf9160;
+    border-radius: 10px;
+  }
+
+  .cm-primary-copy {
+    min-width: 0;
+  }
+
+  .cm-primary-copy .eyebrow {
+    color: #d6bf91;
+  }
+
+  .cm-primary-copy h2 {
+    color: #fff;
+    margin: 13px 0;
+    font-size: clamp(34px,4vw,52px);
+  }
+
+  .cm-primary-role {
+    display: block;
+    color: #d6bf91;
+    font-size: 15px;
+    line-height: 1.7;
+  }
+
+  .cm-primary-copy p {
+    color: #dce5ee;
+    font-size: 17px;
+    line-height: 1.8;
+    max-width: 650px;
+    margin: 18px 0;
+  }
+
+  .cm-primary-number {
+    display: inline-block;
+    color: #fff;
+    font-size: clamp(22px,3vw,29px);
+    font-weight: 600;
+    letter-spacing: .02em;
+  }
+
+  .cm-primary-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 23px;
+  }
+
+  .cm-primary-actions .cm-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 53px;
+  }
+
+  .cm-primary-actions svg {
+    width: 21px;
+    height: 21px;
+    flex-shrink: 0;
+  }
+
+  .cm-primary-call {
+    background: #faf7f0;
+    color: #182d49;
+    border-color: #faf7f0;
+  }
+
+  .cm-whatsapp {
+    background: #16874d;
+    color: #fff;
+    border-color: #16874d;
+  }
+
+  .cm-primary-profile {
+    display: inline-block;
+    color: #d6bf91;
+    font-weight: 600;
+    font-size: 14px;
+    margin-top: 23px;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+
+.cm-local-help small {
+    display: block;
+    color: #5d6370;
+    line-height: 1.6;
+  }
+
+.cm-feature .cm-pending-detail {
+    font-size: 14px;
+    color: #5d6370;
+    margin: 5px 0 10px;
+  }
+
+  @media (hover:hover) and (pointer:fine) {
+    .cm-whatsapp:hover {
+      background: #116b3c;
+      border-color: #116b3c;
+      color: #fff;
+    }
+
+    .cm-primary-call:hover {
+      background: #d6bf91;
+      color: #182d49;
+    }
+  }
+
+  @media (max-width:850px) {
+    .cm-primary-contact {
+      grid-template-columns: minmax(0,200px) minmax(0,1fr);
+      gap: 25px;
+    }
+  }
+
+  @media (max-width:600px) {
+    .cm-primary-contact {
+      grid-template-columns: 1fr;
+      padding: 24px;
+      margin-bottom: 42px;
+    }
+
+    .cm-primary-photo {
+      width: 100%;
+      max-width: 245px;
+    }
+
+    .cm-primary-actions {
+      display: grid;
+      grid-template-columns: 1fr;
+    }
+
+    .cm-primary-actions .cm-btn {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+
+
+
+  /* Individual congregation telephone details */
+
+  .cm-individual-phone {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin: 4px 0;
+    text-decoration: none;
+  }
+
+  .cm-individual-phone strong {
+    font-size: 15px;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+
+  .cm-individual-phone span {
+    font-size: 15px;
+    font-weight: 500;
+    color: #5d6370;
+    letter-spacing: .02em;
+  }
+
+  .cm-contact-preview {
+    display: block;
+    color: #80683e;
+    font-size: 12px;
+    line-height: 1.6;
+    margin: 12px 0 4px;
+  }
+
+</style>

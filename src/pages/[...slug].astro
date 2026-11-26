@@ -63,6 +63,17 @@ export function getStaticPaths() {
   pages.delete("/insights/new-testament-christianity/");
   pages.delete("/insights/spiritual-growth/");
 
+  // Sprint 6A: dedicated community pages.
+  pages.delete("/events/");
+  pages.delete("/events/ignite/");
+  pages.delete("/events/prerna/");
+  pages.delete("/events/arise/");
+  pages.delete("/events/archive/");
+  pages.delete("/plan-your-visit/");
+  pages.delete("/request-a-bible-study/");
+  pages.delete("/prayer-requests/");
+  pages.delete("/contact/");
+
   return Array.from(pages.entries()).map(([href, page]) => ({
     params: { slug: href.replace(/^\/|\/$/g, "") },
     props: { page }

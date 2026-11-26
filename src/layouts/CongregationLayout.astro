@@ -18,7 +18,19 @@ const searchReady =
   Boolean(c.email || c.contacts.length);
 
 ---
-<BaseLayout title={`Church of Christ in ${c.name} – Worship & Bible Study`} description={`Discover Jesus Christ with the Church of Christ in ${c.name}, ${c.region}. Explore Scripture, worship, Bible study and visiting information.`} noindex={!searchReady}>
+<BaseLayout title={`Church of Christ in ${c.name} – Worship & Bible Study`} description={`Discover Jesus Christ with the Church of Christ in ${c.name}, ${c.region}. Explore Scripture, worship, Bible study and visiting information.`} noindex={!searchReady}
+  socialImage={c.photos[0] || undefined}
+  primaryEntity={searchReady ? {
+    "@type":"Church",
+    name:`Church of Christ · ${c.name}`,
+    address:c.address,
+    ...(c.photos.length ? {
+      image:c.photos.map(photo =>
+        new URL(photo,"https://mumbaichurchofchrist.com").href
+      )
+    } : {})
+  } : undefined}
+>
   <div class="cf-page" data-congregation-funnel>
     {!c.approved && <div class="cf-preview">Local preview · Contact information, meeting details and map pin require publication approval.</div>}
     <Hero c={c}/>
