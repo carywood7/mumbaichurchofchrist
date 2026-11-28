@@ -3,9 +3,9 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import { areas } from "../../data/congregations";
 const { initialRegion = "all" } = Astro.props as { initialRegion?: string };
 const regional = initialRegion !== "all";
-const title = initialRegion === "mumbai" ? "Churches of Christ in Mumbai" : initialRegion === "navi-mumbai" ? "Churches of Christ in Navi Mumbai" : "Find a Church in Mumbai & Navi Mumbai";
+const title = initialRegion === "mumbai" ? "Churches of Christ in Mumbai" : initialRegion === "navi-mumbai" ? "Churches of Christ in Navi Mumbai" : initialRegion === "mmr" ? "Churches of Christ in the Wider Mumbai Region" : "Find a Church Near You in Mumbai & Navi Mumbai";
 const rows = areas.filter(a => !regional || a.key === initialRegion);
-const description = initialRegion === "mumbai" ? "Explore Churches of Christ in Colaba, Dharavi, Govandi and Goregaon. General suburb-level information and Biblical resources." : initialRegion === "navi-mumbai" ? "Explore general information about the Church of Christ in Vashi, Navi Mumbai, and Biblical resources." : "Explore areas served by Churches of Christ in Mumbai, Navi Mumbai, Mira Road, Vasai and Nallasopara. General information and Biblical resources.";
+const description = initialRegion === "mumbai" ? "Looking for a church in Mumbai? Explore Churches of Christ in Colaba, Dharavi, Govandi and Goregaon, Christian worship and Bible study resources." : initialRegion === "navi-mumbai" ? "Looking for a church in Navi Mumbai? Explore the Church of Christ in Vashi, Christian worship and Bible study resources." : initialRegion === "mmr" ? "Explore Churches of Christ in Mira Road, Vasai and Nallasopara. Find general area information, Biblical resources and a central enquiry page." : "Looking for a Christian church near you in Mumbai or Navi Mumbai? Explore areas served by Churches of Christ, worship information, Bible studies and general enquiries.";
 ---
 <BaseLayout title={title} description={description} noindex={false}>
   <div class="cd" data-directory data-initial-region={initialRegion}>
@@ -13,7 +13,7 @@ const description = initialRegion === "mumbai" ? "Explore Churches of Christ in 
       <nav aria-label="Breadcrumb"><a href="/">Home</a> / Congregations</nav>
       <span class="eyebrow">One faith · Local congregations</span>
       <h1>{regional ? title : "Find a Church of Christ near you."}</h1>
-      <p>Explore the areas served by Churches of Christ across Mumbai, Navi Mumbai and the surrounding region.</p>
+      <p>{description}</p>
       <a class="button button-primary" href="#finder">Explore areas →</a>
     </div></section>
     <section class="cd-body" id="finder"><div class="container">
@@ -24,17 +24,17 @@ const description = initialRegion === "mumbai" ? "Explore Churches of Christ in 
           <a href="/congregations/" aria-current={!regional ? "page" : undefined}>All Congregations</a>
           <a href="/congregations/mumbai/" aria-current={initialRegion === "mumbai" ? "page" : undefined}>Mumbai</a>
           <a href="/congregations/navi-mumbai/" aria-current={initialRegion === "navi-mumbai" ? "page" : undefined}>Navi Mumbai</a>
-          <a href="/congregations/?region=mmr">Wider Mumbai Region</a>
+          <a href="/congregations/mumbai-metropolitan-region/" aria-current={initialRegion === "mmr" ? "page" : undefined}>Wider Mumbai Region</a>
         </nav>
         <label>Search by suburb or region<input type="search" data-search placeholder="e.g. Vashi, Colaba, Mira Road..." autocomplete="off" /></label>
       </div>
       <p data-count role="status" class="cd-count">{rows.length} areas</p>
       <div class="cd-grid">{rows.map(area => <article class="cd-card" data-card data-region={area.key} data-terms={`${area.name} ${area.region}`.toLowerCase()}>
         <div class="cd-art" aria-hidden="true"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M32 6v24M22 16h20M32 54Q20 44 6 47V30Q20 27 32 39Q44 27 58 30V47Q44 44 32 54ZM32 39v15"/></svg></div>
-        <div class="cd-card-body"><span class="eyebrow">{area.region}</span><h3>{area.name}</h3><p>Church of Christ</p><a href={`/congregations/${area.slug}/`}>Area information →</a><a class="cd-action" href="/contact/">Contact us →</a></div>
+        <div class="cd-card-body"><span class="eyebrow">{area.region}</span><h3>{area.name}</h3><p>Church of Christ</p><a href={`/congregations/${area.slug}/`}>Area information →</a><a class="cd-action" href={`/contact/#area=${encodeURIComponent(area.slug)}`}>Contact us →</a></div>
       </article>)}</div>
       <p data-empty hidden>No matching areas. <a href="/congregations/">View all areas</a>.</p>
-      <p class="cd-note">Have a question? We welcome your enquiries.</p>
+      <div class="cd-related"><h2>Explore Christian worship and Bible study.</h2><p>Learn about the New Testament pattern of worship, explore Scripture-based lessons, or enquire about a Church of Christ in your preferred area.</p><div><a href="/plan-your-visit/">Sunday worship and visitor information →</a><a href="/request-a-bible-study/">Bible study in Mumbai →</a><a href="/about/what-we-believe/">Church of Christ beliefs →</a></div></div><p class="cd-note">Have a question? We welcome your enquiries.</p>
       <a class="button button-primary" href="/contact/">Contact us →</a>
     </div></section>
   </div>
@@ -47,7 +47,7 @@ const description = initialRegion === "mumbai" ? "Explore Churches of Christ in 
     const region = el.dataset.initialRegion === "all" && new URLSearchParams(location.search).get("region") === "mmr" ? "mmr" : "all";
     if (region === "mmr") {
       el.querySelectorAll(".cd-region-links a").forEach(a => a.removeAttribute("aria-current"));
-      el.querySelector('a[href="/congregations/?region=mmr"]')?.setAttribute("aria-current", "page");
+      el.querySelector('a[href="/congregations/mumbai-metropolitan-region/"]')?.setAttribute("aria-current", "page");
     }
     const normalize = (value: string) => value.toLowerCase().replace(/nalasopara/g,"nallasopara").replace(/[–—-]/g," ");
     function update() {
@@ -67,4 +67,5 @@ const description = initialRegion === "mumbai" ? "Explore Churches of Christ in 
 </script>
 <style>
 .cd [hidden]{display:none!important}.cd-hero{padding:40px 0 85px;background:linear-gradient(100deg,#112239f5,#182d49e8),url('/images/home/mumbai.jpg') center/cover;color:white}.cd-hero nav{color:#d2dce8;margin-bottom:40px}.cd-hero h1{color:white;margin:20px 0;max-width:920px}.cd-hero .eyebrow,.cd-art{color:#d6bf91}.cd-hero p{max-width:690px;font-size:20px;color:#d2dce8}.cd-hero .button{margin-top:24px;background:#fffdf8;color:#182d49}.cd-body{padding:clamp(48px,7vw,100px) 0;background:#fffdf8}.cd-body h2{margin:18px 0}.cd-body p{color:#5d6370}.cd-filters{padding:24px;background:#faf7f0;border:1px solid #ddd4c4;border-radius:12px;margin:28px 0 18px}.cd-region-links{display:flex;flex-wrap:wrap;gap:9px;margin-bottom:24px}.cd-region-links a{padding:11px 16px;border:1px solid #ddd4c4;border-radius:6px;background:white;color:#182d49;font-weight:600}.cd-region-links a[aria-current=page]{background:#182d49;color:white;border-color:#182d49}.cd-region-links a:hover{border-color:#b49a66}.cd-filters label{display:grid;gap:8px;font-weight:600;color:#182d49}.cd-filters input{padding:13px 16px;background:white;color:#182d49;border:1px solid #ddd4c4;border-radius:6px;width:100%;min-width:0}.cd-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;align-items:stretch}.cd-card{display:flex;flex-direction:column;border:1px solid #ddd4c4;border-radius:12px;overflow:hidden;background:#faf7f0;transition:transform .25s,box-shadow .25s}.cd-art{display:grid;place-items:center;min-height:110px;background:radial-gradient(ellipse at 75% 10%,#36577b,#112239)}.cd-art svg{width:57px}.cd-card-body{padding:24px;display:flex;flex-direction:column;flex:1;gap:10px}.cd-card-body h3{font-size:30px;margin:0;color:#182d49}.cd-card-body p{margin:0}.cd-card-body a{color:#36577b;font-weight:600}.cd-action{margin-top:auto;padding-top:14px;border-top:1px solid #ddd4c4}.cd-note{margin:28px 0 14px}.cd-count{font-size:14px}@media(hover:hover) and (pointer:fine){.cd-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-soft)}}@media(max-width:900px){.cd-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:600px){.cd-grid{grid-template-columns:1fr}.cd-filters{padding:16px}.cd-hero nav{margin-bottom:25px}.cd-region-links a{font-size:14px;padding:9px 11px}}@media(prefers-reduced-motion:reduce){.cd-card{transition:none}}
+.cd-related{margin-top:45px;padding:clamp(22px,4vw,36px);border:1px solid #ddd4c4;border-radius:12px;background:#faf7f0}.cd-related h2{font-size:clamp(26px,3vw,38px)}.cd-related div{display:flex;flex-wrap:wrap;gap:16px 24px;margin-top:18px}.cd-related a{color:#36577b;font-weight:600;text-decoration:underline;text-underline-offset:4px}
 </style>

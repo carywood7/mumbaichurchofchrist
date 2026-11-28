@@ -171,13 +171,13 @@ const insights = [
 
 const faqs = [
   ["Where can I find a Church of Christ in Mumbai?",
-   "Explore our congregation directory or contact us for information about Churches of Christ in Mumbai, Navi Mumbai and the surrounding region."],
+   "Explore our congregation directory for Churches of Christ in Mumbai, Navi Mumbai and the wider metropolitan region, including Vashi, Colaba, Goregaon, Mira Road and Vasai. Use the central contact page for general enquiries."],
   ["Can I visit if I am new to Christianity?",
    "You are welcome to learn about Jesus Christ, explore the Scriptures and visit a participating congregation."],
   ["When do congregations meet?",
-   "Worship arrangements vary by congregation. Please use our contact page for general enquiries."],
+   "Churches of Christ typically gather for worship on the first day of the week. Read our worship guide to learn about the New Testament pattern, and use the contact page for enquiries about local arrangements."],
   ["Can I request a personal Bible study?",
-   "Explore our Bible study resources, or use the contact page for general enquiries."],
+   "Our written Bible studies are available to read at your own pace. For questions about local Bible study in Mumbai or Navi Mumbai, see the Bible study enquiry page."],
   ["Where can I learn about Ignite, Prerna and Arise?",
    "Our events directory contains dedicated pages for each gathering, including links to existing official event websites where available."],
   ["How can I get in touch?",
@@ -187,7 +187,7 @@ const faqs = [
 
 <BaseLayout
   title="Church in Mumbai & Navi Mumbai"
-  description="Explore Churches of Christ in Mumbai and Navi Mumbai, general suburb-level information, Christian worship and Biblical study resources."
+  description="Looking for a Christian church in Mumbai or Navi Mumbai? Explore Churches of Christ by area, learn about Sunday worship and Bible study, and make a general enquiry."
   noindex={false}
 >
   <div class="homepage">
@@ -387,7 +387,7 @@ const faqs = [
         <a
           class={`home-region-card home-region-${region.theme}`}
           href={region.filter === "mmr"
-            ? "/congregations/?region=mmr"
+            ? "/congregations/mumbai-metropolitan-region/"
             : `/congregations/${region.filter}/`}
           aria-label={`Explore congregations in ${region.name}`}
         >

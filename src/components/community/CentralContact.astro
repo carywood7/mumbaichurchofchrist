@@ -26,8 +26,9 @@ import { areas } from "../../data/congregations";
             <div class="contact-fields">
               <label for="contact-name">Your name (optional)<input id="contact-name" data-field="name" type="text" autocomplete="name" maxlength="100" placeholder="Your name" /></label>
               <label for="contact-email">Email address *<input id="contact-email" data-field="email" type="email" autocomplete="email" maxlength="254" required placeholder="you@example.com" /></label>
-              <label for="contact-area">Preferred area (optional)<select id="contact-area" data-field="area"><option value="">Select a suburb</option>{areas.map(area => <option value={area.name}>{area.name}</option>)}<option value="Other">Other / not listed</option><option value="No preference">No preference</option></select></label>
-              <label for="contact-topic">How can we help? *<select id="contact-topic" data-field="topic" required><option value="" disabled selected>Select an enquiry type</option><option>General enquiry</option><option>Worship or visitor information</option><option>Biblical resources</option><option>Bible study enquiries</option><option>Website feedback</option><option>Other</option></select></label>
+              <label for="contact-area">Preferred area (optional)<select id="contact-area" data-field="area"><option value="">Select a suburb</option>{areas.map(area => <option value={area.slug}>{area.name}</option>)}<option value="Other">Other / not listed</option><option value="No preference">No preference</option></select></label>
+              <label for="contact-topic">How can we help? *<select id="contact-topic" data-field="topic" required><option value="" disabled selected>Select an enquiry type</option><option>General enquiry</option><option value="worship">Worship or visitor information</option><option>Biblical resources</option><option value="study">Bible study enquiries</option><option>Website feedback</option><option>Other</option></select></label>
+              <label for="contact-language">Preferred communication language (optional)<select id="contact-language" data-field="language"><option value="">Select a language</option><option>English</option><option>Hindi</option><option>Marathi</option><option>Gujarati</option><option>Tamil</option><option>Telugu</option><option>Malayalam</option><option>Urdu</option><option>Kannada</option><option>Konkani</option><option>Bengali</option><option>Other</option></select></label>
               <label class="contact-wide" for="contact-message">Your message *<textarea id="contact-message" data-field="message" rows="5" maxlength="1500" required placeholder="Please tell us briefly how we can help."></textarea></label>
             </div>
             <p class="contact-privacy">Please do not include sensitive personal information, religious history, or another person's private details.</p>
@@ -42,6 +43,13 @@ import { areas } from "../../data/congregations";
 </section>
 <script>
   document.querySelectorAll<HTMLFormElement>("[data-central-contact]").forEach(form => {
+    // Fragment values contain only a public area slug or enquiry category, never personal data.
+    const params = new URLSearchParams(location.hash.slice(1));
+    for (const field of ["area", "topic"]) {
+      const value = params.get(field);
+      const select = form.querySelector<HTMLSelectElement>(`[data-field="${field}"]`);
+      if (value && select && Array.from(select.options).some(option => option.value === value)) select.value = value;
+    }
     form.addEventListener("submit", event => event.preventDefault());
   });
 </script>

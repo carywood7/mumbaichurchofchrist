@@ -44,7 +44,7 @@ export const navigation = [
       },
       {
         "label": "Wider Mumbai Region",
-        "href": "/congregations/?region=mmr"
+        "href": "/congregations/mumbai-metropolitan-region/"
       }
     ]
   },

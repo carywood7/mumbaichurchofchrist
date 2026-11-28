@@ -251,38 +251,57 @@ export const communityPages: Record<string, CommunityPage> = {
     sourceLabel:"Official Ignite historical records"
   },
 
-"plan-your-visit": {
-    "title": "Christian Worship in Mumbai & Navi Mumbai",
-    "eyebrow": "About Christian worship",
-    "headline": "Worship rooted in Scripture.",
-    "description": "Learn about Christian worship and the New Testament pattern followed by Churches of Christ.",
+  "plan-your-visit": {
+    "title": "Sunday Worship & Christian Church Services in Mumbai",
+    "eyebrow": "Christian worship · Mumbai and Navi Mumbai",
+    "headline": "Sunday worship rooted in Scripture.",
+    "description": "Looking for Sunday church services in Mumbai or Navi Mumbai? Learn what Christian worship involves and how to make a general enquiry.",
     "image": "/images/home/mumbai.jpg",
     "indexable": true,
     "contacts": true,
-    "answer": "Churches of Christ gather for worship and fellowship. Use our contact page for general enquiries.",
-    "heading": "What Christian worship involves.",
+    "answer": "Churches of Christ typically gather on the first day of the week for prayer, singing, Biblical teaching, the Lord’s Supper and fellowship. Acts 20:7 and Acts 2:42 describe important aspects of New Testament gatherings. Explore the area directory and use the central contact page to enquire about local worship arrangements.",
+    "heading": "What to expect at a Church of Christ.",
     "sections": [
       {
-        "title": "Singing and prayer",
-        "text": "Christians praise God and pray together."
+        "title": "Prayer and congregational singing",
+        "text": "New Testament Christians are encouraged to pray and sing together, with gratitude and encouragement. See Acts 2:42 and Ephesians 5:19.",
+        "scripture": "Ephesians 5:19"
       },
       {
         "title": "The Lord’s Supper",
-        "text": "Remembering the sacrifice of Jesus Christ.",
+        "text": "The Lord’s Supper remembers Jesus Christ and His sacrifice. Read 1 Corinthians 11:23–26 for its Biblical foundation.",
         "href": "/resources/lords-supper/",
         "label": "Read about the Lord’s Supper"
       },
       {
-        "title": "Biblical teaching",
-        "text": "Explore what the Scriptures teach.",
+        "title": "Scripture and teaching",
+        "text": "Biblical teaching is central to Christian worship. Readers can explore our beliefs and study the passages in their context.",
         "href": "/about/what-we-believe/",
         "label": "Explore our beliefs"
+      },
+      {
+        "title": "Find your local area",
+        "text": "Explore Churches of Christ across Mumbai, Navi Mumbai and the wider region. General enquiries are welcomed through the central contact page.",
+        "href": "/congregations/",
+        "label": "Explore congregations"
       }
     ],
     "faq": [
       {
-        "question": "How can I get in touch?",
-        "answer": "Use the contact page for general enquiries about the website, worship and Biblical resources."
+        "question": "Where can I find a Sunday church service near me in Mumbai?",
+        "answer": "Start with our congregation directory, which lists the areas served by Churches of Christ across Mumbai and Navi Mumbai. Use the central contact page for worship enquiries."
+      },
+      {
+        "question": "How can I enquire about church timings?",
+        "answer": "Select worship or visitor information on the central contact page and choose your preferred area if you wish."
+      },
+      {
+        "question": "What happens during Sunday worship?",
+        "answer": "Churches of Christ generally emphasize prayer, singing, Biblical teaching and the Lord’s Supper. Read the worship guide above to understand the scriptural foundations."
+      },
+      {
+        "question": "Can I read about worship before contacting anyone?",
+        "answer": "Yes. All written resources are available for independent reading without submitting an enquiry."
       }
     ],
     "verse": "Come and see.",
@@ -290,38 +309,56 @@ export const communityPages: Record<string, CommunityPage> = {
   },
   "request-a-bible-study": {
     "title": "Bible Study in Mumbai & Navi Mumbai",
-    "eyebrow": "Discover God’s Word",
-    "headline": "Explore the Scriptures.",
-    "description": "Read Biblical study resources and learn about Scripture at your own pace.",
+    "eyebrow": "Biblical study · Mumbai and Navi Mumbai",
+    "headline": "Explore Bible study in Mumbai.",
+    "description": "Looking for Bible study in Mumbai or Navi Mumbai? Explore Scripture-based lessons for beginners and information about local Bible study enquiries.",
     "image": "/images/home/bibleStudy.jpg",
     "indexable": true,
     "contacts": true,
-    "answer": "Our online Bible study resources are available to anyone who chooses to read them. For general enquiries, visit our contact page.",
-    "heading": "Begin with Scripture.",
+    "answer": "Our Bible study library offers written lessons on Jesus Christ, the Bible and New Testament teachings. If you have a general question about Bible study in Mumbai or Navi Mumbai, use the central contact page and choose Bible study enquiries. Reading and enquiries are voluntary.",
+    "heading": "Start with the Bible.",
     "sections": [
       {
+        "title": "Bible study for beginners",
+        "text": "Begin by reading a passage carefully, noting the context and asking what the text teaches. Our introductory guide explains these steps.",
+        "href": "/resources/bible-studies/how-to-study-the-bible/",
+        "label": "Learn how to study the Bible"
+      },
+      {
         "title": "Who is Jesus Christ?",
-        "text": "Explore the Gospel accounts.",
+        "text": "Explore the Gospel accounts of Jesus, His life and teachings.",
         "href": "/resources/bible-studies/who-is-jesus-christ/",
         "label": "Read the lesson"
       },
       {
-        "title": "How to study the Bible",
-        "text": "Read Scripture in context.",
-        "href": "/resources/bible-studies/how-to-study-the-bible/",
-        "label": "Learn more"
+        "title": "Personal and group study",
+        "text": "Personal Bible reading and group discussion can help readers explore Scripture. For general questions about local study arrangements, choose Bible study enquiries on the contact page.",
+        "href": "/contact/#topic=study",
+        "label": "Contact us"
       },
       {
-        "title": "Bible study library",
-        "text": "Explore the collection of written studies.",
+        "title": "Written Bible study library",
+        "text": "Browse Scripture-based studies at your own pace without registration.",
         "href": "/resources/bible-studies/",
         "label": "Browse resources"
       }
     ],
     "faq": [
       {
-        "question": "How can I get in touch?",
-        "answer": "Use the contact page for general enquiries about the website, worship and Biblical resources."
+        "question": "Where can I find Bible study groups near me?",
+        "answer": "For general enquiries about Bible study in Mumbai and Navi Mumbai, use our contact page and optionally select your preferred area. The website also provides written studies for independent reading."
+      },
+      {
+        "question": "Can beginners study the Bible?",
+        "answer": "Yes. Start with the introductory Bible study guide and the Gospel accounts. No previous knowledge is required to read the resources."
+      },
+      {
+        "question": "Can I enquire about Bible study in a preferred language?",
+        "answer": "You may include your preferred communication language when making an enquiry. Availability of local arrangements is not guaranteed."
+      },
+      {
+        "question": "Do I need to register to read the Bible study lessons?",
+        "answer": "No. Our written Bible study library is freely accessible without creating an account."
       }
     ],
     "verse": "Search the scriptures.",

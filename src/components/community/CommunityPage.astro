@@ -5,8 +5,9 @@ import { communityPages, eventCards, igniteArchive } from "../../data/community-
 const { slug } = Astro.props as { slug: string };
 const page = communityPages[slug];
 const isEvent = ["events","ignite","prerna","arise","archive"].includes(slug);
-const primaryHref = page.contacts ? (slug === "contact" ? "#contact-form" : "/contact/") : page.source ? page.source : page.events ? "#event-directory" : "/congregations/";
-const primaryLabel = page.contacts ? "General enquiries" : page.source ? "Visit event website" : page.events ? "Explore events" : "Explore areas";
+const contactHref = slug === "plan-your-visit" ? "/contact/#topic=worship" : slug === "request-a-bible-study" ? "/contact/#topic=study" : "/contact/";
+const primaryHref = page.contacts ? (slug === "contact" ? "#contact-form" : contactHref) : page.source ? page.source : page.events ? "#event-directory" : "/congregations/";
+const primaryLabel = page.contacts ? "Contact Us" : page.source ? "Visit event website" : page.events ? "Explore events" : "Explore areas";
 
 ---
 
@@ -164,7 +165,7 @@ const primaryLabel = page.contacts ? "General enquiries" : page.source ? "Visit 
 
     {slug === "contact" && <CentralContact />}
     {page.contacts && slug !== "contact" && (
-      <section class="cm-section" id="general-enquiries"><div class="container"><h2>General enquiries.</h2><p>Have a question? We welcome your enquiries.</p><a class="cm-btn" href="/contact/">Contact us →</a></div></section>
+      <section class="cm-section" id="general-enquiries"><div class="container"><h2>General enquiries.</h2><p>Have a question? We welcome your enquiries.</p><a class="cm-btn" href={contactHref}>Contact us →</a></div></section>
     )}
 
     <section class="cm-section cm-tint">

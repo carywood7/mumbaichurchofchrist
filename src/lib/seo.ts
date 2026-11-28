@@ -47,6 +47,7 @@ export function seoGraph(
       parts[1] !== "church-history" ||
     ["/congregations/mumbai/",
      "/congregations/navi-mumbai/",
+     "/congregations/mumbai-metropolitan-region/",
      "/events/archive/"].includes(canonical.pathname)
   ) pageType = "CollectionPage";
 
