@@ -716,17 +716,17 @@ export const biblicalResources: BiblicalResource[] = [
       {
         "heading": "Preparing for your first visit",
         "paragraphs": [
-          "Find a congregation near you and confirm its meeting location, worship timing and available languages.",
+          "Explore general information about Christian worship and the areas served by Churches of Christ.",
           "If you have questions about participating in worship or the Lord's Supper, speak with the congregation beforehand."
         ]
       }
     ],
     "questions": [
       "What would you like to learn about Christianity?",
-      "What questions would you like to discuss with a preacher?",
+      "What questions would you like to explore in Scripture?",
       "Would you prefer to visit worship or begin with a personal Bible study?"
     ],
-    "application": "Explore the congregation directory and contact a local congregation about visiting or arranging a Bible study.",
+    "application": "Explore the congregation directory and the written Bible study resources.",
     "answer": "Yes. You are welcome to enquire about visiting a Church of Christ even if you are not a Christian. You can listen, learn and ask questions without needing to make a commitment before attending."
   },
   {

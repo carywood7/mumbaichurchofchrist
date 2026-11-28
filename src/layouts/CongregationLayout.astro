@@ -1,94 +1,35 @@
 ---
 import BaseLayout from "./BaseLayout.astro";
-import Hero from "../components/congregation/Hero.astro";
-import Journeys from "../components/congregation/Journeys.astro";
-import LocalLife from "../components/congregation/LocalLife.astro";
-import VisitConnect from "../components/congregation/VisitConnect.astro";
-import type { Congregation } from "../data/congregations";
-import {
-  localTitle,
-  localDescription,
-  publicChurchEntity
-} from "../data/local-seo";
-import "../styles/congregation.css";
-const { c } = Astro.props as { c: Congregation };
-
-const searchReady =
-  c.approved &&
-  !c.detailsStatus &&
-  Boolean(c.address.trim()) &&
-  c.gatherings.some(g =>
-    g.kind === "worship" && Boolean(g.time)
-  ) &&
-  Boolean(c.email || c.contacts.length);
-
+import type { Area } from "../data/congregations";
+const { area } = Astro.props as { area: Area };
 ---
-<BaseLayout title={localTitle(c)} description={localDescription(c)} noindex={!searchReady}
-  socialImage={c.photos[0] || undefined}
-  primaryEntity={searchReady ? publicChurchEntity(c) : undefined}
->
-  <div class="cf-page" data-congregation-funnel>
-    {!c.approved && <div class="cf-preview">Local preview · Contact information, meeting details and map pin require publication approval.</div>}
-    <Hero c={c}/>
-    <nav class="cf-local-nav" aria-label="Congregation sections"><div class="container"><a href="#discover-jesus">Discover Jesus</a><a href="#salvation">Salvation</a><a href="#our-faith">Our faith</a><a href="#worship">Worship</a><a href="#bible-study">Bible study</a><a href="#preacher">Preacher</a>{c.photos.length > 0 && <a href="#gallery">Our congregation</a>}<a href="#visit">Visit us</a><a href="#connect">Contact</a></div></nav>
-    <Journeys/>
-    <LocalLife c={c}/>
-    <VisitConnect c={c}/>
-  </div>
+<BaseLayout title={`Church of Christ in ${area.name}`} description={`General information about Churches of Christ in ${area.name} and the Mumbai region. Explore Biblical resources and central enquiries.`} noindex={true}>
+  <section class="inner-hero area-hero">
+    <div class="container">
+      <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">Home</a> / <a href="/congregations/">Congregations</a> / <span>{area.name}</span></nav>
+      <span class="eyebrow">{area.region}</span>
+      <h1>Church of Christ in {area.name}.</h1>
+      <p class="lead">Rooted in Scripture. United in Christ.</p>
+      <p>For questions about Christian worship or Churches of Christ in this area, please contact us.</p>
+      <a class="button button-primary" href="/contact/">Contact us →</a>
+    </div>
+  </section>
+  <section class="section section-paper">
+    <div class="container">
+      <span class="eyebrow">Discover our faith</span>
+      <h2>Explore Scripture and Christian worship.</h2>
+      <p class="lead">Churches of Christ seek to follow the teachings of Jesus and the New Testament. Learn about our beliefs and the Biblical foundations of worship.</p>
+      <div class="area-links">
+        <a href="/about/what-we-believe/">What we believe →</a>
+        <a href="/plan-your-visit/">About Christian worship →</a>
+        <a href="/resources/bible-studies/">Bible study resources →</a>
+        <a href="/congregations/">Explore other areas →</a>
+      </div>
+      <blockquote>“The churches of Christ salute you.” <cite>Romans 16:16 · KJV</cite></blockquote>
+    </div>
+  </section>
 </BaseLayout>
-<script>
-  const page = document.querySelector<HTMLElement>('[data-congregation-funnel]');
-  if (page) {
-    const reduced = matchMedia('(prefers-reduced-motion: reduce)');
-    const hover = matchMedia('(hover:hover) and (pointer:fine)');
-    page.querySelectorAll<HTMLElement>('[data-switcher]').forEach(group => {
-      const buttons = Array.from(group.querySelectorAll<HTMLButtonElement>('[data-select]'));
-      const panels = Array.from(group.querySelectorAll<HTMLElement>('[data-panel]'));
-      const prev = group.querySelector<HTMLButtonElement>('[data-prev]');
-      const next = group.querySelector<HTMLButtonElement>('[data-next]');
-      let selected = 0;
-      function select(i: number) {
-        selected = Math.max(0, Math.min(buttons.length-1,i));
-        buttons.forEach((b,j)=>b.setAttribute('aria-pressed',String(j===selected)));
-        panels.forEach((p,j)=>p.hidden=j!==selected);
-        if(prev) prev.disabled=selected===0;
-        if(next) next.disabled=selected===buttons.length-1;
-        const count=group.querySelector('[data-step-count]'); if(count) count.textContent=`${selected+1} / ${buttons.length}`;
-      }
-      buttons.forEach((button, i) => {
-        button.addEventListener('click', () => select(i));
-
-        button.addEventListener('pointerenter', event => {
-          if (hover.matches && event.pointerType === 'mouse') {
-            select(i);
-          }
-        });
-      });
-      prev?.addEventListener('click',()=>select(selected-1)); next?.addEventListener('click',()=>select(selected+1));
-    });
-    const verses=Array.from(page.querySelectorAll<HTMLElement>('[data-verse]'));
-    const dots=Array.from(page.querySelectorAll<HTMLButtonElement>('[data-verse-select]'));
-    const pause=page.querySelector<HTMLButtonElement>('[data-verse-pause]');
-    const verseBox=page.querySelector<HTMLElement>('[data-verse-box]');
-    let index=0, paused=reduced.matches, hovered=false;
-    function show(i:number){ index=i; verses.forEach((v,j)=>v.hidden=j!==i); dots.forEach((v,j)=>v.setAttribute('aria-pressed',String(j===i))); }
-    function setPaused(v:boolean){ paused=v; if(pause){pause.textContent=v?'Play':'Pause';pause.setAttribute('aria-pressed',String(v));} }
-    setPaused(paused);
-    dots.forEach((dot,i)=>dot.addEventListener('click',()=>{show(i);setPaused(true);}));
-    pause?.addEventListener('click',()=>setPaused(!paused));
-    verseBox?.addEventListener('pointerenter',()=>hovered=true); verseBox?.addEventListener('pointerleave',()=>hovered=false);
-    reduced.addEventListener('change',()=>{if(reduced.matches)setPaused(true);});
-    if(verses.length>1) window.setInterval(()=>{if(!paused&&!hovered&&!document.hidden&&!verseBox?.contains(document.activeElement))show((index+1)%verses.length);},7000);
-    page.querySelectorAll<HTMLDetailsElement>('.cf-accordion details').forEach(d=>{
-      let transient=false;
-      d.addEventListener('pointerenter',()=>{if(hover.matches&&!d.open){d.open=true;transient=true;}});
-      const close=()=>{if(transient&&!d.matches(':hover')&&!d.contains(document.activeElement)){d.open=false;transient=false;}};
-      d.addEventListener('pointerleave',close); d.addEventListener('focusout',()=>requestAnimationFrame(close));
-      d.querySelector('summary')?.addEventListener('click',e=>{if(transient&&e.detail>0){e.preventDefault();transient=false;}});
-    });
-    page.querySelector<HTMLButtonElement>('[data-copy-address]')?.addEventListener('click',async e=>{
-      const button=e.currentTarget as HTMLButtonElement; const status=page.querySelector('[data-copy-status]');
-      try {await navigator.clipboard.writeText(button.dataset.copyAddress||'');if(status)status.textContent='Address copied.';}catch{if(status)status.textContent='Please select and copy the address above.';}
-    });
-  }
-</script>
+<style>
+.area-hero {background:linear-gradient(115deg,#112239,#36577b);color:#fff;padding:clamp(50px,8vw,110px) 0}
+.area-hero h1{color:white;max-width:880px}.area-hero .eyebrow{color:#d6bf91}.area-hero p{color:#e1e7ef;max-width:680px;line-height:1.8}.area-hero .breadcrumbs{margin-bottom:30px;color:#e1e7ef}.area-hero .button{margin-top:20px;background:#fffdf8;color:#182d49}.area-links{display:flex;flex-wrap:wrap;gap:15px;margin:28px 0}.area-links a{border:1px solid #ddd4c4;border-radius:6px;padding:14px 20px;color:#182d49;font-weight:600}.area-links a:hover{border-color:#b49a66;background:#faf7f0}blockquote{border-left:3px solid #b49a66;padding:20px;color:#182d49}cite{display:block;margin-top:8px;font-size:14px}
+</style>

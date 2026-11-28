@@ -10,10 +10,6 @@ export const photos = {
   "scriptures": "/images/home/scriptures.jpg",
   "christianLiving": "/images/home/christianLiving.jpg",
   "apologetics": "/images/home/apologetics.jpg",
-  "vashi": "/images/home/vashi.svg",
-  "goregaon": "/images/home/goregaon.svg",
-  "miraRoad": "/images/home/miraRoad.svg",
-  "nallasopara": "/images/home/nallasopara.svg",
   "ignite": "/images/home/ignite.svg",
   "prerna": "/images/home/prerna.svg",
   "arise": "/images/home/arise.svg"

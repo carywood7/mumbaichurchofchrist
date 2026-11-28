@@ -1,4 +1,7 @@
 ---
-import CommunityPage from "../components/community/CommunityPage.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import CentralContact from "../components/community/CentralContact.astro";
 ---
-<CommunityPage slug="contact" />
+<BaseLayout title="Contact Us" description="Contact Mumbai Church of Christ for general enquiries, Christian worship information and Biblical resources." noindex={false}>
+  <CentralContact />
+</BaseLayout>

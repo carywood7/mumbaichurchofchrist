@@ -1,201 +1,70 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import {
-  availableCongregations,
-  congregations
-} from "../../data/congregations";
-import {
-  regionalSEO,
-  congregationList
-} from "../../data/local-seo";
+import { areas } from "../../data/congregations";
 const { initialRegion = "all" } = Astro.props as { initialRegion?: string };
-const regionKey = (region:string) => region === "Mumbai" ? "mumbai" : region === "Navi Mumbai" ? "navi-mumbai" : "mmr";
-
-const scoped = initialRegion !== "all";
-const meta = regionalSEO[initialRegion] || regionalSEO.all;
-
-const rows = [...availableCongregations]
-  .filter(c => !scoped || regionKey(c.region) === initialRegion)
-  .sort((a,b)=>a.name.localeCompare(b.name));
-
-const publishedRows = [...congregations]
-  .filter(c => !scoped || regionKey(c.region) === initialRegion)
-  .sort((a,b)=>a.name.localeCompare(b.name));
-
-const publicBySlug = new Map(
-  publishedRows.map(c => [c.slug,c])
-);
-
-const regionReady = !scoped || publishedRows.some(
-  c => c.address && !c.detailsStatus
-);
-const languages = [...new Set(rows.flatMap(c=>c.language.split(/\s+and\s+|,\s*/i).filter(Boolean)))].sort();
+const regional = initialRegion !== "all";
+const title = initialRegion === "mumbai" ? "Churches of Christ in Mumbai" : initialRegion === "navi-mumbai" ? "Churches of Christ in Navi Mumbai" : "Find a Church in Mumbai & Navi Mumbai";
+const rows = areas.filter(a => !regional || a.key === initialRegion);
+const description = initialRegion === "mumbai" ? "Explore Churches of Christ in Colaba, Dharavi, Govandi and Goregaon. General suburb-level information and Biblical resources." : initialRegion === "navi-mumbai" ? "Explore general information about the Church of Christ in Vashi, Navi Mumbai, and Biblical resources." : "Explore areas served by Churches of Christ in Mumbai, Navi Mumbai, Mira Road, Vasai and Nallasopara. General information and Biblical resources.";
 ---
-<BaseLayout
-  title={meta.title}
-  description={meta.description}
-  noindex={!regionReady}
-  primaryEntity={congregationList(publishedRows,meta.title)}
->
+<BaseLayout title={title} description={description} noindex={false}>
   <div class="cd" data-directory data-initial-region={initialRegion}>
     <section class="cd-hero"><div class="container">
       <nav aria-label="Breadcrumb"><a href="/">Home</a> / Congregations</nav>
       <span class="eyebrow">One faith · Local congregations</span>
-      <h1>{meta.heading}<br/><em>{meta.emphasis}</em></h1>
-      <p>{meta.description}</p>
-      <a class="button button-primary" href="#finder">Find your local congregation →</a>
+      <h1>{regional ? title : "Find a Church of Christ near you."}</h1>
+      <p>Explore the areas served by Churches of Christ across Mumbai, Navi Mumbai and the surrounding region.</p>
+      <a class="button button-primary" href="#finder">Explore areas →</a>
     </div></section>
     <section class="cd-body" id="finder"><div class="container">
-      <div class="cd-heading"><span class="eyebrow">Explore congregations</span><h2>Find your local Church of Christ.</h2><p>{meta.answer}</p></div>
-
+      <span class="eyebrow">Explore congregations</span><h2>Find your local area.</h2>
+      <p>Search by suburb or region, or contact us for general enquiries.</p>
       <div class="cd-filters">
         <nav class="cd-region-links" aria-label="Regional church directories">
-        <a href="/congregations/" aria-current={!scoped ? "page" : undefined}>All Congregations</a>
-        <a href="/congregations/mumbai/" aria-current={initialRegion==="mumbai" ? "page" : undefined}>Mumbai</a>
-        <a href="/congregations/navi-mumbai/" aria-current={initialRegion==="navi-mumbai" ? "page" : undefined}>Navi Mumbai</a>
-        <a href="/congregations/?region=mmr">Wider Mumbai Region</a>
-      </nav>
-        <div class="cd-inputs"><label>Search by locality<input type="search" data-search placeholder="e.g. Vashi, Colaba, Mira Road..." /></label><label>Worship language<select data-language><option value="all">All languages</option>{languages.map(l=><option value={l}>{l}</option>)}</select></label><label class="cd-check"><input type="checkbox" data-study/> Weekly study schedule supplied</label></div>
+          <a href="/congregations/" aria-current={!regional ? "page" : undefined}>All Congregations</a>
+          <a href="/congregations/mumbai/" aria-current={initialRegion === "mumbai" ? "page" : undefined}>Mumbai</a>
+          <a href="/congregations/navi-mumbai/" aria-current={initialRegion === "navi-mumbai" ? "page" : undefined}>Navi Mumbai</a>
+          <a href="/congregations/?region=mmr">Wider Mumbai Region</a>
+        </nav>
+        <label>Search by suburb or region<input type="search" data-search placeholder="e.g. Vashi, Colaba, Mira Road..." autocomplete="off" /></label>
       </div>
-      <div class="cd-visitor-links">
-        <a href="/plan-your-visit/#local-schedules">View worship timings →</a>
-        <a href="/request-a-bible-study/">Find a local Bible study →</a>
-      </div>
-      <p class="cd-count" role="status" data-count>{rows.length} congregation profiles</p>
-      <div class="cd-grid">{rows.map(c=><article class="cd-card" data-card data-region={regionKey(c.region)} data-terms={`${c.name} ${c.region} ${c.preacher} ${c.address} ${c.language}`.toLowerCase()} data-languages={c.language.split(/\s+and\s+|,\s*/i).filter(Boolean).join('|')} data-study-available={String(c.detailsStatus!=="legacy" && c.gatherings.some(g=>g.kind==='study' && g.day && g.time))}>
-        <div class="cd-art">{c.photos[0] ? <img src={c.photos[0]} alt={`${c.name} congregation`} loading="lazy"/> : <svg viewBox="0 0 80 80" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M40 70S17 46 17 31a23 23 0 1 1 46 0C63 46 40 70 40 70Z"/><path d="M40 19v24M31 27h18"/></svg>}<span>{c.region}</span></div>
-        <div class="cd-card-body"><h3>Church of Christ · {c.name}</h3>{c.detailsStatus==='legacy' ? <p class="cd-note">Earlier meeting details · unverified</p> : c.detailsStatus==='pending' ? <p class="cd-note">Local details being collected</p> : !c.approved ? <p class="cd-note">Local preview · approval pending</p> : null}
-        {publicBySlug.get(c.slug)?.address &&
-          !publicBySlug.get(c.slug)?.detailsStatus &&
-          <p class="cd-address">{publicBySlug.get(c.slug)?.address}</p>}
-        {c.language && <p class="cd-language">{c.language} worship</p>}
-        {c.gatherings.length ? <div class="cd-times">{c.gatherings.map(g=><div><strong>{g.name}</strong><span>{g.day || 'Day to confirm'} · {g.time}</span></div>)}</div> : <p>Worship and Bible study timings to be confirmed.</p>}
-        {publicBySlug.get(c.slug)?.address &&
-          !publicBySlug.get(c.slug)?.detailsStatus &&
-          <a class="cd-directions" href={`/congregations/${c.slug}/#visit`}>Meeting location & directions →</a>}
-        <a class="cd-action" href={`/congregations/${c.slug}/`}>Explore congregation <span>→</span></a></div>
+      <p data-count role="status" class="cd-count">{rows.length} areas</p>
+      <div class="cd-grid">{rows.map(area => <article class="cd-card" data-card data-region={area.key} data-terms={`${area.name} ${area.region}`.toLowerCase()}>
+        <div class="cd-art" aria-hidden="true"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M32 6v24M22 16h20M32 54Q20 44 6 47V30Q20 27 32 39Q44 27 58 30V47Q44 44 32 54ZM32 39v15"/></svg></div>
+        <div class="cd-card-body"><span class="eyebrow">{area.region}</span><h3>{area.name}</h3><p>Church of Christ</p><a href={`/congregations/${area.slug}/`}>Area information →</a><a class="cd-action" href="/contact/">Contact us →</a></div>
       </article>)}</div>
-      <p data-empty hidden class="cd-empty">No matching profiles yet. Try a different filter or <button type="button" data-reset>show all congregations</button>.</p>
-      <p class="cd-footnote">More congregation profiles are being prepared. Confirm local meeting arrangements before travelling.</p>
+      <p data-empty hidden>No matching areas. <a href="/congregations/">View all areas</a>.</p>
+      <p class="cd-note">Have a question? We welcome your enquiries.</p>
+      <a class="button button-primary" href="/contact/">Contact us →</a>
     </div></section>
-    <section class="cd-invite"><div class="container"><span class="eyebrow">Begin where you are</span><h2>Come and discover Christ.</h2><p>Choose a congregation to explore Scripture, worship and Bible study at your own pace.</p><a class="button button-outline" href="#finder">Explore the directory ↑</a></div></section>
   </div>
 </BaseLayout>
 <script>
-  const el=document.querySelector<HTMLElement>('[data-directory]');
-  if(el){
-    const regionLinks=Array.from(el.querySelectorAll<HTMLAnchorElement>('.cd-region-links a'));
-    const cards=Array.from(el.querySelectorAll<HTMLElement>('[data-card]'));
-    const search=el.querySelector<HTMLInputElement>('[data-search]')!;
-    const language=el.querySelector<HTMLSelectElement>('[data-language]')!;
-    const study=el.querySelector<HTMLInputElement>('[data-study]')!;
-    const params=new URLSearchParams(location.search);
-    const directoryRegion = el.dataset.initialRegion || 'all';
-    let region = directoryRegion === 'all'
-      ? params.get('region') || 'all'
-      : 'all';
-    if(!['all','mumbai','navi-mumbai','mmr'].includes(region)) region='all';
-    search.value=params.get('q') || '';
-    function update(sync=false){
-      const normalize = (value:string) => value
-        .toLowerCase()
-        .replace(/nalasopara/g,"nallasopara")
-        .replace(/[–—-]/g," ");
-      const terms = normalize(search.value)
-        .split(/\s+/)
-        .filter(word => word &&
-          !["church","churches","christ","of","in","near","me","at"].includes(word));
-      let visible=0;
-      if(directoryRegion === 'all'){
-        regionLinks.forEach(link=>{
-          const url = new URL(link.href);
-          const key = url.searchParams.get('region')
-            || (url.pathname === '/congregations/mumbai/' ? 'mumbai'
-            : url.pathname === '/congregations/navi-mumbai/' ? 'navi-mumbai'
-            : 'all');
-
-          if(key === region) link.setAttribute('aria-current','page');
-          else link.removeAttribute('aria-current');
-        });
-      }
-      cards.forEach(card=>{
-        const ok=(region==='all'||card.dataset.region===region)&&terms.every(word=>normalize(card.dataset.terms || "").includes(word))&&(language.value==='all'||card.dataset.languages?.split('|').includes(language.value))&&(!study.checked||card.dataset.studyAvailable==='true');
-        card.hidden=!ok; if(ok) visible++;
-      });
-      el!.querySelector('[data-count]')!.textContent=`${visible} of ${cards.length} congregation profiles`;
-      el!.querySelector<HTMLElement>('[data-empty]')!.hidden=visible!==0;
-      if(sync){const url=new URL(location.pathname,location.origin); if(region!=='all')url.searchParams.set('region',region); history.replaceState(null,'',url.pathname+url.search+location.hash);}
+  const el = document.querySelector<HTMLElement>("[data-directory]");
+  if (el) {
+    const search = el.querySelector<HTMLInputElement>("[data-search]")!;
+    const cards = [...el.querySelectorAll<HTMLElement>("[data-card]")];
+    const region = el.dataset.initialRegion === "all" && new URLSearchParams(location.search).get("region") === "mmr" ? "mmr" : "all";
+    if (region === "mmr") {
+      el.querySelectorAll(".cd-region-links a").forEach(a => a.removeAttribute("aria-current"));
+      el.querySelector('a[href="/congregations/?region=mmr"]')?.setAttribute("aria-current", "page");
     }
-    search.addEventListener('input',()=>update());language.addEventListener('change',()=>update());study.addEventListener('change',()=>update());
-    el.querySelector('[data-reset]')?.addEventListener('click',()=>{region='all';search.value='';language.value='all';study.checked=false;update(true);});
+    const normalize = (value: string) => value.toLowerCase().replace(/nalasopara/g,"nallasopara").replace(/[–—-]/g," ");
+    function update() {
+      const terms = normalize(search.value).split(/\s+/).filter(w => w && !["church","churches","christ","of","in","near","me","at"].includes(w));
+      let count = 0;
+      cards.forEach(card => {
+        const show = (region === "all" || card.dataset.region === region) && terms.every(w => normalize(card.dataset.terms || "").includes(w));
+        card.hidden = !show;
+        if (show) count++;
+      });
+      el!.querySelector("[data-count]")!.textContent = `${count} matching area${count === 1 ? "" : "s"}`;
+      el!.querySelector<HTMLElement>("[data-empty]")!.hidden = count > 0;
+    }
+    search.addEventListener("input", update);
     update();
   }
 </script>
 <style>
-.cd [hidden]{display:none!important}.cd-hero{padding:35px 0 80px;background:linear-gradient(100deg,#112239f5,#182d49d9),url('/images/home/mumbai.jpg') center/cover;color:white}.cd-hero nav{font-size:14px;color:#d2dce8;margin-bottom:55px}.cd-hero .eyebrow{color:#d6bf91}.cd-hero h1{color:white;margin:20px 0;max-width:900px}.cd-hero h1 em{color:#d6bf91;font-weight:400}.cd-hero p{max-width:680px;font-size:20px;color:#d2dce8}.cd-hero .button{margin-top:24px;background:var(--ivory);color:var(--forest)}.cd-body{padding:clamp(55px,7vw,105px) 0;background:var(--paper)}.cd-heading h2,.cd-invite h2{margin:18px 0}.cd-heading p,.cd-invite p{color:var(--muted);font-size:18px}.cd-filters{padding:24px;border:1px solid var(--sand);background:var(--ivory);border-radius:12px;margin:30px 0 16px}.cd-tabs{display:flex;flex-wrap:wrap;gap:9px;margin-bottom:24px}.cd-tabs button{border:1px solid var(--sand);border-radius:5px;padding:10px 16px;color:var(--forest);background:white;font-weight:600}.cd-tabs button[aria-pressed=true]{color:white;background:var(--forest);border-color:var(--forest)}.cd-inputs{display:grid;grid-template-columns:1.5fr 1fr auto;align-items:end;gap:16px}.cd-inputs label{display:grid;gap:7px;font-size:14px;font-weight:600;color:var(--forest)}.cd-inputs input[type=search],.cd-inputs select{width:100%;min-width:0;padding:12px;border:1px solid var(--sand);border-radius:5px;background:white;color:var(--forest)}.cd-inputs .cd-check{display:flex;align-items:center;min-height:50px;gap:9px}.cd-count,.cd-footnote,.cd-note{color:var(--muted);font-size:14px}.cd-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;align-items:stretch}.cd-card{display:flex;flex-direction:column;overflow:hidden;border:1px solid var(--sand);border-radius:12px;background:var(--ivory);transition:transform .3s,box-shadow .3s,border-color .3s}.cd-art{position:relative;display:grid;place-items:center;min-height:135px;background:radial-gradient(ellipse at 75% 10%,#36577b,#112239);color:#d6bf91}.cd-art svg{width:62px;margin-bottom:16px}.cd-art img{width:100%;height:175px;object-fit:cover}.cd-art span{position:absolute;bottom:8px;left:15px;font-size:11px;text-transform:uppercase;letter-spacing:.12em;background:#112239;color:#d6bf91;padding:4px 8px;border-radius:4px}.cd-card-body{display:flex;flex:1;flex-direction:column;padding:24px}.cd-card h3{margin:0 0 12px;font-size:29px}.cd-language{font-weight:600;color:var(--forest);font-size:15px}.cd-times{margin-bottom:18px}.cd-times div{display:grid;gap:4px;border-top:1px solid var(--sand);padding:11px 0;font-size:14px}.cd-times span{color:var(--muted)}.cd-action{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:auto;border-top:1px solid var(--sand);padding-top:16px;font-weight:700;color:var(--forest)}.cd-footnote{margin-top:24px}.cd-empty{padding:24px;background:var(--ivory);border:1px solid var(--sand);border-radius:8px}.cd-empty button{border:0;background:none;color:var(--forest);font-weight:600;text-decoration:underline}.cd-invite{text-align:center;padding:70px 0;background:#eee9df}.cd-invite p{max-width:700px;margin-inline:auto}@media(hover:hover) and (pointer:fine){.cd-card:hover{transform:translateY(-5px);border-color:var(--gold);box-shadow:var(--shadow-soft)}.cd-tabs button:hover{border-color:var(--gold)}}@media(max-width:960px){.cd-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.cd-inputs{grid-template-columns:1fr 1fr}.cd-check{grid-column:1/-1}}@media(max-width:600px){.cd-grid,.cd-inputs{grid-template-columns:1fr}.cd-hero{padding-bottom:55px}.cd-hero nav{margin-bottom:35px}.cd-filters{padding:16px}.cd-tabs button{font-size:14px;padding:9px 11px}.cd-card-body{padding:20px}}
-
-.cd-region-links,.cd-visitor-links{
-  display:flex;
-  flex-wrap:wrap;
-  gap:12px;
-  margin-top:22px;
-}
-.cd-region-links a{
-  border:1px solid #ddd4c4;
-  padding:11px 17px;
-  border-radius:6px;
-  color:#182d49;
-  font-weight:600;
-}
-.cd-region-links a[aria-current=page]{
-  background:#182d49;
-  color:white;
-  border-color:#182d49;
-}
-.cd-region-links a:hover{
-  border-color:#b49a66;
-}
-.cd-visitor-links a,.cd-directions{
-  color:#36577b;
-  text-decoration:underline;
-  text-underline-offset:4px;
-  font-weight:600;
-  font-size:14px;
-}
-.cd-address{
-  color:#5d6370;
-  font-size:15px;
-  line-height:1.7;
-}
-.cd-directions{
-  display:block;
-  margin:0 0 18px;
-}
-
-.cd-filters .cd-region-links{
-  margin:0 0 24px;
-  gap:9px;
-}
-
-.cd-region-links a{
-  background:white;
-  transition:background .2s,border-color .2s,color .2s;
-}
-
-.cd-region-links a[aria-current=page]{
-  background:#182d49;
-  border-color:#182d49;
-  color:white;
-}
-
-.cd-visitor-links{
-  margin:0 0 18px;
-}
-
-@media(max-width:600px){
-  .cd-region-links a{
-    font-size:13px;
-    padding:10px 12px;
-  }
-}
+.cd [hidden]{display:none!important}.cd-hero{padding:40px 0 85px;background:linear-gradient(100deg,#112239f5,#182d49e8),url('/images/home/mumbai.jpg') center/cover;color:white}.cd-hero nav{color:#d2dce8;margin-bottom:40px}.cd-hero h1{color:white;margin:20px 0;max-width:920px}.cd-hero .eyebrow,.cd-art{color:#d6bf91}.cd-hero p{max-width:690px;font-size:20px;color:#d2dce8}.cd-hero .button{margin-top:24px;background:#fffdf8;color:#182d49}.cd-body{padding:clamp(48px,7vw,100px) 0;background:#fffdf8}.cd-body h2{margin:18px 0}.cd-body p{color:#5d6370}.cd-filters{padding:24px;background:#faf7f0;border:1px solid #ddd4c4;border-radius:12px;margin:28px 0 18px}.cd-region-links{display:flex;flex-wrap:wrap;gap:9px;margin-bottom:24px}.cd-region-links a{padding:11px 16px;border:1px solid #ddd4c4;border-radius:6px;background:white;color:#182d49;font-weight:600}.cd-region-links a[aria-current=page]{background:#182d49;color:white;border-color:#182d49}.cd-region-links a:hover{border-color:#b49a66}.cd-filters label{display:grid;gap:8px;font-weight:600;color:#182d49}.cd-filters input{padding:13px 16px;background:white;color:#182d49;border:1px solid #ddd4c4;border-radius:6px;width:100%;min-width:0}.cd-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;align-items:stretch}.cd-card{display:flex;flex-direction:column;border:1px solid #ddd4c4;border-radius:12px;overflow:hidden;background:#faf7f0;transition:transform .25s,box-shadow .25s}.cd-art{display:grid;place-items:center;min-height:110px;background:radial-gradient(ellipse at 75% 10%,#36577b,#112239)}.cd-art svg{width:57px}.cd-card-body{padding:24px;display:flex;flex-direction:column;flex:1;gap:10px}.cd-card-body h3{font-size:30px;margin:0;color:#182d49}.cd-card-body p{margin:0}.cd-card-body a{color:#36577b;font-weight:600}.cd-action{margin-top:auto;padding-top:14px;border-top:1px solid #ddd4c4}.cd-note{margin:28px 0 14px}.cd-count{font-size:14px}@media(hover:hover) and (pointer:fine){.cd-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-soft)}}@media(max-width:900px){.cd-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:600px){.cd-grid{grid-template-columns:1fr}.cd-filters{padding:16px}.cd-hero nav{margin-bottom:25px}.cd-region-links a{font-size:14px;padding:9px 11px}}@media(prefers-reduced-motion:reduce){.cd-card{transition:none}}
 </style>

@@ -1,0 +1,58 @@
+---
+import { areas } from "../../data/congregations";
+// Keep submission disabled until the approved backend and privacy notice are ready.
+---
+<section class="contact-page" id="contact-form">
+  <div class="container">
+    <nav class="contact-breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a> / <span>Contact Us</span></nav>
+    <div class="contact-grid">
+      <div class="contact-intro">
+        <span class="eyebrow">Get in touch</span>
+        <h1>We welcome your <em>questions.</em></h1>
+        <p class="contact-lead">Have a question about Churches of Christ, Christian worship or our Biblical resources? Use the enquiry form to get in touch.</p>
+        <div class="contact-links">
+          <a href="/congregations/"><span>Explore congregations</span><span aria-hidden="true">→</span></a>
+          <a href="/plan-your-visit/"><span>Learn about Christian worship</span><span aria-hidden="true">→</span></a>
+          <a href="/resources/bible-studies/"><span>Explore Bible study resources</span><span aria-hidden="true">→</span></a>
+        </div>
+        <blockquote>“The churches of Christ salute you.”<cite>Romans 16:16 · KJV</cite></blockquote>
+      </div>
+      <div class="contact-card">
+        <span class="eyebrow">General enquiries</span>
+        <h2>How can we help?</h2>
+        <p class="contact-required">Fields marked * are required.</p>
+        <form method="post" aria-describedby="contact-status" data-central-contact>
+          <fieldset>
+            <div class="contact-fields">
+              <label for="contact-name">Your name (optional)<input id="contact-name" data-field="name" type="text" autocomplete="name" maxlength="100" placeholder="Your name" /></label>
+              <label for="contact-email">Email address *<input id="contact-email" data-field="email" type="email" autocomplete="email" maxlength="254" required placeholder="you@example.com" /></label>
+              <label for="contact-area">Preferred area (optional)<select id="contact-area" data-field="area"><option value="">Select a suburb</option>{areas.map(area => <option value={area.name}>{area.name}</option>)}<option value="Other">Other / not listed</option><option value="No preference">No preference</option></select></label>
+              <label for="contact-topic">How can we help? *<select id="contact-topic" data-field="topic" required><option value="" disabled selected>Select an enquiry type</option><option>General enquiry</option><option>Worship or visitor information</option><option>Biblical resources</option><option>Bible study enquiries</option><option>Website feedback</option><option>Other</option></select></label>
+              <label class="contact-wide" for="contact-message">Your message *<textarea id="contact-message" data-field="message" rows="5" maxlength="1500" required placeholder="Please tell us briefly how we can help."></textarea></label>
+            </div>
+            <p class="contact-privacy">Please do not include sensitive personal information, religious history, or another person's private details.</p>
+            <label class="contact-consent"><input data-field="consent" type="checkbox" value="yes" required /><span>I am submitting this enquiry voluntarily and agree to be contacted in response. I have read the <a href="/privacy/">privacy notice</a>.</span></label>
+            <button type="submit" disabled>Send enquiry <span aria-hidden="true">→</span></button>
+          </fieldset>
+        </form>
+        <p id="contact-status" role="status" class="contact-status">Online enquiries will be available once the contact service is connected.</p>
+      </div>
+    </div>
+  </div>
+</section>
+<script>
+  document.querySelectorAll<HTMLFormElement>("[data-central-contact]").forEach(form => {
+    form.addEventListener("submit", event => event.preventDefault());
+  });
+</script>
+<style>
+.contact-page{background:linear-gradient(125deg,#faf7f0,#fffdf8 58%);padding:clamp(30px,4vw,60px) 0 clamp(55px,7vw,100px);color:#182d49}
+.contact-breadcrumb{font-size:14px;color:#5d6370;margin-bottom:clamp(24px,4vw,50px)}.contact-breadcrumb a{color:#36577b;text-decoration:underline;text-underline-offset:3px}
+.contact-grid{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:clamp(28px,5vw,80px);align-items:start}
+.contact-intro{padding:clamp(8px,2vw,30px) 0}.contact-intro h1{font-size:clamp(40px,4.8vw,65px);line-height:1.12;margin:18px 0 24px;max-width:560px}.contact-intro h1 em{font-style:normal;color:#80683e}.contact-lead{font-size:19px;line-height:1.75;color:#5d6370;max-width:510px}
+.contact-links{display:grid;gap:0;margin:30px 0}.contact-links a{display:flex;align-items:center;justify-content:space-between;gap:12px;border-bottom:1px solid #ddd4c4;padding:17px 0;font-weight:600;color:#182d49;transition:color .2s}.contact-links a:hover{color:#80683e}
+.contact-intro blockquote{margin:32px 0 0;border-left:3px solid #b49a66;padding:8px 0 8px 22px;color:#182d49;font-family:var(--font-heading);font-size:clamp(23px,2.5vw,33px);line-height:1.5}.contact-intro cite{display:block;margin-top:10px;font:14px var(--font-body);color:#80683e}
+.contact-card{min-width:0;border:1px solid #ddd4c4;border-radius:14px;padding:clamp(24px,3.5vw,42px);background:#fffdf8;box-shadow:0 16px 45px #182d490a}.contact-card h2{margin:12px 0 8px;font-size:clamp(30px,3.4vw,42px)}.contact-required,.contact-status,.contact-privacy{font-size:14px;line-height:1.65;color:#5d6370}.contact-card fieldset{border:0;padding:0;margin:24px 0 0;min-width:0}.contact-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}.contact-wide{grid-column:1/-1}.contact-card label{display:grid;gap:8px;font-weight:600;font-size:14px;color:#182d49}.contact-card input:not([type=checkbox]),.contact-card select,.contact-card textarea{width:100%;min-width:0;border:1px solid #ddd4c4;background:#fff;color:#182d49;padding:13px;border-radius:6px;font:inherit;font-weight:400;outline-offset:2px}.contact-card textarea{resize:vertical;min-height:112px}.contact-card input::placeholder,.contact-card textarea::placeholder{color:#717782}.contact-card :disabled{opacity:1;-webkit-text-fill-color:currentColor}.contact-card input:disabled,.contact-card select:disabled,.contact-card textarea:disabled{cursor:not-allowed;background:#faf7f0}.contact-privacy{margin:18px 0}.contact-card .contact-consent{display:flex;align-items:flex-start;gap:10px;line-height:1.6;font-weight:400}.contact-consent input{margin-top:4px;flex:none}.contact-consent a{color:#36577b;text-decoration:underline;text-underline-offset:3px}.contact-card button{display:flex;align-items:center;justify-content:space-between;width:100%;margin-top:22px;border:0;background:#182d49;color:#fff;padding:15px 20px;border-radius:6px;font:600 16px var(--font-body);cursor:not-allowed;opacity:.65}.contact-status{margin:12px 0 0}
+@media(max-width:850px){.contact-grid{grid-template-columns:1fr;gap:32px}.contact-intro{padding:0}.contact-intro blockquote{display:none}.contact-links{margin-bottom:0}.contact-intro h1{max-width:none}}
+@media(max-width:560px){.contact-fields{grid-template-columns:1fr}.contact-wide{grid-column:auto}.contact-card{padding:22px}.contact-lead{font-size:17px}}
+</style>

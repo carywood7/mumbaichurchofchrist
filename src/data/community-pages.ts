@@ -251,159 +251,144 @@ export const communityPages: Record<string, CommunityPage> = {
     sourceLabel:"Official Ignite historical records"
   },
 
-  "plan-your-visit": {
-    title:"Sunday Worship & Church Timings in Mumbai",
-    eyebrow:"Your first visit",
-    headline:"Come as you are.",
-    description:"Find Sunday worship services, church timings and meeting locations in Mumbai and Navi Mumbai. Learn what to expect when visiting a Church of Christ.",
-    image:"/images/home/mumbai.jpg",
-    indexable:true,
-    contacts:true,
-    answer:"You are welcome to visit a local Church of Christ. Choose a congregation and confirm its worship arrangements. James, our preacher, is the primary contact for general guidance.",
-    heading:"Three simple steps to your first visit.",
-    sections:[
+"plan-your-visit": {
+    "title": "Christian Worship in Mumbai & Navi Mumbai",
+    "eyebrow": "About Christian worship",
+    "headline": "Worship rooted in Scripture.",
+    "description": "Learn about Christian worship and the New Testament pattern followed by Churches of Christ.",
+    "image": "/images/home/mumbai.jpg",
+    "indexable": true,
+    "contacts": true,
+    "answer": "Churches of Christ gather for worship and fellowship. Use our contact page for general enquiries.",
+    "heading": "What Christian worship involves.",
+    "sections": [
       {
-        title:"Find a congregation",
-        text:"Use our directory to choose a congregation in Mumbai, Navi Mumbai or the surrounding region.",
-        href:"/congregations/",
-        label:"Find your congregation"
+        "title": "Singing and prayer",
+        "text": "Christians praise God and pray together."
       },
       {
-        title:"Confirm your arrangements",
-        text:"Check the worship time and meeting venue. Contact the congregation about language, accessibility and the correct entrance."
+        "title": "The Lord’s Supper",
+        "text": "Remembering the sacrifice of Jesus Christ.",
+        "href": "/resources/lords-supper/",
+        "label": "Read about the Lord’s Supper"
       },
       {
-        title:"Discover New Testament worship",
-        text:"Expect a focus on Scripture, prayer, singing, the Lord's Supper and giving, following the New Testament pattern.",
-        scripture:"Acts 2:42",
-        href:"/about/what-we-believe/",
-        label:"Explore our beliefs"
+        "title": "Biblical teaching",
+        "text": "Explore what the Scriptures teach.",
+        "href": "/about/what-we-believe/",
+        "label": "Explore our beliefs"
       }
     ],
-    faq:[
-      {question:"Where can I attend Sunday worship near me?",answer:"Use our congregation directory to find a local church. The Vashi Church of Christ has published Sunday worship timings; check other congregation profiles for their current arrangements."},
-      {question:"How can I find church timings in Mumbai?",answer:"The worship directory on this page lists published meeting times. Confirm the day, venue and language with your chosen congregation before travelling."},
-      {question:"Can I attend if I am not a Christian?",answer:"Yes. Visitors are welcome to listen, learn and ask questions."},
-      {question:"Do I have to make a donation?",answer:"No payment is required to visit or learn about Scripture."},
-      {question:"What language is used?",answer:"Languages vary between congregations. Please confirm directly with your chosen congregation."}
+    "faq": [
+      {
+        "question": "How can I get in touch?",
+        "answer": "Use the contact page for general enquiries about the website, worship and Biblical resources."
+      }
     ],
-    verse:"Come and see.",
-    reference:"John 1:39"
+    "verse": "Come and see.",
+    "reference": "John 1:39"
   },
-
   "request-a-bible-study": {
-    title:"Bible Study in Mumbai & Navi Mumbai",
-    eyebrow:"Discover God's Word",
-    headline:"Open the Bible. Discover Christ.",
-    description:"Looking for Bible study groups or personal Bible studies in Mumbai and Navi Mumbai? Connect with a local Church of Christ or explore our Scripture lessons.",
-    image:"/images/home/bibleStudy.jpg",
-    indexable:true,
-    contacts:true,
-    answer:"To arrange a Bible study, contact James, our preacher, by telephone or WhatsApp, or reach out directly to a local congregation. Ask about available times, language and personal or group study arrangements.",
-    heading:"Begin wherever you are.",
-    sections:[
+    "title": "Bible Study in Mumbai & Navi Mumbai",
+    "eyebrow": "Discover God’s Word",
+    "headline": "Explore the Scriptures.",
+    "description": "Read Biblical study resources and learn about Scripture at your own pace.",
+    "image": "/images/home/bibleStudy.jpg",
+    "indexable": true,
+    "contacts": true,
+    "answer": "Our online Bible study resources are available to anyone who chooses to read them. For general enquiries, visit our contact page.",
+    "heading": "Begin with Scripture.",
+    "sections": [
       {
-        title:"Who is Jesus Christ?",
-        text:"Explore the life, identity and teaching of Jesus through the Gospel accounts.",
-        scripture:"John 20:30–31",
-        href:"/resources/bible-studies/who-is-jesus-christ/",
-        label:"Begin this lesson"
+        "title": "Who is Jesus Christ?",
+        "text": "Explore the Gospel accounts.",
+        "href": "/resources/bible-studies/who-is-jesus-christ/",
+        "label": "Read the lesson"
       },
       {
-        title:"Understanding salvation",
-        text:"Study God's grace, faith, repentance, confession and baptism in the New Testament.",
-        href:"/resources/bible-studies/what-must-i-do-to-be-saved/",
-        label:"Explore salvation"
+        "title": "How to study the Bible",
+        "text": "Read Scripture in context.",
+        "href": "/resources/bible-studies/how-to-study-the-bible/",
+        "label": "Learn more"
       },
       {
-        title:"Learn to study Scripture",
-        text:"Learn to read passages in context, examine their meaning and consider their application.",
-        href:"/resources/bible-studies/how-to-study-the-bible/",
-        label:"Learn how to study"
+        "title": "Bible study library",
+        "text": "Explore the collection of written studies.",
+        "href": "/resources/bible-studies/",
+        "label": "Browse resources"
       }
     ],
-    faq:[
-      {question:"Where can I find a Bible study group near me?",answer:"Choose a Church of Christ in your area using the congregation directory. Contact the congregation to ask about personal or group Bible study arrangements."},
-      {question:"Can beginners request a Bible study?",answer:"Yes. You can begin with basic questions about Jesus, Christianity and Scripture."},
-      {question:"Do I need previous Bible knowledge?",answer:"No. You can begin with basic questions and study at your own pace."},
-      {question:"Can I request a particular language?",answer:"Yes. Ask your local congregation about available languages."},
-      {question:"Does this website collect my information?",answer:"There is no enquiry form on this page. Its contact links open your phone or email application so you can contact the congregation directly."}
+    "faq": [
+      {
+        "question": "How can I get in touch?",
+        "answer": "Use the contact page for general enquiries about the website, worship and Biblical resources."
+      }
     ],
-    verse:"Search the scriptures.",
-    reference:"John 5:39"
+    "verse": "Search the scriptures.",
+    "reference": "John 5:39"
   },
-
   "prayer-requests": {
-    title:"Prayer Requests and Spiritual Encouragement",
-    eyebrow:"Bearing one another's burdens",
-    headline:"Bring your concerns before God.",
-    description:"Find Biblical encouragement about prayer and connect directly with a local Church of Christ to request prayer or spiritual support.",
-    image:"/images/home/bible.jpg",
-    indexable:true,
-    contacts:true,
-    answer:"If you would like someone to pray with you, contact James, our preacher, or a local congregation. Share only information you are comfortable disclosing and ask how it will be handled.",
-    heading:"Finding encouragement in Scripture.",
-    sections:[
+    "title": "Prayer and Biblical Encouragement",
+    "eyebrow": "Bearing one another’s burdens",
+    "headline": "Find encouragement in Scripture.",
+    "description": "Explore Biblical teachings on prayer and spiritual encouragement.",
+    "image": "/images/home/bible.jpg",
+    "indexable": true,
+    "contacts": true,
+    "answer": "Explore the Biblical teachings on prayer. For general questions, visit our contact page. Please avoid sharing sensitive personal information.",
+    "heading": "Finding encouragement in Scripture.",
+    "sections": [
       {
-        title:"Pray with trust",
-        text:"Bring your requests before God with thanksgiving, seeking His peace and wisdom.",
-        scripture:"Philippians 4:6–7"
+        "title": "Pray with trust",
+        "text": "Read Philippians 4:6–7 in context."
       },
       {
-        title:"Pray for one another",
-        text:"Scripture encourages Christians to pray for one another and offer spiritual encouragement.",
-        scripture:"James 5:16"
-      },
-      {
-        title:"Learn about prayer",
-        text:"Explore what Scripture teaches about speaking to God.",
-        href:"/resources/questions-and-answers/how-do-i-pray/",
-        label:"Read about prayer"
+        "title": "Learn about prayer",
+        "text": "Explore what Scripture teaches about speaking to God.",
+        "href": "/resources/questions-and-answers/how-do-i-pray/",
+        "label": "Read about prayer"
       }
     ],
-    faq:[
-      {question:"How do I submit a prayer request?",answer:"Contact a congregation directly through the available telephone or email link. No prayer request is submitted through this website."},
-      {question:"Are my prayer requests confidential?",answer:"Ask the congregation about its confidentiality practices before sharing sensitive information. This directory cannot promise confidentiality on behalf of independent congregations."}
+    "faq": [
+      {
+        "question": "How can I get in touch?",
+        "answer": "Use the contact page for general enquiries about the website, worship and Biblical resources."
+      }
     ],
-    verse:"Pray one for another.",
-    reference:"James 5:16"
+    "verse": "Pray one for another.",
+    "reference": "James 5:16"
   },
-
   "contact": {
-    title:"Contact Churches of Christ in Mumbai and Navi Mumbai",
-    eyebrow:"Connect with a local congregation",
-    headline:"We welcome your questions.",
-    description:"Find published contact information for Churches of Christ in Mumbai and Navi Mumbai, and enquire about worship, Bible study and visiting.",
-    image:"/images/home/gateway.jpg",
-    indexable:true,
-    contacts:true,
-    answer:"James, the preacher at Vashi Church of Christ, is the primary point of contact for general enquiries. Individual congregations remain responsible for their own local worship, teaching and arrangements.",
-    heading:"How can we help?",
-    sections:[
+    "title": "Contact Mumbai Church of Christ",
+    "eyebrow": "General enquiries",
+    "headline": "We welcome your questions.",
+    "description": "A central contact page for general questions about Biblical resources, Christian worship and this website.",
+    "image": "/images/home/gateway.jpg",
+    "indexable": true,
+    "contacts": true,
+    "answer": "We welcome general enquiries about Christian worship and Biblical resources.",
+    "heading": "Explore our website.",
+    "sections": [
       {
-        title:"Plan your visit",
-        text:"Find worship timings and meeting locations.",
-        href:"/plan-your-visit/",
-        label:"Visitor information"
+        "title": "Christian worship",
+        "text": "Learn about New Testament worship.",
+        "href": "/plan-your-visit/",
+        "label": "Read more"
       },
       {
-        title:"Explore the Bible",
-        text:"Begin a personal study or contact a congregation about study arrangements.",
-        href:"/request-a-bible-study/",
-        label:"Request a Bible study"
-      },
-      {
-        title:"Request prayer",
-        text:"Connect with a congregation for prayer and spiritual encouragement.",
-        href:"/prayer-requests/",
-        label:"Prayer and encouragement"
+        "title": "Biblical resources",
+        "text": "Explore Scripture-based articles and lessons.",
+        "href": "/resources/",
+        "label": "Browse resources"
       }
     ],
-    faq:[
-      {question:"Is there one central contact for all congregations?",answer:"James is our primary contact for general enquiries. Individual congregations remain responsible for their own local arrangements and can also be contacted directly."},
-      {question:"What if a congregation has no contact details listed?",answer:"Each congregation has its own contact arrangements. Contact information will appear on its profile once approved for publication."}
+    "faq": [
+      {
+        "question": "How can I get in touch?",
+        "answer": "Use the contact page for general enquiries about the website, worship and Biblical resources."
+      }
     ],
-    verse:"The churches of Christ salute you.",
-    reference:"Romans 16:16"
+    "verse": "The churches of Christ salute you.",
+    "reference": "Romans 16:16"
   }
 };
